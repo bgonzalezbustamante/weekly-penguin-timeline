@@ -12,6 +12,7 @@ type Props = {
   workBucket: WorkBucket
   coffeeBucket: CoffeeBucket
   label: string
+  isFuture?: boolean
   large?: boolean
 }
 
@@ -20,6 +21,7 @@ export default function PenguinSprite({
   workBucket,
   coffeeBucket,
   label,
+  isFuture = false,
   large = false,
 }: Props) {
   const src = resolvePenguinAsset({
@@ -33,7 +35,7 @@ export default function PenguinSprite({
       className={[
         'penguin-sprite',
         large ? 'penguin-sprite-large' : '',
-        mode === 'upcoming' ? 'is-upcoming' : '',
+        isFuture || mode === 'upcoming' ? 'is-upcoming' : '',
       ]
         .filter(Boolean)
         .join(' ')}
