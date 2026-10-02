@@ -2,7 +2,7 @@
 
 **v0.1.0-alpha.1 "Bold Cipher" — in development**
 
-A standalone proof-of-concept for a reusable Next.js weekly timeline component. It converts public daily working-time and coffee data into one Oxford-colour, pixel-inspired penguin state per day.
+A standalone proof-of-concept for a reusable Next.js weekly timeline component. It converts public daily working-time and coffee data into one Oxford-colour, kawaii-style penguin state per day.
 
 This repository is intentionally separate from `academic-website`. Development and review happen here before any future integration.
 
@@ -26,7 +26,7 @@ The proof-of-concept separates:
 
 1. `lib/work-analytics.ts` — Academic API adapter.
 2. `lib/timeline.ts` — date, bucket and override resolution.
-3. `components/penguin-sprite.tsx` — deterministic illustrated SVG penguin.
+3. `components/penguin-sprite.tsx` — deterministic kawaii-style SVG penguin.
 4. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
 5. `components/penguin-state-tester.tsx` — interactive state inspector.
 6. `content/special-dates.ts` — manual date overrides.
