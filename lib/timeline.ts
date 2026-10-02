@@ -97,8 +97,14 @@ function getMode(
   if (special) return special.type
 
   const weekday = parseIsoDateUtc(date).getUTCDay()
+
+  if (isFuture) {
+    if (weekday >= 1 && weekday <= 5) return 'working-day'
+    if (weekday === 0) return 'sunday'
+    return 'upcoming'
+  }
+
   if (weekday === 0) return 'sunday'
-  if (isFuture) return 'upcoming'
 
   return 'activity'
 }
