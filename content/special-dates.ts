@@ -6,7 +6,7 @@ export const CATHOLIC_FIXED_DATES = [
   { monthDay: '08-15', label: 'Assumption' },
   { monthDay: '11-01', label: 'All Saints' },
   { monthDay: '11-02', label: 'All Souls' },
-  { monthDay: '12-08', label: 'Immaculate Conception' },
+  { monthDay: '12-08', label: 'Immaculate' },
   { monthDay: '12-24', label: 'Christmas Eve' },
   { monthDay: '12-25', label: 'Christmas Day' },
 ] as const
