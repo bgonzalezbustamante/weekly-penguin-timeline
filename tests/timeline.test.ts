@@ -142,8 +142,62 @@ describe('weekly timeline resolution', () => {
     })
 
     expect(timeline.find((day) => day.date === '2026-10-01')).toMatchObject({
+      mode: 'working-day',
+      isFuture: true,
+    })
+  })
+
+  it('uses distinct future weekday, Saturday and Sunday states', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-01T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-02')).toMatchObject({
+      mode: 'working-day',
+      isFuture: true,
+      specialLabel: null,
+    })
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
       mode: 'upcoming',
       isFuture: true,
+      specialLabel: null,
+    })
+    expect(timeline.find((day) => day.date === '2026-10-04')).toMatchObject({
+      mode: 'sunday',
+      isFuture: true,
+      specialLabel: 'Sunday',
+    })
+  })
+
+  it('keeps future special dates ahead of weekday and weekend defaults', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-01T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+      specialDates: [
+        {
+          date: '2026-10-02',
+          type: 'trip',
+          label: 'Conference trip',
+        },
+        {
+          date: '2026-10-03',
+          type: 'sick',
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-02')).toMatchObject({
+      mode: 'trip',
+      isFuture: true,
+      specialLabel: 'Conference trip',
+    })
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'sick',
+      isFuture: true,
+      specialLabel: 'Sick',
     })
   })
 
