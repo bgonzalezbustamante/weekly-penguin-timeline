@@ -107,10 +107,10 @@ function getMode(
   special: SpecialDate | null
 ): PenguinMode {
   if (special) return special.type
-  if (isFuture) return 'upcoming'
 
   const weekday = parseIsoDate(date).getUTCDay()
   if (weekday === 0) return 'sunday'
+  if (isFuture) return 'upcoming'
 
   return 'activity'
 }
