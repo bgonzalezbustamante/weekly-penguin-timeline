@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.1.0-alpha.1 "Bold Cipher" (in development)
+## v0.1.0-alpha.1 "Bold Cipher" — 2 October 2026
 
 ### Summary
 
@@ -34,6 +34,7 @@
 `timeline presentation`
 
 - Moved Sunday and manual special-date labels from the body of the daily card to its footer.
+- Added a small note below the Sunday card in the state matrix clarifying that the icon is also used for major, widely observed Catholic celebrations.
 - Kept future days distinct from zero-activity days; future Monday–Friday dates use `working-day.png`, Saturdays use the canonical baseline, Sundays retain the Sunday scene, all future images are dimmed, and special dates retain priority.
 - Expanded the introductory copy to use the full available content width.
 - Reduced the vertical gap between the hero and the Seven-day view.
@@ -93,5 +94,6 @@
 
 ### Release status
 
-- Bold Cipher alpha.1 is in development.
-- Release date: TBC.
+- Bold Cipher alpha.1 is ready for publication as a GitHub pre-release.
+- Release date: 2 October 2026.
+- Release verification: all npm checks passed; Gitleaks scanned 200 commits with no leaks found.
