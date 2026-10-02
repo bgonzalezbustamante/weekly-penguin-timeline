@@ -99,7 +99,7 @@ export default async function HomePage() {
             <h2>36 activity combinations</h2>
             <p>
               Six working-time bands combine with six coffee bands. Working
-              time and coffee jointly increase the penguin's visible workload
+              time and coffee jointly increase the visible workload
               and stress.
             </p>
           </article>
