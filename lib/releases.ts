@@ -16,8 +16,8 @@ export const releases: ReleaseNote[] = [
   {
     version: 'v0.1.0-alpha.1',
     codename: 'Bold Cipher',
-    status: 'In development',
-    releasedOn: 'Release date TBC',
+    status: 'Pre-release',
+    releasedOn: '2 October 2026',
     summary:
       'Bold Cipher establishes the first reusable Weekly Penguin Timeline prototype, with live Academic API data, a kawaii Oxford-colour penguin system, special-day rules, and an interactive state tester.',
     sections: [
@@ -33,6 +33,7 @@ export const releases: ReleaseNote[] = [
         title: 'Timeline behaviour',
         items: [
           'Kept Sunday and other overrides as special states, added labelled Sunday-style manual overrides, and added a switchable fixed Catholic set for Assumption, All Saints, All Souls, Immaculate Conception, Christmas Eve and Christmas Day.',
+          'Added a small note below the Sunday state-matrix card clarifying that the same icon is also used for major, widely observed Catholic celebrations.',
           'Made Sunday, winter holiday, summer holiday, trip and sickness visually distinct with dedicated scene props and expressions.',
           'Kept future days visually distinct from genuine zero-activity days: Monday–Friday use the working-day scene, Saturday uses the canonical baseline and Sunday keeps the Sunday scene, with every future illustration dimmed and special dates retaining priority.',
         ],
