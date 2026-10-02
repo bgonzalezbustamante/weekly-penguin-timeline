@@ -58,10 +58,6 @@ export default function WeeklyPenguinTimeline({
                   </span>
                 </div>
 
-                {specialText ? (
-                  <span className="special-chip">{specialText}</span>
-                ) : null}
-
                 <div className="sprite-stage">
                   <PenguinSprite
                     mode={day.mode}
@@ -72,9 +68,11 @@ export default function WeeklyPenguinTimeline({
                 </div>
 
                 <div className="day-footer">
-                  {day.isFuture ? (
-                    <span>Upcoming</span>
-                  ) : day.mode === 'activity' ? (
+                  {specialText ? (
+                    <span className="footer-status">{specialText}</span>
+                  ) : day.isFuture ? (
+                    <span className="footer-status muted">Upcoming</span>
+                  ) : (
                     <>
                       <strong>{formatMinutes(day.netMinutes)}</strong>
                       <span>
@@ -83,8 +81,6 @@ export default function WeeklyPenguinTimeline({
                         {day.isToday ? ' · so far' : ''}
                       </span>
                     </>
-                  ) : (
-                    <span>{specialText}</span>
                   )}
                 </div>
               </li>
