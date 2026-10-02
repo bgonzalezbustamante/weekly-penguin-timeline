@@ -18,7 +18,10 @@
 - Reworked the baseline a second time after visual comparison with the supplied reference: the head now dominates the silhouette, the white face lobes form a clearer central V, the glasses are wider and more rectangular, the eyes are larger and more circular, the body is shorter and rounder, and the tail/flippers/feet follow the reference proportions more closely.
 - Replaced that baseline entirely with a from-scratch mascot drawing. The new shared character uses a broader glossy head, stronger dark outline, larger white facial lobes, more dominant square glasses, larger highlighted eyes, a compact blue-and-white body, small coral feet and a clearer smiling beak/mouth treatment. Activity and special-state layers remain unchanged.
 - Retired the hand-authored baseline shell and face from the runtime renderer after approving a canonical glossy mascot image.
-- Replaced the incomplete low-quality SVG wrapper assets with the user-supplied `public/penguins/canonical-baseline.png`. The PNG is now the single canonical visual source and is rendered directly as the background beneath work, coffee, stress and special-state overlays.
+- Replaced the incomplete low-quality SVG wrapper assets with the user-supplied `public/penguins/canonical-baseline.png`. The PNG is the immutable mascot ground truth.
+- Replaced runtime-drawn work, coffee, stress and special-state SVG overlays with the complete approved PNG asset set: 36 normal work × coffee states and five special states.
+- Added `lib/penguin-assets.ts` as the deterministic asset resolver. The canonical baseline is used directly for the 0h + 0 coffee state and for the dimmed Upcoming treatment.
+- Simplified `PenguinSprite` to render resolved approved assets through Next.js Image, allowing runtime image optimisation while retaining PNG masters in the repository.
 - Strengthened work-intensity progression from resting through notes, reading and laptop work to book stacks, a measuring tape and overloaded high-work scenes inspired by the supplied reference.
 - Expanded coffee to six matching intervals and up to five clear mugs, with visible handles, coffee surfaces, saucers and steam.
 - Reworked special illustrations so each state has a distinct scene: prayer and cross motif for Sunday; hat, scarf, snow and present for winter holiday; sunglasses, sun, beach ball and cold drink for summer holiday; suitcase, ticket and aircraft for trip; and blanket, thermometer, tissue box and cooling pack for sickness.
@@ -47,6 +50,7 @@
 - Displayed the resolved work bucket, coffee bucket and deterministic combined state identifier.
 - Standardised work and coffee into six matching bands: zero, under 4, 4–6, 6–8, 8–10 and 10-plus, producing 36 normal combinations.
 - Added mutually exclusive tick-box controls for Sunday, winter holiday, summer holiday, trip and sickness states so special illustrations can be tested directly.
+- Added a complete visual QA matrix showing all 36 normal activity states and all five special-state assets on one page.
 - Replaced the fieldset legend treatment with an in-panel Special state heading so the title no longer overlaps the control border.
 
 `release documentation`
