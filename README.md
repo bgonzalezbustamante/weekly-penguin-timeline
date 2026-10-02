@@ -26,14 +26,15 @@ The proof-of-concept separates:
 
 1. `lib/work-analytics.ts` — Academic API adapter.
 2. `lib/timeline.ts` — date, bucket and override resolution.
-3. `components/penguin-sprite.tsx` — deterministic kawaii-style SVG penguin.
-4. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
-5. `components/penguin-state-tester.tsx` — interactive state inspector.
-6. `content/special-dates.ts` — manual date overrides.
-7. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
-8. `app/page.tsx` — demonstration page only.
+3. `public/penguins/canonical-baseline.svg` — approved canonical mascot asset.
+4. `components/penguin-sprite.tsx` — deterministic work, coffee, stress and special-state overlays around the canonical mascot.
+5. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
+6. `components/penguin-state-tester.tsx` — interactive state inspector.
+7. `content/special-dates.ts` — manual date overrides.
+8. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
+9. `app/page.tsx` — demonstration page only.
 
-That separation is deliberate: the timeline component and resolver can later be moved into another Next.js application without retaining the PoC shell.
+That separation is deliberate: the canonical mascot is now an immutable visual baseline, while state logic and overlays remain independent. The timeline component and resolver can later be moved into another Next.js application without retaining the PoC shell.
 
 ## Local setup
 

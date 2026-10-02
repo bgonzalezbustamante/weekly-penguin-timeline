@@ -24,7 +24,7 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Penguin states',
         items: [
-          'Replaced the shared baseline penguin with a from-scratch glossy kawaii mascot: broader head, stronger dark outline, larger white face patches, more dominant square glasses, bigger highlighted eyes, compact body and a clearer smiling beak/mouth treatment.',
+          'Adopted the approved glossy kawaii penguin image as the canonical baseline asset and render it directly beneath the existing work, coffee, stress and special-state overlays.',
           'Kept the visual palette aligned with the Academic Website while reducing the deliberately pixel-like treatment.',
           'Standardised both work and coffee into six bands, producing 36 normal combinations with progressively stronger workload, coffee and stress cues.',
         ],
