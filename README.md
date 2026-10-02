@@ -26,19 +26,21 @@ This repository is intentionally separate from `academic-website`. Development a
 The proof-of-concept separates:
 
 1. `lib/work-analytics.ts` — Academic API adapter.
-2. `lib/timeline.ts` — date, bucket and override resolution.
-3. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
-4. `lib/penguin-assets.ts` — deterministic mapping from resolved state to approved image asset.
-5. `public/penguins/states/` — 36 validated activity PNG masters plus five validated special-state PNG masters.
-6. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
-7. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
-8. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
-9. `components/penguin-state-tester.tsx` — interactive state inspector.
-10. `components/penguin-state-gallery.tsx` — complete visual QA matrix for the 36 normal states and five special states.
-11. `content/special-dates.ts` — manual date overrides plus the toggleable fixed Catholic celebration set.
-12. `tests/` — boundary, override, week-crossing and asset-resolution regression tests.
-13. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
-14. `app/page.tsx` — demonstration page only.
+2. `lib/work-data.ts` — strict runtime validation for the public work-analytics contract.
+3. `lib/date-utils.ts` and `lib/special-date-rules.ts` — calendar-date and override-rule validation.
+4. `lib/timeline.ts` — date, bucket and override resolution.
+5. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
+6. `lib/penguin-assets.ts` — deterministic mapping from resolved state to approved image asset.
+7. `public/penguins/states/` — 36 validated activity PNG masters plus five validated special-state PNG masters.
+8. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
+9. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
+10. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
+11. `components/penguin-state-tester.tsx` — interactive state inspector.
+12. `components/penguin-state-gallery.tsx` — complete visual QA matrix for the 36 normal states and five special states.
+13. `content/special-dates.ts` — manual date overrides plus the toggleable fixed Catholic celebration set.
+14. `tests/` — data-contract, date-rule, boundary, timezone and asset-resolution regression tests.
+15. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
+16. `app/page.tsx` — demonstration page only.
 
 That separation is deliberate: the canonical mascot remains the immutable visual ground truth, while each approved state is a complete derived image rather than a runtime SVG composition. The validated PNG files remain the source masters. Development and production builds generate ignored WebP derivatives for runtime delivery, so optimisation never overwrites the approved images. State resolution remains independent of presentation, allowing the timeline to move into another Next.js application without retaining the PoC shell.
 
@@ -59,7 +61,7 @@ NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
 
-The publishable key is used only with the curated anonymous-safe RPC. If the Academic API cannot be loaded, the page shows an explicit unavailable state; it does not substitute sample work or coffee values.
+The publishable key is used only with the curated anonymous-safe RPC. The adapter validates the returned year, annual averages and every daily row before the data reach the timeline. Duplicate dates, malformed dates, negative/non-integer daily metrics and incomplete calendar-year payloads fail explicitly rather than being silently coerced. If the Academic API cannot be loaded or violates its contract, the page shows an explicit unavailable state; it does not substitute sample work or coffee values.
 
 ## Penguin asset pipeline
 
@@ -104,7 +106,7 @@ Manual exact dates and inclusive ranges remain supported. A labelled `sunday` ov
 }
 ```
 
-Precedence is: manual special date → enabled fixed Catholic date → automatic weekly Sunday → normal/upcoming state. The optional `label` is shown in the daily-card footer.
+Precedence is: manual special date → enabled fixed Catholic date → automatic weekly Sunday → normal/upcoming state. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and overlapping manual rules fail explicitly. Ordered overlap between manual and generated built-in dates remains allowed so manual-first precedence works as intended. The optional `label` is shown in the daily-card footer.
 
 ## Activity bands
 
@@ -112,7 +114,7 @@ Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 
 
 ## Component hardening
 
-The alpha component includes regression coverage for work and coffee bucket boundaries, manual-override precedence, labelled Sunday-style holidays, missing API days, New Year week boundaries, display helpers and deterministic asset resolution.
+The alpha component includes regression coverage for work and coffee bucket boundaries, strict Academic API payload validation, duplicate and incomplete daily data, special-date validation and precedence, New Year API availability boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. The API loader does not request a future calendar year that the upstream RPC rejects; fixed and manual special dates can still resolve across the full displayed week.
 
 ```bash
 npm run test

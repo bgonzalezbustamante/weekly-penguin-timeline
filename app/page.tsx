@@ -6,6 +6,7 @@ import { getConfiguredSpecialDates } from '@/content/special-dates'
 import {
   buildWeeklyTimeline,
   yearsForCurrentWeek,
+  yearsForWorkAnalytics,
 } from '@/lib/timeline'
 import { getPublicWorkAnalytics } from '@/lib/work-analytics'
 
@@ -14,17 +15,18 @@ export const dynamic = 'force-dynamic'
 const TIME_ZONE = 'Europe/Amsterdam'
 
 async function loadCurrentWeek(now: Date) {
-  const years = yearsForCurrentWeek(now, TIME_ZONE)
+  const calendarYears = yearsForCurrentWeek(now, TIME_ZONE)
+  const analyticsYears = yearsForWorkAnalytics(now, TIME_ZONE)
 
   try {
     const results = await Promise.all(
-      years.map((year) => getPublicWorkAnalytics(year))
+      analyticsYears.map((year) => getPublicWorkAnalytics(year))
     )
 
     return {
       days: results.flatMap((result) => result.days),
       error: null,
-      years,
+      calendarYears,
     }
   } catch (error) {
     return {
@@ -33,20 +35,20 @@ async function loadCurrentWeek(now: Date) {
         error instanceof Error
           ? error.message
           : 'The Academic API could not be loaded.',
-      years,
+      calendarYears,
     }
   }
 }
 
 export default async function HomePage() {
   const now = new Date()
-  const { days, error, years } = await loadCurrentWeek(now)
+  const { days, error, calendarYears } = await loadCurrentWeek(now)
   const timeline = error
     ? []
     : buildWeeklyTimeline({
         now,
         days,
-        specialDates: getConfiguredSpecialDates(years),
+        specialDates: getConfiguredSpecialDates(calendarYears),
         timeZone: TIME_ZONE,
       })
 

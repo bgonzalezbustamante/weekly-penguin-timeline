@@ -49,6 +49,8 @@
 - Marked the demonstration page as dynamically rendered so production builds do not require runtime Academic API credentials.
 - Simplified the visible data-source label to Academic API, with a green point when the live request succeeds and a muted red point when the API is unavailable.
 - Linked the Academic API status label to `https://dashboard.bgonzalezbustamante.com/api`.
+- Added strict runtime validation for the public work-analytics payload: expected year, annual averages, valid/unique calendar dates, non-negative integer daily metrics and complete 365/366-day coverage.
+- Prevented New Year-crossing weeks from requesting a future calendar year that the upstream Academic API rejects, while retaining both displayed calendar years for special-date resolution.
 
 `interactive state testing`
 
@@ -70,8 +72,10 @@
 - Added Vitest regression coverage for all work and coffee bucket boundaries.
 - Added timeline tests for labelled Sunday-style holidays, explicit-override precedence, missing API days and future-day behaviour.
 - Added regression coverage for the fixed Catholic date set, its TRUE/FALSE switch, year expansion, duplicate-year handling and manual-first precedence.
+- Added runtime validation for manual special-date rules, including impossible dates, reversed ranges, empty labels and ambiguous overlaps; ordered manual-over-built-in overlap remains supported.
 - Added regression coverage for Monday-to-Sunday weeks crossing New Year, British date formatting and working-time formatting.
 - Added deterministic asset-resolver tests for canonical, activity, Sunday and Upcoming states.
+- Added regression tests for malformed/incomplete work data, duplicate daily rows, strict numeric inputs, New Year API availability and Europe/Amsterdam DST week boundaries.
 - Added the unit test suite to `npm run check` and GitHub Actions CI.
 
 `release documentation`
