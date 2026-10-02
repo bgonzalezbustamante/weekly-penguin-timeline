@@ -16,7 +16,7 @@ This repository is intentionally separate from `academic-website`. Development a
 - Uses a praying penguin on Sundays.
 - Supports toggleable fixed Catholic celebrations that reuse the Sunday illustration with celebration-specific labels.
 - Supports manual overrides for Sunday-style holidays, winter holiday, summer holiday, trip, and sick dates.
-- Treats future days as Upcoming rather than falsely displaying zero activity.
+- Treats future dates as provisional rather than falsely displaying zero activity: Monday–Friday use the dedicated working-day scene, Saturday uses the canonical baseline, and Sunday uses the Sunday scene; special-date overrides still take priority.
 - Paginates the weekly timeline across a fixed nine-week window: four weeks before, the current week, and four weeks after.
 - Marks the current day as provisional with “so far”.
 - Uses the Academic Website Oxford palette and typography hierarchy.
@@ -32,7 +32,7 @@ The proof-of-concept separates:
 4. `lib/timeline.ts` — date, bucket and override resolution.
 5. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
 6. `lib/penguin-assets.ts` — deterministic mapping from resolved state to approved image asset.
-7. `public/penguins/states/` — 36 validated activity PNG masters plus five validated special-state PNG masters.
+7. `public/penguins/states/` — 36 validated activity PNG masters, five validated special-state PNG masters, and the dedicated `working-day.png` future-workday master.
 8. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
 9. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
 10. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation with nine-week client-side pagination.
@@ -66,7 +66,7 @@ The publishable key is used only with the curated anonymous-safe RPC. The adapte
 
 ## Penguin asset pipeline
 
-The 42 PNG masters are validated before development and production builds: one canonical baseline, 36 normal activity states, and five special states. Validation checks filenames, PNG structure, minimum dimensions and file integrity; transparency is reported as an additional diagnostic.
+The 43 PNG masters are validated before development and production builds: one canonical baseline, 36 normal activity states, five special states, and one upcoming working-day state. Validation checks filenames, PNG structure, minimum dimensions and file integrity; transparency is reported as an additional diagnostic.
 
 `npm run dev` and `npm run build` automatically create WebP runtime derivatives when they are missing or older than their PNG source. Generated WebP files are ignored by Git and the PNG masters are never modified.
 
@@ -115,7 +115,7 @@ Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 
 
 ## Component hardening
 
-The alpha component includes regression coverage for work and coffee bucket boundaries, strict Academic API payload validation, duplicate and incomplete daily data, special-date validation and precedence, the nine-week pagination window, New Year API availability boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. The browser preloads only the calendar years required for four weeks before through four weeks after the current week. The API loader does not request a future calendar year that the upstream RPC rejects; fixed and manual special dates can still resolve across the full nine-week window.
+The alpha component includes regression coverage for work and coffee bucket boundaries, strict Academic API payload validation, duplicate and incomplete daily data, special-date validation and precedence, future weekday/weekend state selection, the nine-week pagination window, New Year API availability boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. The browser preloads only the calendar years required for four weeks before through four weeks after the current week. The API loader does not request a future calendar year that the upstream RPC rejects; fixed and manual special dates can still resolve across the full nine-week window.
 
 ```bash
 npm run test
