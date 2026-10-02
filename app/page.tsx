@@ -4,19 +4,31 @@ import ReleaseNotes from '@/components/release-notes'
 import WeeklyPenguinTimeline from '@/components/weekly-penguin-timeline'
 import { getConfiguredSpecialDates } from '@/content/special-dates'
 import {
-  buildWeeklyTimeline,
-  yearsForCurrentWeek,
-  yearsForWorkAnalytics,
+  buildTimelineWeeks,
+  yearsForTimelineWindow,
+  yearsForWorkAnalyticsWindow,
 } from '@/lib/timeline'
 import { getPublicWorkAnalytics } from '@/lib/work-analytics'
 
 export const dynamic = 'force-dynamic'
 
 const TIME_ZONE = 'Europe/Amsterdam'
+const PAST_WEEKS = 4
+const FUTURE_WEEKS = 4
 
-async function loadCurrentWeek(now: Date) {
-  const calendarYears = yearsForCurrentWeek(now, TIME_ZONE)
-  const analyticsYears = yearsForWorkAnalytics(now, TIME_ZONE)
+async function loadTimelineWindow(now: Date) {
+  const calendarYears = yearsForTimelineWindow(
+    now,
+    TIME_ZONE,
+    PAST_WEEKS,
+    FUTURE_WEEKS
+  )
+  const analyticsYears = yearsForWorkAnalyticsWindow(
+    now,
+    TIME_ZONE,
+    PAST_WEEKS,
+    FUTURE_WEEKS
+  )
 
   try {
     const results = await Promise.all(
@@ -42,14 +54,16 @@ async function loadCurrentWeek(now: Date) {
 
 export default async function HomePage() {
   const now = new Date()
-  const { days, error, calendarYears } = await loadCurrentWeek(now)
-  const timeline = error
+  const { days, error, calendarYears } = await loadTimelineWindow(now)
+  const timelineWeeks = error
     ? []
-    : buildWeeklyTimeline({
+    : buildTimelineWeeks({
         now,
         days,
         specialDates: getConfiguredSpecialDates(calendarYears),
         timeZone: TIME_ZONE,
+        pastWeeks: PAST_WEEKS,
+        futureWeeks: FUTURE_WEEKS,
       })
 
   return (
@@ -102,7 +116,7 @@ export default async function HomePage() {
             </div>
           </section>
         ) : (
-          <WeeklyPenguinTimeline days={timeline} />
+          <WeeklyPenguinTimeline weeks={timelineWeeks} />
         )}
 
         <PenguinStateTester />
