@@ -59,8 +59,8 @@ export default async function HomePage() {
           <p className="hero-copy">
             A reusable Next.js component that turns seven days of public
             working-time and coffee data into a compact visual timeline.
-            Sundays and manually configured dates can override the normal
-            activity state.
+            Sundays, configured celebrations and manual dates can override
+            the normal activity state.
           </p>
           <div
             className={`source-note${error ? ' is-offline' : ' is-online'}`}
@@ -118,7 +118,7 @@ export default async function HomePage() {
           </article>
           <article>
             <p className="eyebrow">Overrides</p>
-            <h2>Special dates stay manual</h2>
+            <h2>Special dates stay configurable</h2>
             <p>
               Holidays, trips and sickness are kept in one small configuration
               file. A switch enables widely observed fixed Catholic
