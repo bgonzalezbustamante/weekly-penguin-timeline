@@ -658,179 +658,149 @@ function SpecialScene({ mode }: { mode: PenguinMode }) {
 function BasePenguinShell() {
   return (
     <g aria-hidden="true">
-      <ellipse
-        cx="130"
-        cy="216"
-        rx="86"
-        ry="8"
-        fill="var(--blue-wash)"
-      />
+      <ellipse cx="130" cy="215" rx="90" ry="8" fill="var(--blue-wash)" />
 
       <path
-        d="M67 155 Q45 171 29 170 Q39 188 67 181"
-        fill="var(--blue)"
-        stroke="var(--blue-dark)"
-        strokeWidth="6"
-        strokeLinejoin="round"
-      />
-
-      <path
-        d="M130 18
-           C86 16 59 40 55 82
-           C51 131 62 177 90 204
-           C101 215 115 220 130 220
-           C145 220 159 215 171 204
-           C199 177 209 131 205 82
-           C201 40 174 17 130 18 Z"
-        fill="var(--blue)"
-        stroke="var(--blue-dark)"
-        strokeWidth="6.5"
-        strokeLinejoin="round"
-      />
-
-      <path
-        d="M67 65
-           Q80 36 109 28
-           Q82 52 79 89
-           Q75 135 91 180
-           Q75 168 67 141
-           Q56 105 67 65 Z"
+        d="M47 154 Q29 168 19 166 Q29 183 55 181"
         fill="var(--blue-dark)"
-        opacity="0.72"
+        stroke="var(--blue-dark)"
+        strokeWidth="5"
+        strokeLinejoin="round"
       />
 
       <path
-        d="M75 55
-           Q105 25 150 28
-           Q176 30 192 50
-           Q158 36 122 39
-           Q94 41 75 55 Z"
-        fill="var(--sky)"
-        opacity="0.45"
+        d="M130 17
+           C86 15 55 38 50 80
+           C45 121 51 168 75 196
+           C88 211 106 219 130 219
+           C154 219 172 211 185 196
+           C209 168 215 121 210 80
+           C205 38 174 15 130 17 Z"
+        fill="url(#mascot-shell)"
+        stroke="var(--blue-dark)"
+        strokeWidth="7"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M61 82
+           Q68 45 105 29
+           Q133 18 163 28
+           Q188 37 199 62
+           Q177 47 150 44
+           Q113 39 82 57
+           Q68 65 61 82 Z"
+        fill="var(--blue-dark)"
+        opacity="0.9"
+      />
+
+      <path
+        d="M72 55 Q103 28 147 30 Q172 31 190 46"
+        fill="none"
+        stroke="var(--sky)"
+        strokeWidth="13"
+        strokeLinecap="round"
+        opacity="0.5"
       />
       <path
-        d="M83 44 Q108 27 136 29"
+        d="M81 44 Q103 29 126 29"
         fill="none"
         stroke="var(--paper)"
-        strokeWidth="6.5"
+        strokeWidth="7"
         strokeLinecap="round"
-        opacity="0.96"
+        opacity="0.95"
       />
-      <ellipse
-        cx="155"
-        cy="34"
-        rx="7"
-        ry="4"
-        fill="var(--paper)"
-        opacity="0.92"
-      />
-      <ellipse
-        cx="171"
-        cy="40"
-        rx="4"
-        ry="2.5"
-        fill="var(--paper)"
-        opacity="0.85"
-      />
+      <ellipse cx="149" cy="31" rx="7.5" ry="4.2" fill="var(--paper)" opacity="0.95" />
+      <ellipse cx="167" cy="37" rx="4.8" ry="2.9" fill="var(--paper)" opacity="0.88" />
 
       <path
-        d="M71 79
-           Q74 49 99 41
-           Q119 35 130 66
-           Q140 35 162 41
-           Q187 50 190 81
-           Q171 71 154 74
-           Q141 76 130 89
-           Q119 76 105 74
-           Q88 71 71 79 Z"
+        d="M63 93
+           Q65 59 91 49
+           Q112 40 129 68
+           Q146 40 168 49
+           Q195 59 197 94
+           Q178 80 158 80
+           Q143 80 130 95
+           Q117 80 101 80
+           Q82 80 63 93 Z"
         fill="var(--paper)"
       />
 
       <path
-        d="M77 106
-           Q96 91 130 91
-           Q164 91 183 108
-           Q193 147 178 184
-           Q162 207 130 209
-           Q99 207 82 184
-           Q68 147 77 106 Z"
+        d="M76 118
+           Q97 99 130 99
+           Q163 99 184 119
+           Q193 154 179 185
+           Q163 207 130 210
+           Q97 207 81 185
+           Q67 154 76 118 Z"
         fill="var(--paper)"
       />
 
       <path
         d="M88 145
-           Q106 123 130 124
-           Q155 124 172 145
-           Q171 178 157 196
-           Q143 204 130 204
-           Q116 204 103 196
-           Q89 179 88 145 Z"
-        fill="var(--sky)"
-        opacity="0.86"
+           Q105 126 130 126
+           Q155 126 172 145
+           Q173 177 158 197
+           Q145 205 130 205
+           Q115 205 102 197
+           Q87 177 88 145 Z"
+        fill="url(#mascot-belly)"
       />
 
       <path
-        d="M71 111
-           Q45 124 43 155
-           Q66 151 90 132 Z"
+        d="M67 116
+           Q42 128 35 158
+           Q58 156 87 137
+           L90 120
+           Q79 113 67 116 Z"
         fill="var(--blue)"
         stroke="var(--blue-dark)"
         strokeWidth="6"
         strokeLinejoin="round"
       />
       <path
-        d="M188 111
-           Q215 124 217 154
-           Q193 151 171 133 Z"
+        d="M193 116
+           Q218 128 225 158
+           Q202 156 173 137
+           L170 120
+           Q181 113 193 116 Z"
         fill="var(--blue)"
         stroke="var(--blue-dark)"
         strokeWidth="6"
         strokeLinejoin="round"
       />
+
       <path
-        d="M50 141 Q66 146 82 135"
+        d="M43 145 Q61 151 81 137"
         fill="none"
         stroke="var(--aqua)"
-        strokeWidth="4.5"
+        strokeWidth="5"
         strokeLinecap="round"
       />
       <path
-        d="M181 136 Q196 143 207 135"
+        d="M179 137 Q199 150 217 145"
         fill="none"
         stroke="var(--sky)"
-        strokeWidth="4"
+        strokeWidth="4.5"
         strokeLinecap="round"
-        opacity="0.65"
+        opacity="0.7"
       />
 
       <path
-        d="M90 197
-           Q104 187 118 198
-           Q116 214 103 220
-           Q90 216 90 197 Z"
+        d="M86 197 Q101 187 116 198 Q116 213 102 220 Q88 216 86 197 Z"
         fill="var(--coral)"
         stroke="var(--blue-dark)"
-        strokeWidth="4"
+        strokeWidth="4.2"
       />
       <path
-        d="M143 198
-           Q157 187 171 198
-           Q171 215 158 220
-           Q144 216 143 198 Z"
+        d="M144 198 Q159 187 174 198 Q174 213 160 220 Q146 216 144 198 Z"
         fill="var(--coral)"
         stroke="var(--blue-dark)"
-        strokeWidth="4"
+        strokeWidth="4.2"
       />
-      <path
-        d="M98 199 L103 215 L109 198"
-        fill="var(--paper)"
-        opacity="0.55"
-      />
-      <path
-        d="M151 199 L157 215 L163 199"
-        fill="var(--paper)"
-        opacity="0.55"
-      />
+      <path d="M94 199 L101 215 L108 198" fill="var(--paper)" opacity="0.48" />
+      <path d="M152 199 L159 215 L166 198" fill="var(--paper)" opacity="0.48" />
     </g>
   )
 }
@@ -848,185 +818,116 @@ function Face({
   return (
     <>
       <rect
-        x="64"
+        x="56"
         y="65"
-        width="63"
-        height="55"
-        rx="17"
-        fill="none"
+        width="70"
+        height="58"
+        rx="18"
+        fill="rgba(255,255,255,0.02)"
         stroke="var(--blue-dark)"
-        strokeWidth="9"
+        strokeWidth="10"
       />
       <rect
-        x="133"
+        x="134"
         y="65"
-        width="63"
-        height="55"
-        rx="17"
-        fill="none"
+        width="70"
+        height="58"
+        rx="18"
+        fill="rgba(255,255,255,0.02)"
         stroke="var(--blue-dark)"
-        strokeWidth="9"
+        strokeWidth="10"
       />
+      <path d="M126 80 H134" stroke="var(--blue-dark)" strokeWidth="10" strokeLinecap="round" />
+      <path d="M56 83 L34 92" stroke="var(--aqua)" strokeWidth="8" strokeLinecap="round" />
+      <path d="M204 83 L226 91" stroke="var(--aqua)" strokeWidth="8" strokeLinecap="round" />
+
       <path
-        d="M127 79 H133"
-        stroke="var(--blue-dark)"
-        strokeWidth="9"
-        strokeLinecap="round"
-      />
-      <path
-        d="M64 82 L44 90"
-        stroke="var(--aqua)"
-        strokeWidth="7"
-        strokeLinecap="round"
-      />
-      <path
-        d="M196 82 L214 88"
-        stroke="var(--aqua)"
-        strokeWidth="7"
-        strokeLinecap="round"
-      />
-      <path
-        d="M72 72 Q95 65 119 71"
+        d="M66 72 Q92 63 116 70"
         fill="none"
         stroke="var(--sky)"
-        strokeWidth="3.5"
+        strokeWidth="4"
         strokeLinecap="round"
-        opacity="0.95"
+        opacity="0.92"
       />
       <path
-        d="M141 71 Q163 65 187 72"
+        d="M144 70 Q168 63 194 72"
         fill="none"
         stroke="var(--sky)"
-        strokeWidth="3.5"
+        strokeWidth="4"
         strokeLinecap="round"
-        opacity="0.95"
+        opacity="0.92"
       />
 
       {eyesClosed ? (
         <>
           <path
-            d="M82 92 Q96 102 110 92"
+            d="M77 94 Q92 104 108 94"
             fill="none"
             stroke="var(--blue-dark)"
-            strokeWidth="5"
+            strokeWidth="5.5"
             strokeLinecap="round"
           />
           <path
-            d="M150 92 Q164 102 178 92"
+            d="M152 94 Q168 104 183 94"
             fill="none"
             stroke="var(--blue-dark)"
-            strokeWidth="5"
+            strokeWidth="5.5"
             strokeLinecap="round"
           />
         </>
       ) : (
         <>
           <ellipse
-            cx="96"
-            cy="92"
-            rx={stressed ? 15 : 13}
-            ry={stressed ? 19 : 17}
+            cx="92"
+            cy="94"
+            rx={stressed ? 16 : 14}
+            ry={stressed ? 20 : 18}
             fill="var(--blue-dark)"
           />
           <ellipse
-            cx="164"
-            cy="92"
-            rx={stressed ? 15 : 13}
-            ry={stressed ? 19 : 17}
+            cx="168"
+            cy="94"
+            rx={stressed ? 16 : 14}
+            ry={stressed ? 20 : 18}
             fill="var(--blue-dark)"
           />
-          <circle cx="91" cy="85" r="5" fill="var(--paper)" />
-          <circle cx="159" cy="85" r="5" fill="var(--paper)" />
-          <circle
-            cx="101"
-            cy="100"
-            r="3.5"
-            fill="var(--paper)"
-            opacity="0.92"
-          />
-          <circle
-            cx="169"
-            cy="100"
-            r="3.5"
-            fill="var(--paper)"
-            opacity="0.92"
-          />
+          <circle cx="86" cy="86" r="5.6" fill="var(--paper)" />
+          <circle cx="162" cy="86" r="5.6" fill="var(--paper)" />
+          <circle cx="98" cy="102" r="3.6" fill="var(--paper)" opacity="0.92" />
+          <circle cx="174" cy="102" r="3.6" fill="var(--paper)" opacity="0.92" />
         </>
       )}
 
       {highlyStressed ? (
         <>
-          <path
-            d="M78 69 Q95 60 111 68"
-            fill="none"
-            stroke="var(--coral)"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-          <path
-            d="M149 68 Q165 59 182 69"
-            fill="none"
-            stroke="var(--coral)"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-          <path
-            d="M200 95 Q210 103 202 114 Q193 108 200 95 Z"
-            fill="var(--aqua)"
-            opacity="0.9"
-          />
+          <path d="M74 70 Q91 60 109 68" fill="none" stroke="var(--coral)" strokeWidth="3.2" strokeLinecap="round" />
+          <path d="M151 68 Q169 60 186 70" fill="none" stroke="var(--coral)" strokeWidth="3.2" strokeLinecap="round" />
+          <path d="M210 101 Q221 110 212 122 Q202 115 210 101 Z" fill="var(--aqua)" opacity="0.92" />
         </>
       ) : null}
 
-      <ellipse
-        cx="72"
-        cy="122"
-        rx="12"
-        ry="6.5"
-        fill="var(--coral)"
-        opacity={stressed ? 0.9 : 0.78}
-      />
-      <ellipse
-        cx="188"
-        cy="122"
-        rx="12"
-        ry="6.5"
-        fill="var(--coral)"
-        opacity={stressed ? 0.9 : 0.78}
-      />
+      <ellipse cx="68" cy="127" rx="12.5" ry="6.7" fill="var(--coral)" opacity={stressed ? 0.92 : 0.8} />
+      <ellipse cx="192" cy="127" rx="12.5" ry="6.7" fill="var(--coral)" opacity={stressed ? 0.92 : 0.8} />
 
       <path
-        d="M113 116 Q130 101 147 116 L130 128 Z"
+        d="M112 118 Q130 102 148 118 L130 131 Z"
         fill="var(--coral)"
         stroke="var(--blue-dark)"
-        strokeWidth="3.5"
+        strokeWidth="3.7"
         strokeLinejoin="round"
       />
       <path
-        d="M114 127
-           Q130 144 147 127
-           Q143 148 130 152
-           Q117 148 114 127 Z"
+        d="M114 130
+           Q130 147 146 130
+           Q143 150 130 154
+           Q117 150 114 130 Z"
         fill="var(--blue-dark)"
         stroke="var(--blue-dark)"
-        strokeWidth="2.5"
+        strokeWidth="2.4"
         strokeLinejoin="round"
       />
-      <path
-        d="M121 140 Q130 146 139 140"
-        fill="none"
-        stroke="var(--coral)"
-        strokeWidth="4.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M119 116 Q130 108 141 116"
-        fill="none"
-        stroke="var(--paper)"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        opacity="0.72"
-      />
+      <path d="M121 143 Q130 149 139 143" fill="none" stroke="var(--coral)" strokeWidth="4.8" strokeLinecap="round" />
+      <path d="M119 118 Q130 110 141 118" fill="none" stroke="var(--paper)" strokeWidth="2.6" strokeLinecap="round" opacity="0.74" />
     </>
   )
 }
@@ -1054,6 +955,18 @@ export default function PenguinSprite({
       aria-label={label}
       shapeRendering="geometricPrecision"
     >
+      <defs>
+        <linearGradient id="mascot-shell" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="var(--blue)" />
+          <stop offset="58%" stopColor="var(--blue)" />
+          <stop offset="100%" stopColor="var(--blue-dark)" />
+        </linearGradient>
+        <linearGradient id="mascot-belly" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="var(--paper)" />
+          <stop offset="58%" stopColor="var(--sky)" />
+          <stop offset="100%" stopColor="var(--aqua)" />
+        </linearGradient>
+      </defs>
       <g opacity={upcoming ? 0.33 : 1}>
         <BasePenguinShell />
 
