@@ -132,10 +132,10 @@ For a Home-page integration:
 
 1. Move `components/weekly-penguin-timeline.tsx` and `components/penguin-sprite.tsx`.
 2. Move the timeline support modules: `lib/timeline.ts`, `lib/date-utils.ts`, `lib/work-data.ts`, `lib/special-date-rules.ts`, `lib/penguin-assets.ts`, `content/special-dates.ts`, and the relevant timeline types.
-3. Reuse the Academic Website's existing public Supabase client and `get_public_work_analytics(year)` adapter rather than introducing a second API connection. Bring the stricter payload validation from this repository with the component.
-4. Copy the approved penguin PNG masters and the asset-generation script. Merge penguin asset generation into the Academic Website's existing `predev`/`prebuild` workflow rather than replacing its current profile-sync steps.
-5. Port only the Weekly timeline CSS and map the PoC colour variables to the Academic Website's existing Oxford variables.
-6. Build the nine-week window on the Home page and pass the resulting `weeks` into `WeeklyPenguinTimeline`.
+3. Reuse an existing public Supabase client and `get_public_work_analytics(year)` adapter when the receiving application already has them, rather than introducing a second API connection. Bring the stricter payload validation from this repository with the component.
+4. Copy the approved penguin PNG masters and the asset-generation script. Merge penguin asset generation into any existing `predev`/`prebuild` workflow rather than replacing other build preparation tasks.
+5. Port only the Weekly timeline CSS and map the PoC colour variables to the receiving application's design tokens. For `academic-website`, map them to its existing Oxford variables.
+6. Build the nine-week window on the host page and pass the resulting `weeks` into `WeeklyPenguinTimeline`.
 
 The standalone hero, state tester, visual QA matrix, release notes, and footer are development/demo surfaces and do not need to be copied unless they are separately useful in the receiving application.
 
@@ -152,4 +152,4 @@ This repository uses separate licences by material type:
 - Original penguin artwork in `public/penguins/`, including generated derivatives: Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).
 - Third-party assets and branding are excluded from those grants and remain subject to their respective rights holders' terms. This includes `app/icon.png`, which uses Leiden University branding to match the Academic Website.
 
-See `LICENSE`, `LICENSE-DOCUMENTATION.md`, `LICENSE-ARTWORK.md`, and `THIRD_PARTY_NOTICES.md` for the applicable terms and scope.
+See `LICENSING.md` for the licence map, with the applicable terms and scope in `LICENSE`, `LICENSE-DOCUMENTATION.md`, `LICENSE-ARTWORK.md`, and `THIRD_PARTY_NOTICES.md`.
