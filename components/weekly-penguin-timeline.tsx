@@ -1,5 +1,5 @@
 import PenguinSprite from '@/components/penguin-sprite'
-import { formatMinutes } from '@/lib/timeline'
+import { formatDisplayDate, formatMinutes } from '@/lib/timeline'
 import type { TimelineDay } from '@/types/timeline'
 
 export default function WeeklyPenguinTimeline({
@@ -42,7 +42,7 @@ export default function WeeklyPenguinTimeline({
                 <div className="day-header">
                   <div>
                     <span className="weekday">{day.weekday}</span>
-                    <span className="date-label">{day.date}</span>
+                    <span className="date-label">{formatDisplayDate(day.date)}</span>
                   </div>
                   {day.isToday ? <span className="today-chip">Today</span> : null}
                 </div>
@@ -92,7 +92,7 @@ export default function WeeklyPenguinTimeline({
       <div className="timeline-legend" aria-label="Timeline legend">
         <span><i className="legend-dot work-dot" /> Work</span>
         <span><i className="legend-dot coffee-dot" /> Coffee</span>
-        <span><i className="legend-dot special-dot" /> Manual override / Sunday</span>
+        <span><i className="legend-dot special-dot" /> Special state</span>
       </div>
     </section>
   )

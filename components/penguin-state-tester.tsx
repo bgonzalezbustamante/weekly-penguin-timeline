@@ -20,8 +20,9 @@ const WORK_LABELS = {
 
 const COFFEE_LABELS = {
   zero: '0',
-  '2-4': '2–4',
+  'under-4': '<4',
   '4-6': '4–6',
+  '6-8': '6–8',
   '8-10': '8–10',
   '10-plus': '10+',
 } as const

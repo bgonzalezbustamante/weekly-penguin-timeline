@@ -19,8 +19,9 @@ const WORK_LABELS: Record<WorkBucket, string> = {
 
 const COFFEE_LABELS: Record<CoffeeBucket, string> = {
   zero: '0',
-  '2-4': '2–4',
+  'under-4': '<4',
   '4-6': '4–6',
+  '6-8': '6–8',
   '8-10': '8–10',
   '10-plus': '10+',
 }
@@ -41,18 +42,11 @@ export function resolveWorkBucket(minutes: number): WorkBucket {
   return '10-plus'
 }
 
-/**
- * The requested coffee labels are not mathematically exhaustive:
- * 1 and 7 are omitted and 4/10 sit on adjacent boundaries.
- *
- * For the PoC we preserve the requested display labels while assigning
- * every integer deterministically. This resolver is intentionally isolated
- * so the thresholds can be changed without touching presentation code.
- */
 export function resolveCoffeeBucket(count: number): CoffeeBucket {
   if (count <= 0) return 'zero'
-  if (count < 4) return '2-4'
-  if (count < 8) return '4-6'
+  if (count < 4) return 'under-4'
+  if (count < 6) return '4-6'
+  if (count < 8) return '6-8'
   if (count < 10) return '8-10'
   return '10-plus'
 }
@@ -175,6 +169,17 @@ export function yearsForCurrentWeek(
   return Array.from(
     new Set([Number(monday.slice(0, 4)), Number(sunday.slice(0, 4))])
   )
+}
+
+export function formatDisplayDate(value: string) {
+  const formatted = new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(parseIsoDate(value))
+
+  return formatted.replace('Sep ', 'Sept ')
 }
 
 export function formatMinutes(minutes: number) {

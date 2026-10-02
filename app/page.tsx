@@ -96,11 +96,11 @@ export default async function HomePage() {
         <section className="notes-grid" aria-label="Proof-of-concept notes">
           <article>
             <p className="eyebrow">State engine</p>
-            <h2>30 activity combinations</h2>
+            <h2>36 activity combinations</h2>
             <p>
-              Six working-time bands combine with five coffee bands. The
-              penguin pose is driven by work intensity while coffee adds a
-              second visual signal.
+              Six working-time bands combine with six coffee bands. Working
+              time and coffee jointly increase the visible workload
+              and stress.
             </p>
           </article>
           <article>

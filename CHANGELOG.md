@@ -13,16 +13,19 @@
 `penguin visual system`
 
 - Replaced the harder-edged sprite treatment with a softer kawaii SVG illustration using the Academic Website Oxford blue, dark blue, coral, aqua, sky blue, off-white and neutral colours.
-- Added stronger character details including oversized rounded glasses, larger glossy eyes, blush, a compact chibi body, softer wings and small rounded feet to move closer to the supplied kawaii reference.
-- Added state-specific work props: resting state, notes and pencil, open book, laptop, books plus laptop, and an overloaded high-work state.
-- Reworked coffee intensity around larger, recognisable mugs with visible handles, coffee surfaces, saucers and steam so each coffee state is readable at timeline-card scale.
+- Refined the character towards the supplied glossy kawaii reference with a rounded chibi body, oversized glasses, larger glossy eyes, forehead highlights, blush and stronger dark outlines.
+- Strengthened work-intensity progression from resting through notes, reading and laptop work to book stacks, a measuring tape and overloaded high-work scenes inspired by the supplied reference.
+- Expanded coffee to six matching intervals and up to five clear mugs, with visible handles, coffee surfaces, saucers and steam.
 - Reworked special illustrations so each state has a distinct scene: prayer and cross motif for Sunday; hat, scarf, snow and present for winter holiday; sunglasses, sun, beach ball and cold drink for summer holiday; suitcase, ticket and aircraft for trip; and blanket, thermometer, tissue box and cooling pack for sickness.
+- Added combined stress cues so high working time and/or coffee levels produce wider eyes, stronger blush, sweat, agitation marks, loose papers and denser desk clutter.
 
 `timeline presentation`
 
 - Moved Sunday and manual special-date labels from the body of the daily card to its footer.
 - Kept future days distinct from zero-activity days.
 - Expanded the introductory copy to use the full available content width.
+- Formatted timeline dates in British style, for example `28 Sept 2026`.
+- Renamed the timeline legend category from `Manual override / Sunday` to `Special state`.
 
 `Academic API`
 
@@ -37,6 +40,7 @@
 - Added a Penguin state tester between the weekly timeline and architecture cards.
 - Added working-hours and coffee sliders that reuse the production state resolver.
 - Displayed the resolved work bucket, coffee bucket and deterministic combined state identifier.
+- Standardised work and coffee into six matching bands: zero, under 4, 4–6, 6–8, 8–10 and 10-plus, producing 36 normal combinations.
 - Added mutually exclusive tick-box controls for Sunday, winter holiday, summer holiday, trip and sickness states so special illustrations can be tested directly.
 - Replaced the fieldset legend treatment with an in-panel Special state heading so the title no longer overlaps the control border.
 

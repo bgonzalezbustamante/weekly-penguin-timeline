@@ -14,10 +14,29 @@ type Props = {
 
 const coffeeLevel: Record<CoffeeBucket, number> = {
   zero: 0,
-  '2-4': 1,
+  'under-4': 1,
   '4-6': 2,
-  '8-10': 3,
-  '10-plus': 4,
+  '6-8': 3,
+  '8-10': 4,
+  '10-plus': 5,
+}
+
+const workStress: Record<WorkBucket, number> = {
+  zero: 0,
+  'under-4': 1,
+  '4-6': 2,
+  '6-8': 3,
+  '8-10': 4,
+  '10-plus': 5,
+}
+
+const coffeeStress: Record<CoffeeBucket, number> = {
+  zero: 0,
+  'under-4': 1,
+  '4-6': 2,
+  '6-8': 3,
+  '8-10': 4,
+  '10-plus': 5,
 }
 
 function Sparkles({ intense }: { intense: boolean }) {
@@ -102,10 +121,11 @@ function CoffeeCups({ count }: { count: number }) {
   if (count === 0) return null
 
   const positions = [
-    { x: 185, y: 126, scale: 0.8 },
-    { x: 197, y: 157, scale: 0.72 },
-    { x: 169, y: 169, scale: 0.72 },
-    { x: 205, y: 189, scale: 0.64 },
+    { x: 184, y: 121, scale: 0.84 },
+    { x: 198, y: 151, scale: 0.78 },
+    { x: 170, y: 166, scale: 0.78 },
+    { x: 205, y: 184, scale: 0.72 },
+    { x: 178, y: 199, scale: 0.67 },
   ]
 
   return (
@@ -261,6 +281,102 @@ function RestingProp() {
   )
 }
 
+function MeasuringTape() {
+  return (
+    <g aria-hidden="true">
+      <path
+        d="M55 140 Q105 172 171 137"
+        fill="none"
+        stroke="var(--coral)"
+        strokeWidth="16"
+        strokeLinecap="round"
+      />
+      <path
+        d="M57 140 Q105 166 169 137"
+        fill="none"
+        stroke="#ffd166"
+        strokeWidth="10"
+        strokeLinecap="round"
+      />
+      {[66, 79, 92, 105, 118, 131, 144, 157].map((x, index) => (
+        <path
+          key={x}
+          d={`M${x} ${148 + (index % 2) * 3} L${x + 2} ${137 + (index % 2) * 2}`}
+          stroke="var(--blue-dark)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
+      ))}
+    </g>
+  )
+}
+
+function StressCues({ level }: { level: number }) {
+  if (level < 5) return null
+
+  return (
+    <g aria-hidden="true">
+      <path
+        d="M190 72 Q204 84 194 98"
+        fill="none"
+        stroke="var(--aqua)"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M200 87 Q210 100 201 112"
+        fill="none"
+        stroke="var(--aqua)"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        opacity="0.75"
+      />
+      {level >= 7 ? (
+        <>
+          <path
+            d="M36 104 Q30 94 35 85"
+            fill="none"
+            stroke="var(--coral)"
+            strokeWidth="4"
+            strokeLinecap="round"
+          />
+          <path
+            d="M42 96 Q39 87 44 79"
+            fill="none"
+            stroke="var(--coral)"
+            strokeWidth="3"
+            strokeLinecap="round"
+            opacity="0.78"
+          />
+          <path
+            d="M203 117 Q213 111 223 118"
+            fill="none"
+            stroke="var(--blue-dark)"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+        </>
+      ) : null}
+      {level >= 9 ? (
+        <>
+          <path
+            d="M29 132 L54 125 L58 143 L33 150 Z"
+            fill="var(--paper)"
+            stroke="var(--blue-dark)"
+            strokeWidth="2.7"
+          />
+          <path
+            d="M200 130 L226 138 L220 156 L194 148 Z"
+            fill="var(--paper)"
+            stroke="var(--blue-dark)"
+            strokeWidth="2.7"
+          />
+        </>
+      ) : null}
+    </g>
+  )
+}
+
 function ActivityProp({ workBucket }: { workBucket: WorkBucket }) {
   if (workBucket === 'zero') return <RestingProp />
   if (workBucket === 'under-4') return <NotesProp />
@@ -271,6 +387,7 @@ function ActivityProp({ workBucket }: { workBucket: WorkBucket }) {
     return (
       <>
         <BookStack />
+        <MeasuringTape />
         <Laptop />
       </>
     )
@@ -279,6 +396,7 @@ function ActivityProp({ workBucket }: { workBucket: WorkBucket }) {
   return (
     <>
       <BookStack />
+      <MeasuringTape />
       <Laptop crowded />
       <g aria-hidden="true">
         <path
@@ -539,11 +657,13 @@ function SpecialScene({ mode }: { mode: PenguinMode }) {
 
 function Face({
   eyesClosed,
-  highCoffee,
+  stressLevel,
 }: {
   eyesClosed: boolean
-  highCoffee: boolean
+  stressLevel: number
 }) {
+  const stressed = stressLevel >= 6
+  const highlyStressed = stressLevel >= 9
   return (
     <>
       <ellipse cx="91" cy="87" rx="36" ry="34" fill="var(--paper)" />
@@ -592,8 +712,8 @@ function Face({
         </>
       ) : (
         <>
-          <ellipse cx="91" cy="87" rx={highCoffee ? 12 : 11} ry={highCoffee ? 17 : 15} fill="var(--blue-dark)" />
-          <ellipse cx="147" cy="87" rx={highCoffee ? 12 : 11} ry={highCoffee ? 17 : 15} fill="var(--blue-dark)" />
+          <ellipse cx="91" cy="87" rx={stressed ? 13 : 11} ry={stressed ? 18 : 15} fill="var(--blue-dark)" />
+          <ellipse cx="147" cy="87" rx={stressed ? 13 : 11} ry={stressed ? 18 : 15} fill="var(--blue-dark)" />
           <circle cx="86" cy="81" r="4.5" fill="var(--paper)" />
           <circle cx="142" cy="81" r="4.5" fill="var(--paper)" />
           <circle cx="96" cy="94" r="3" fill="var(--paper)" opacity="0.88" />
@@ -601,8 +721,16 @@ function Face({
         </>
       )}
 
-      <ellipse cx="66" cy="114" rx="11" ry="6.5" fill="var(--coral)" opacity="0.62" />
-      <ellipse cx="172" cy="114" rx="11" ry="6.5" fill="var(--coral)" opacity="0.62" />
+      {highlyStressed ? (
+        <>
+          <path d="M69 61 Q88 51 104 61" fill="none" stroke="var(--coral)" strokeWidth="3.2" strokeLinecap="round" />
+          <path d="M133 61 Q151 51 168 61" fill="none" stroke="var(--coral)" strokeWidth="3.2" strokeLinecap="round" />
+          <path d="M187 87 Q198 95 190 106 Q181 100 187 87 Z" fill="var(--aqua)" opacity="0.9" />
+        </>
+      ) : null}
+
+      <ellipse cx="66" cy="114" rx="11" ry="6.5" fill="var(--coral)" opacity={stressed ? 0.82 : 0.62} />
+      <ellipse cx="172" cy="114" rx="11" ry="6.5" fill="var(--coral)" opacity={stressed ? 0.82 : 0.62} />
 
       <path
         d="M103 111 Q119 97 135 111 Q123 126 119 126 Q115 126 103 111 Z"
@@ -633,6 +761,7 @@ export default function PenguinSprite({
   const special =
     mode !== 'activity' && mode !== 'upcoming'
   const coffeeCount = coffeeLevel[coffeeBucket]
+  const stressLevel = workStress[workBucket] + coffeeStress[coffeeBucket]
   const highCoffee = coffeeCount >= 3
   const eyesClosed = mode === 'sunday' || mode === 'sick'
 
@@ -682,6 +811,13 @@ export default function PenguinSprite({
           fill="var(--blue-dark)"
         />
         <path
+          d="M69 62 Q106 28 157 56 Q128 43 92 66 Z"
+          fill="var(--sky)"
+          opacity="0.42"
+        />
+        <ellipse cx="94" cy="48" rx="10" ry="5" fill="var(--paper)" opacity="0.92" />
+        <ellipse cx="112" cy="42" rx="4" ry="2.5" fill="var(--paper)" opacity="0.86" />
+        <path
           d="M61 91 Q69 44 115 36 Q162 39 178 90 Q148 73 119 94 Q89 73 61 91 Z"
           fill="var(--blue-dark)"
         />
@@ -701,7 +837,7 @@ export default function PenguinSprite({
           opacity="0.47"
         />
 
-        <Face eyesClosed={eyesClosed} highCoffee={highCoffee} />
+        <Face eyesClosed={eyesClosed} stressLevel={special ? 0 : stressLevel} />
 
         <path
           d="M76 197 Q87 190 102 197 Q102 210 89 212 Q76 209 76 197 Z"
@@ -722,6 +858,7 @@ export default function PenguinSprite({
           <>
             <ActivityProp workBucket={workBucket} />
             <CoffeeCups count={coffeeCount} />
+            <StressCues level={stressLevel} />
           </>
         )}
       </g>
