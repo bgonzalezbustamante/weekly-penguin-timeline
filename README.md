@@ -107,7 +107,7 @@ Manual exact dates and inclusive ranges remain supported. A labelled `sunday` ov
 }
 ```
 
-Precedence is: manual special date → enabled fixed Catholic date → automatic weekly Sunday → normal/upcoming state. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and overlapping manual rules fail explicitly. Ordered overlap between manual and generated built-in dates remains allowed so manual-first precedence works as intended. The optional `label` is shown in the daily-card footer.
+Precedence is: manual special date → enabled fixed Catholic date → future weekday/weekend rule or automatic weekly Sunday → normal activity state. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and overlapping manual rules fail explicitly. Ordered overlap between manual and generated built-in dates remains allowed so manual-first precedence works as intended. The optional `label` is shown in the daily-card footer.
 
 ## Activity bands
 
