@@ -45,7 +45,7 @@ export default function PenguinStateGallery() {
         <div>
           <p className="eyebrow">Visual QA</p>
           <h2 id="state-gallery-title">Penguin state matrix</h2>
-          <p className="section-intro">
+          <p className="section-intro section-intro-wide">
             The complete approved 6 × 6 activity matrix, followed by the five
             special-state assets. This view makes progression and visual drift
             easy to inspect.
