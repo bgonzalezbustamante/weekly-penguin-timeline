@@ -19,7 +19,7 @@ export const releases: ReleaseNote[] = [
     status: 'In development',
     releasedOn: 'Release date TBC',
     summary:
-      'Bold Cipher establishes the first reusable Weekly Penguin Timeline prototype, with live Academic API data, a richer Oxford-colour penguin system, special-day rules, and an interactive state tester.',
+      'Bold Cipher establishes the first reusable Weekly Penguin Timeline prototype, with live Academic API data, a kawaii Oxford-colour penguin system, special-day rules, and an interactive state tester.',
     sections: [
       {
         title: 'Penguin states',
