@@ -1,3 +1,4 @@
+import { assertValidSpecialDateRules } from '@/lib/special-date-rules'
 import type { SpecialDate } from '@/types/timeline'
 
 export const ENABLE_CATHOLIC_FIXED_DATES = true
@@ -34,6 +35,8 @@ export function getConfiguredSpecialDates(
   years: number[],
   enableCatholicFixedDates = ENABLE_CATHOLIC_FIXED_DATES
 ): SpecialDate[] {
+  assertValidSpecialDateRules(specialDates, { allowOverlaps: false })
+
   if (!enableCatholicFixedDates) {
     return [...specialDates]
   }
@@ -46,6 +49,8 @@ export function getConfiguredSpecialDates(
         label,
       }))
   )
+
+  assertValidSpecialDateRules(catholicDates, { allowOverlaps: false })
 
   return [...specialDates, ...catholicDates]
 }
