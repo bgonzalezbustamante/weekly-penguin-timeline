@@ -1,0 +1,119 @@
+import PenguinSprite from '@/components/penguin-sprite'
+import {
+  COFFEE_BUCKETS,
+  WORK_BUCKETS,
+} from '@/lib/penguin-assets'
+import type {
+  CoffeeBucket,
+  PenguinMode,
+  WorkBucket,
+} from '@/types/timeline'
+
+const WORK_LABELS: Record<WorkBucket, string> = {
+  zero: '0h',
+  'under-4': '<4h',
+  '4-6': '4–6h',
+  '6-8': '6–8h',
+  '8-10': '8–10h',
+  '10-plus': '10h+',
+}
+
+const COFFEE_LABELS: Record<CoffeeBucket, string> = {
+  zero: '0',
+  'under-4': '<4',
+  '4-6': '4–6',
+  '6-8': '6–8',
+  '8-10': '8–10',
+  '10-plus': '10+',
+}
+
+const SPECIAL_STATES: Array<{
+  mode: Exclude<PenguinMode, 'activity' | 'upcoming'>
+  label: string
+}> = [
+  { mode: 'sunday', label: 'Sunday' },
+  { mode: 'winter-holiday', label: 'Winter holiday' },
+  { mode: 'summer-holiday', label: 'Summer holiday' },
+  { mode: 'trip', label: 'Trip' },
+  { mode: 'sick', label: 'Sick' },
+]
+
+export default function PenguinStateGallery() {
+  return (
+    <section className="state-gallery" aria-labelledby="state-gallery-title">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">Visual QA</p>
+          <h2 id="state-gallery-title">Penguin state matrix</h2>
+          <p className="section-intro">
+            The complete approved 6 × 6 activity matrix, followed by the five
+            special-state assets. This view makes progression and visual drift
+            easy to inspect.
+          </p>
+        </div>
+      </div>
+
+      <div className="state-matrix-scroll" tabIndex={0}>
+        <div
+          className="state-matrix-grid"
+          role="table"
+          aria-label="Work and coffee penguin state matrix"
+        >
+          <div className="matrix-corner" role="columnheader">
+            Work / coffee
+          </div>
+          {COFFEE_BUCKETS.map((coffeeBucket) => (
+            <div
+              className="matrix-column-heading"
+              role="columnheader"
+              key={coffeeBucket}
+            >
+              {COFFEE_LABELS[coffeeBucket]}
+            </div>
+          ))}
+
+          {WORK_BUCKETS.flatMap((workBucket) => [
+            <div
+              className="matrix-row-heading"
+              role="rowheader"
+              key={`label-${workBucket}`}
+            >
+              {WORK_LABELS[workBucket]}
+            </div>,
+            ...COFFEE_BUCKETS.map((coffeeBucket) => (
+              <div
+                className="matrix-state-cell"
+                role="cell"
+                key={`${workBucket}-${coffeeBucket}`}
+              >
+                <PenguinSprite
+                  mode="activity"
+                  workBucket={workBucket}
+                  coffeeBucket={coffeeBucket}
+                  label={`${WORK_LABELS[workBucket]} work, ${COFFEE_LABELS[coffeeBucket]} coffees`}
+                />
+                <span>
+                  {WORK_LABELS[workBucket]} · {COFFEE_LABELS[coffeeBucket]}
+                </span>
+              </div>
+            )),
+          ])}
+        </div>
+      </div>
+
+      <div className="special-gallery" aria-label="Special penguin states">
+        {SPECIAL_STATES.map((state) => (
+          <article className="special-gallery-card" key={state.mode}>
+            <PenguinSprite
+              mode={state.mode}
+              workBucket="zero"
+              coffeeBucket="zero"
+              label={state.label}
+            />
+            <strong>{state.label}</strong>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}

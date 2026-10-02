@@ -24,9 +24,9 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Penguin states',
         items: [
-          'Adopted the approved high-quality PNG as the single canonical penguin baseline, rendered directly beneath the work, coffee, stress and special-state overlays.',
-          'Kept the visual palette aligned with the Academic Website while reducing the deliberately pixel-like treatment.',
-          'Standardised both work and coffee into six bands, producing 36 normal combinations with progressively stronger workload, coffee and stress cues.',
+          'Kept the approved canonical PNG as the immutable mascot ground truth and moved runtime rendering to complete derived state images.',
+          'Resolved all 36 work × coffee combinations and five special states to approved PNG assets through a dedicated asset resolver.',
+          'Kept the visual palette aligned with the Academic Website and use Next.js image optimisation for runtime delivery without replacing the PNG masters.',
         ],
       },
       {
@@ -41,7 +41,7 @@ export const releases: ReleaseNote[] = [
         title: 'Data and testing',
         items: [
           'Kept the timeline on live Academic API data only, with green connected and muted-red unavailable status points.',
-          'Added an interactive tester for exploring work/coffee combinations and special states, and corrected the Special state control heading layout.',
+          'Added an interactive tester for exploring work/coffee combinations and special states, plus a complete 36-state visual QA matrix and special-state gallery.',
         ],
       },
       {

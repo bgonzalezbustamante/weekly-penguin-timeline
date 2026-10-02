@@ -1,3 +1,4 @@
+import PenguinStateGallery from '@/components/penguin-state-gallery'
 import PenguinStateTester from '@/components/penguin-state-tester'
 import ReleaseNotes from '@/components/release-notes'
 import WeeklyPenguinTimeline from '@/components/weekly-penguin-timeline'
@@ -92,6 +93,7 @@ export default async function HomePage() {
         )}
 
         <PenguinStateTester />
+        <PenguinStateGallery />
 
         <section className="notes-grid" aria-label="Proof-of-concept notes">
           <article>
