@@ -24,7 +24,7 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Penguin states',
         items: [
-          'Refined the penguin towards the supplied glossy kawaii reference with a rounder chibi body, oversized glasses, stronger highlights and clearer stress expressions.',
+          'Rebuilt the shared baseline penguin to more closely match the supplied glossy kawaii reference: wider plush proportions, heart-like face patches, thicker glasses, larger glossy eyes, a brighter belly and a smaller smiling beak.',
           'Kept the visual palette aligned with the Academic Website while reducing the deliberately pixel-like treatment.',
           'Standardised both work and coffee into six bands, producing 36 normal combinations with progressively stronger workload, coffee and stress cues.',
         ],
