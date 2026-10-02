@@ -3,3 +3,7 @@ node_modules
 .env
 .env.local
 npm-debug.log*
+
+# Generated runtime penguin assets
+public/penguins/states/webp/
+public/penguins/canonical-baseline.webp
