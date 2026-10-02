@@ -49,6 +49,7 @@ export type PublicWorkAnalytics = {
 
 export type PenguinMode =
   | 'activity'
+  | 'working-day'
   | 'sunday'
   | 'winter-holiday'
   | 'summer-holiday'

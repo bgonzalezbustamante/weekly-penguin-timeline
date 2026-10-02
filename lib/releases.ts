@@ -24,7 +24,7 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Penguin states',
         items: [
-          'Kept the approved canonical PNG as the immutable mascot ground truth and froze the validated alpha.1 visual set: 36 activity states and five special states.',
+          'Kept the approved canonical PNG as the immutable mascot ground truth and froze the validated alpha.1 visual set: 36 activity states, five special states and one upcoming working-day state.',
           'Added automated integrity checks for every PNG master and deterministic state-to-asset resolution.',
           'Generate lightweight WebP runtime derivatives while preserving the validated PNG masters unchanged.',
         ],
@@ -34,7 +34,7 @@ export const releases: ReleaseNote[] = [
         items: [
           'Kept Sunday and other overrides as special states, added labelled Sunday-style manual overrides, and added a switchable fixed Catholic set for Assumption, All Saints, All Souls, Immaculate Conception, Christmas Eve and Christmas Day.',
           'Made Sunday, winter holiday, summer holiday, trip and sickness visually distinct with dedicated scene props and expressions.',
-          'Kept future days visually distinct from genuine zero-activity days, added a nine-week browser spanning four weeks either side of the current week, and retained British short-date formatting such as 28 Sept 2026.',
+          'Kept future days visually distinct from genuine zero-activity days: Monday–Friday use the working-day scene, Saturday uses the canonical baseline and Sunday keeps the Sunday scene, with every future illustration dimmed and special dates retaining priority.',
         ],
       },
       {

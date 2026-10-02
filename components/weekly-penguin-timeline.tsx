@@ -150,6 +150,7 @@ export default function WeeklyPenguinTimeline({
                     workBucket={day.workBucket}
                     coffeeBucket={day.coffeeBucket}
                     label={`${day.weekday}: ${specialText ?? `${day.workLabel}, ${day.coffeeLabel} coffees`}`}
+                    isFuture={day.isFuture}
                   />
                 </div>
 
