@@ -50,7 +50,7 @@ That separation is deliberate: the canonical mascot remains the immutable visual
 Requires Node.js 22 or later.
 
 ```bash
-npm install
+npm ci
 cp .env.example .env.local
 npm run dev
 ```
