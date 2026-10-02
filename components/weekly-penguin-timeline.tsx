@@ -23,10 +23,7 @@ export default function WeeklyPenguinTimeline({
       <div className="timeline-scroll" tabIndex={0}>
         <ol className="weekly-timeline">
           {days.map((day) => {
-            const specialText =
-              day.mode === 'sunday'
-                ? 'Sunday'
-                : day.specialLabel
+            const specialText = day.specialLabel
 
             return (
               <li
