@@ -8,8 +8,9 @@ export type WorkBucket =
 
 export type CoffeeBucket =
   | 'zero'
-  | '2-4'
+  | 'under-4'
   | '4-6'
+  | '6-8'
   | '8-10'
   | '10-plus'
 
