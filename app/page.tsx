@@ -63,7 +63,10 @@ export default async function HomePage() {
           >
             <span>Data source</span>
             <strong>
-              {!error ? <i className="connection-dot" aria-hidden="true" /> : null}
+              <i
+                className={`connection-dot${error ? ' is-offline' : ' is-online'}`}
+                aria-hidden="true"
+              />
               Academic API
             </strong>
           </div>

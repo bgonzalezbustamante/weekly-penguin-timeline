@@ -117,9 +117,15 @@ export default function PenguinStateTester() {
             />
           </div>
 
-          <fieldset className="special-state-fieldset">
-            <legend>Special state</legend>
-            <p>
+          <div
+            className="special-state-panel"
+            role="group"
+            aria-labelledby="special-state-title"
+          >
+            <p className="special-state-title" id="special-state-title">
+              Special state
+            </p>
+            <p className="special-state-help">
               A special state overrides the work and coffee illustration.
               Select one, or clear it to return to the normal combined state.
             </p>
@@ -137,7 +143,7 @@ export default function PenguinStateTester() {
                 </label>
               ))}
             </div>
-          </fieldset>
+          </div>
 
           <div className="tester-readout" aria-live="polite">
             {state.specialLabel ? (

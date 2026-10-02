@@ -117,8 +117,16 @@ h1 {
   height: 0.52rem;
   display: inline-block;
   border-radius: 50%;
+}
+
+.connection-dot.is-online {
   background: #2f9e44;
   box-shadow: 0 0 0 3px rgba(47, 158, 68, 0.12);
+}
+
+.connection-dot.is-offline {
+  background: #c84545;
+  box-shadow: 0 0 0 3px rgba(200, 69, 69, 0.12);
 }
 
 .timeline-section {
@@ -443,24 +451,24 @@ h1 {
   opacity: 0.52;
 }
 
-.special-state-fieldset {
+.special-state-panel {
   margin: 0;
   border: 1px solid var(--stone);
   border-radius: 0.55rem;
   background: var(--blue-wash);
-  padding: 0.85rem;
+  padding: 0.9rem;
 }
 
-.special-state-fieldset legend {
-  padding: 0 0.35rem;
+.special-state-title {
+  margin: 0;
   color: var(--blue);
   font-family: var(--font-roboto), Arial, sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
 }
 
-.special-state-fieldset p {
-  margin: 0 0 0.7rem;
+.special-state-help {
+  margin: 0.4rem 0 0.75rem;
   color: var(--ash);
   font-size: 0.75rem;
   line-height: 1.5;
@@ -596,7 +604,8 @@ h1 {
 }
 
 .release-summary {
-  max-width: 900px;
+  width: 100%;
+  max-width: none;
   margin: 0.75rem 0 0;
   color: var(--ash);
   font-size: 0.88rem;
