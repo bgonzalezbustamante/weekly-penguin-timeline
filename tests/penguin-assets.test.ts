@@ -33,7 +33,17 @@ describe('penguin asset resolution', () => {
     ).toBe('/penguins/states/webp/sunday.webp')
   })
 
-  it('uses the canonical asset for upcoming days', () => {
+  it('uses the approved working-day asset for future weekdays', () => {
+    expect(
+      resolvePenguinAsset({
+        mode: 'working-day',
+        workBucket: '10-plus',
+        coffeeBucket: '10-plus',
+      })
+    ).toBe('/penguins/states/webp/working-day.webp')
+  })
+
+  it('uses the canonical asset for generic upcoming days such as Saturdays', () => {
     expect(
       resolvePenguinAsset({
         mode: 'upcoming',
