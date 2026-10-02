@@ -24,17 +24,17 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Penguin states',
         items: [
-          'Refined the penguin towards the supplied kawaii reference with a rounder chibi body, oversized glasses, larger glossy eyes and softer academic props.',
+          'Refined the penguin towards the supplied glossy kawaii reference with a rounder chibi body, oversized glasses, stronger highlights and clearer stress expressions.',
           'Kept the visual palette aligned with the Academic Website while reducing the deliberately pixel-like treatment.',
-          'Retained 30 normal combinations from six working-time bands and five coffee bands, with larger recognisable coffee mugs at higher coffee states.',
+          'Standardised both work and coffee into six bands, producing 36 normal combinations with progressively stronger workload, coffee and stress cues.',
         ],
       },
       {
         title: 'Timeline behaviour',
         items: [
-          'Kept Sunday as a praying-penguin state and moved Sunday and manual-override labels to the bottom of each daily card.',
+          'Kept Sunday and other overrides as special states, moved their labels to the card footer and simplified the legend to Special state.',
           'Made Sunday, winter holiday, summer holiday, trip and sickness visually distinct with dedicated scene props and expressions.',
-          'Kept future days visually distinct from genuine zero-activity days.',
+          'Kept future days visually distinct from genuine zero-activity days and switched displayed dates to British short-date formatting such as 28 Sept 2026.',
         ],
       },
       {
