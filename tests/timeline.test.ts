@@ -1,13 +1,16 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  buildTimelineWeeks,
   buildWeeklyTimeline,
   formatDisplayDate,
   formatMinutes,
   resolveCoffeeBucket,
   resolveWorkBucket,
   yearsForCurrentWeek,
+  yearsForTimelineWindow,
   yearsForWorkAnalytics,
+  yearsForWorkAnalyticsWindow,
 } from '@/lib/timeline'
 
 describe('work bucket boundaries', () => {
@@ -180,6 +183,114 @@ describe('weekly timeline resolution', () => {
     expect(sundayNight[0].date).toBe('2027-03-22')
     expect(mondayMorning[0].date).toBe('2027-03-29')
     expect(mondayMorning[0].isToday).toBe(true)
+  })
+})
+
+
+describe('weekly timeline pagination window', () => {
+  it('builds four weeks before, the current week, and four weeks after', () => {
+    const weeks = buildTimelineWeeks({
+      now: new Date('2026-10-02T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+      pastWeeks: 4,
+      futureWeeks: 4,
+    })
+
+    expect(weeks).toHaveLength(9)
+    expect(weeks.map((week) => week.offset)).toEqual([
+      -4, -3, -2, -1, 0, 1, 2, 3, 4,
+    ])
+    expect(weeks[0]).toMatchObject({
+      startDate: '2026-08-31',
+      endDate: '2026-09-06',
+      isCurrentWeek: false,
+    })
+    expect(weeks[4]).toMatchObject({
+      startDate: '2026-09-28',
+      endDate: '2026-10-04',
+      isCurrentWeek: true,
+    })
+    expect(weeks[8]).toMatchObject({
+      startDate: '2026-10-26',
+      endDate: '2026-11-01',
+      isCurrentWeek: false,
+    })
+  })
+
+  it('keeps today semantics anchored to the real current week', () => {
+    const weeks = buildTimelineWeeks({
+      now: new Date('2026-10-02T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+    })
+
+    expect(weeks[4].days.find((day) => day.isToday)?.date).toBe('2026-10-02')
+    expect(weeks[5].days.every((day) => !day.isToday && day.isFuture)).toBe(true)
+  })
+
+  it('supports direct weekly offsets without changing today', () => {
+    const previousWeek = buildWeeklyTimeline({
+      now: new Date('2026-10-02T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+      weekOffset: -1,
+    })
+
+    expect(previousWeek[0].date).toBe('2026-09-21')
+    expect(previousWeek[6].date).toBe('2026-09-27')
+    expect(previousWeek.some((day) => day.isToday)).toBe(false)
+  })
+
+  it('rejects invalid pagination window sizes and fractional offsets', () => {
+    expect(() =>
+      buildTimelineWeeks({
+        now: new Date('2026-10-02T12:00:00Z'),
+        timeZone: 'UTC',
+        days: [],
+        pastWeeks: -1,
+      })
+    ).toThrow('non-negative integers')
+
+    expect(() =>
+      buildWeeklyTimeline({
+        now: new Date('2026-10-02T12:00:00Z'),
+        timeZone: 'UTC',
+        days: [],
+        weekOffset: 1.5,
+      })
+    ).toThrow('Week offset must be an integer')
+  })
+
+  it('collects all calendar years needed by the nine-week browser', () => {
+    expect(
+      yearsForTimelineWindow(
+        new Date('2026-12-31T12:00:00Z'),
+        'UTC',
+        4,
+        4
+      )
+    ).toEqual([2026, 2027])
+  })
+
+  it('loads only API-supported years while the browser reaches into a future year', () => {
+    expect(
+      yearsForWorkAnalyticsWindow(
+        new Date('2026-12-31T12:00:00Z'),
+        'UTC',
+        4,
+        4
+      )
+    ).toEqual([2026])
+
+    expect(
+      yearsForWorkAnalyticsWindow(
+        new Date('2027-01-01T12:00:00Z'),
+        'UTC',
+        4,
+        4
+      )
+    ).toEqual([2026, 2027])
   })
 })
 
