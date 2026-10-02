@@ -180,7 +180,7 @@ export function yearsForWorkAnalytics(
   const latestApiYear = now.getUTCFullYear()
 
   return yearsForCurrentWeek(now, timeZone).filter(
-    (year) => year <= latestApiYear
+    (year) => year >= 2000 && year <= latestApiYear
   )
 }
 
