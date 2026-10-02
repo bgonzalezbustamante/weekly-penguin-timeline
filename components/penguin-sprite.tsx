@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 import type {
   CoffeeBucket,
   PenguinMode,
@@ -655,16 +657,17 @@ function SpecialScene({ mode }: { mode: PenguinMode }) {
   return null
 }
 
-function CanonicalMascot() {
+function CanonicalMascot({ dimmed }: { dimmed: boolean }) {
   return (
-    <image
-      href="/penguins/canonical-baseline.svg"
-      x="16"
-      y="0"
-      width="228"
-      height="228"
-      preserveAspectRatio="xMidYMid meet"
+    <Image
+      className="penguin-sprite-baseline"
+      src="/penguins/canonical-baseline.svg"
+      alt=""
+      width={228}
+      height={228}
+      unoptimized
       aria-hidden="true"
+      style={{ opacity: dimmed ? 0.33 : 1 }}
     />
   )
 }
@@ -684,45 +687,50 @@ export default function PenguinSprite({
   const highCoffee = coffeeCount >= 3
 
   return (
-    <svg
+    <span
       className={`penguin-sprite${large ? ' penguin-sprite-large' : ''}`}
-      viewBox="0 0 260 230"
       role="img"
       aria-label={label}
-      shapeRendering="geometricPrecision"
     >
-      <g opacity={upcoming ? 0.33 : 1}>
-        <CanonicalMascot />
+      <CanonicalMascot dimmed={upcoming} />
 
-        {!special ? (
-          <Sparkles intense={highCoffee || workBucket === '10-plus'} />
-        ) : null}
+      <svg
+        className="penguin-sprite-overlay"
+        viewBox="0 0 260 230"
+        aria-hidden="true"
+        shapeRendering="geometricPrecision"
+      >
+        <g opacity={upcoming ? 0.33 : 1}>
+          {!special ? (
+            <Sparkles intense={highCoffee || workBucket === '10-plus'} />
+          ) : null}
 
-        {special ? (
-          <SpecialScene mode={mode} />
-        ) : (
-          <>
-            <ActivityProp workBucket={workBucket} />
-            <CoffeeCups count={coffeeCount} />
-            <StressCues level={stressLevel} />
-          </>
-        )}
-      </g>
-
-      {upcoming ? (
-        <g aria-hidden="true">
-          <path
-            d="M91 143 Q91 136 98 136 H141 Q148 136 148 143 V172 Q148 179 141 179 H98 Q91 179 91 172 Z"
-            fill="var(--paper)"
-            stroke="var(--ash)"
-            strokeWidth="3.5"
-          />
-          <path d="M91 149 H148" stroke="var(--ash)" strokeWidth="7" />
-          <circle cx="108" cy="160" r="3" fill="var(--stone)" />
-          <circle cx="120" cy="160" r="3" fill="var(--stone)" />
-          <circle cx="132" cy="160" r="3" fill="var(--stone)" />
+          {special ? (
+            <SpecialScene mode={mode} />
+          ) : (
+            <>
+              <ActivityProp workBucket={workBucket} />
+              <CoffeeCups count={coffeeCount} />
+              <StressCues level={stressLevel} />
+            </>
+          )}
         </g>
-      ) : null}
-    </svg>
+
+        {upcoming ? (
+          <g aria-hidden="true">
+            <path
+              d="M91 143 Q91 136 98 136 H141 Q148 136 148 143 V172 Q148 179 141 179 H98 Q91 179 91 172 Z"
+              fill="var(--paper)"
+              stroke="var(--ash)"
+              strokeWidth="3.5"
+            />
+            <path d="M91 149 H148" stroke="var(--ash)" strokeWidth="7" />
+            <circle cx="108" cy="160" r="3" fill="var(--stone)" />
+            <circle cx="120" cy="160" r="3" fill="var(--stone)" />
+            <circle cx="132" cy="160" r="3" fill="var(--stone)" />
+          </g>
+        ) : null}
+      </svg>
+    </span>
   )
 }

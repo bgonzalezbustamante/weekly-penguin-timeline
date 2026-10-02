@@ -297,13 +297,35 @@ h1 {
 }
 
 .penguin-sprite {
+  position: relative;
   width: min(100%, 188px);
-  height: auto;
+  aspect-ratio: 260 / 230;
+  display: block;
   filter: drop-shadow(0 6px 7px rgba(0, 33, 71, 0.08));
 }
 
 .penguin-sprite-large {
   width: min(100%, 350px);
+}
+
+.penguin-sprite-baseline {
+  position: absolute;
+  top: 0;
+  left: 6.15%;
+  width: 87.7%;
+  height: 99.1%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
+.penguin-sprite-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
 }
 
 .day-footer {
