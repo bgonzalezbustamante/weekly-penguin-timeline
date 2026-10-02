@@ -32,7 +32,7 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Timeline behaviour',
         items: [
-          'Kept Sunday and other overrides as special states, moved their labels to the card footer and simplified the legend to Special state.',
+          'Kept Sunday and other overrides as special states, added labelled Sunday-style manual overrides for Christian holidays, moved labels to the card footer and simplified the legend to Special state.',
           'Made Sunday, winter holiday, summer holiday, trip and sickness visually distinct with dedicated scene props and expressions.',
           'Kept future days visually distinct from genuine zero-activity days and switched displayed dates to British short-date formatting such as 28 Sept 2026.',
         ],
@@ -40,8 +40,9 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Data and testing',
         items: [
-          'Kept the timeline on live Academic API data only, with green connected and muted-red unavailable status points.',
-          'Added an interactive tester for exploring work/coffee combinations and special states, plus a complete 36-state visual QA matrix and special-state gallery.',
+          'Kept the timeline on live Academic API data only, linked the status label to the public API page, and retained green connected and muted-red unavailable indicators.',
+          'Added regression tests for state boundaries, labelled Sunday-style holidays, override precedence, missing data, New Year week boundaries and deterministic asset resolution.',
+          'Kept the interactive tester and complete 36-state visual QA matrix while simplifying the tester readout.',
         ],
       },
       {
