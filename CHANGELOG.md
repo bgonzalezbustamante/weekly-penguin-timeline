@@ -61,12 +61,15 @@
 - Replaced the fieldset legend treatment with an in-panel Special state heading so the title no longer overlaps the control border.
 - Extended manual special dates with a labelled `sunday` type so Christian holidays can reuse the praying mascot independently of weekday.
 - Ensured a custom label on a manual `sunday` override replaces the default “Sunday” footer label, while automatic Sundays continue to display “Sunday”.
+- Added a `ENABLE_CATHOLIC_FIXED_DATES` switch and recurring fixed Catholic dates for Assumption, All Saints, All Souls, Immaculate Conception, Christmas Eve and Christmas Day; 1 January remains excluded.
+- Applied precedence as manual special date → enabled fixed Catholic date → automatic Sunday → normal/upcoming state.
 
 
 `component hardening`
 
 - Added Vitest regression coverage for all work and coffee bucket boundaries.
 - Added timeline tests for labelled Sunday-style holidays, explicit-override precedence, missing API days and future-day behaviour.
+- Added regression coverage for the fixed Catholic date set, its TRUE/FALSE switch, year expansion, duplicate-year handling and manual-first precedence.
 - Added regression coverage for Monday-to-Sunday weeks crossing New Year, British date formatting and working-time formatting.
 - Added deterministic asset-resolver tests for canonical, activity, Sunday and Upcoming states.
 - Added the unit test suite to `npm run check` and GitHub Actions CI.
