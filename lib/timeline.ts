@@ -27,6 +27,7 @@ const COFFEE_LABELS: Record<CoffeeBucket, string> = {
 }
 
 const SPECIAL_LABELS: Record<SpecialDayType, string> = {
+  sunday: 'Sunday',
   'winter-holiday': 'Winter holiday',
   'summer-holiday': 'Summer holiday',
   trip: 'Trip',
