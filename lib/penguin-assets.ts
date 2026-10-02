@@ -52,5 +52,5 @@ export function resolvePenguinAsset({
     return '/penguins/canonical-baseline.webp'
   }
 
-  return `/penguins/states/work-${workBucket}__coffee-${coffeeBucket}.png`
+  return `/penguins/states/webp/work-${workBucket}__coffee-${coffeeBucket}.webp`
 }
