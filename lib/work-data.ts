@@ -8,7 +8,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-function assertNonNegativeFiniteNumber(value: unknown, label: string) {
+function assertNonNegativeFiniteNumber(
+  value: unknown,
+  label: string
+): asserts value is number {
   if (
     typeof value !== 'number' ||
     !Number.isFinite(value) ||
@@ -18,7 +21,10 @@ function assertNonNegativeFiniteNumber(value: unknown, label: string) {
   }
 }
 
-function assertNonNegativeInteger(value: unknown, label: string) {
+function assertNonNegativeInteger(
+  value: unknown,
+  label: string
+): asserts value is number {
   assertNonNegativeFiniteNumber(value, label)
 
   if (!Number.isInteger(value)) {
