@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import type {
   CoffeeBucket,
   PenguinMode,
@@ -657,21 +655,6 @@ function SpecialScene({ mode }: { mode: PenguinMode }) {
   return null
 }
 
-function CanonicalMascot({ dimmed }: { dimmed: boolean }) {
-  return (
-    <Image
-      className="penguin-sprite-baseline"
-      src="/penguins/canonical-baseline.svg"
-      alt=""
-      width={228}
-      height={228}
-      unoptimized
-      aria-hidden="true"
-      style={{ opacity: dimmed ? 0.33 : 1 }}
-    />
-  )
-}
-
 export default function PenguinSprite({
   mode,
   workBucket,
@@ -688,11 +671,16 @@ export default function PenguinSprite({
 
   return (
     <span
-      className={`penguin-sprite${large ? ' penguin-sprite-large' : ''}`}
+      className={[
+        'penguin-sprite',
+        large ? 'penguin-sprite-large' : '',
+        upcoming ? 'is-upcoming' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       role="img"
       aria-label={label}
     >
-      <CanonicalMascot dimmed={upcoming} />
 
       <svg
         className="penguin-sprite-overlay"
