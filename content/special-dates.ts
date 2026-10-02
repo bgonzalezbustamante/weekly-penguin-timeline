@@ -19,7 +19,6 @@ export const CATHOLIC_FIXED_DATES = [
  * summer-holiday
  * trip
  * sick
- *
  * Manual entries take precedence over enabled built-in Catholic dates.
  */
 export const specialDates: SpecialDate[] = [
