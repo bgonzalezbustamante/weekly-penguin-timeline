@@ -34,14 +34,14 @@ export const releases: ReleaseNote[] = [
         items: [
           'Kept Sunday and other overrides as special states, added labelled Sunday-style manual overrides, and added a switchable fixed Catholic set for Assumption, All Saints, All Souls, Immaculate Conception, Christmas Eve and Christmas Day.',
           'Made Sunday, winter holiday, summer holiday, trip and sickness visually distinct with dedicated scene props and expressions.',
-          'Kept future days visually distinct from genuine zero-activity days and switched displayed dates to British short-date formatting such as 28 Sept 2026.',
+          'Kept future days visually distinct from genuine zero-activity days, added a nine-week browser spanning four weeks either side of the current week, and retained British short-date formatting such as 28 Sept 2026.',
         ],
       },
       {
         title: 'Data and testing',
         items: [
           'Kept the timeline on live Academic API data only, validated the yearly payload before rendering, avoided unsupported future-year requests, linked the status label to the public API page, and retained green connected and muted-red unavailable indicators.',
-          'Added regression tests for state boundaries, strict API payload validation, special-date rules and precedence, New Year API availability, DST-sensitive week boundaries and deterministic asset resolution.',
+          'Added regression tests for state boundaries, strict API payload validation, special-date rules and precedence, nine-week pagination, New Year API availability, DST-sensitive week boundaries and deterministic asset resolution.',
           'Kept the interactive tester and complete 36-state visual QA matrix while simplifying the tester readout.',
         ],
       },
