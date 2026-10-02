@@ -26,7 +26,7 @@ The proof-of-concept separates:
 
 1. `lib/work-analytics.ts` — Academic API adapter.
 2. `lib/timeline.ts` — date, bucket and override resolution.
-3. `public/penguins/canonical-baseline.svg` — approved canonical mascot asset.
+3. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
 4. `components/penguin-sprite.tsx` — deterministic work, coffee, stress and special-state overlays around the canonical mascot.
 5. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
 6. `components/penguin-state-tester.tsx` — interactive state inspector.
