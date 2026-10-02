@@ -103,14 +103,16 @@ export default function PenguinStateGallery() {
 
       <div className="special-gallery" aria-label="Special penguin states">
         {SPECIAL_STATES.map((state) => (
-          <article className="special-gallery-card" key={state.mode}>
-            <PenguinSprite
-              mode={state.mode}
-              workBucket="zero"
-              coffeeBucket="zero"
-              label={state.label}
-            />
-            <strong>{state.label}</strong>
+          <div className="special-gallery-item" key={state.mode}>
+            <article className="special-gallery-card">
+              <PenguinSprite
+                mode={state.mode}
+                workBucket="zero"
+                coffeeBucket="zero"
+                label={state.label}
+              />
+              <strong>{state.label}</strong>
+            </article>
             {state.mode === 'sunday' ? (
               <span className="special-gallery-note">
                 <svg
@@ -127,7 +129,7 @@ export default function PenguinStateGallery() {
                 </span>
               </span>
             ) : null}
-          </article>
+          </div>
         ))}
       </div>
     </section>
