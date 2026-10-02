@@ -5,6 +5,7 @@ import {
   getConfiguredSpecialDates,
   specialDates,
 } from '@/content/special-dates'
+import { assertValidSpecialDateRules } from '@/lib/special-date-rules'
 import { buildWeeklyTimeline } from '@/lib/timeline'
 
 describe('fixed Catholic celebrations', () => {
@@ -77,5 +78,78 @@ describe('fixed Catholic celebrations', () => {
     const builtIns = configured.slice(specialDates.length)
 
     expect(builtIns).toHaveLength(6)
+  })
+
+  it('rejects impossible manual calendar dates', () => {
+    expect(() =>
+      assertValidSpecialDateRules([
+        {
+          date: '2027-02-29',
+          type: 'sunday',
+          label: 'Invalid leap day',
+        },
+      ])
+    ).toThrow('valid YYYY-MM-DD calendar date')
+  })
+
+  it('rejects reversed manual date ranges', () => {
+    expect(() =>
+      assertValidSpecialDateRules([
+        {
+          from: '2027-08-20',
+          to: '2027-08-15',
+          type: 'summer-holiday',
+        },
+      ])
+    ).toThrow('start on or before it ends')
+  })
+
+  it('rejects overlapping manual rules when ambiguity is not allowed', () => {
+    expect(() =>
+      assertValidSpecialDateRules(
+        [
+          {
+            from: '2027-08-10',
+            to: '2027-08-20',
+            type: 'summer-holiday',
+          },
+          {
+            date: '2027-08-15',
+            type: 'sunday',
+            label: 'Assumption',
+          },
+        ],
+        { allowOverlaps: false }
+      )
+    ).toThrow('rules 1 and 2 overlap')
+  })
+
+  it('allows ordered overlap when applying manual-over-built-in precedence', () => {
+    expect(() =>
+      assertValidSpecialDateRules([
+        {
+          date: '2027-12-24',
+          type: 'trip',
+          label: 'Travel',
+        },
+        {
+          date: '2027-12-24',
+          type: 'sunday',
+          label: 'Christmas Eve',
+        },
+      ])
+    ).not.toThrow()
+  })
+
+  it('rejects empty custom labels', () => {
+    expect(() =>
+      assertValidSpecialDateRules([
+        {
+          date: '2027-03-26',
+          type: 'sunday',
+          label: '   ',
+        },
+      ])
+    ).toThrow('label must be a non-empty string')
   })
 })
