@@ -5,6 +5,7 @@ import {
   getConfiguredSpecialDates,
   specialDates,
 } from '@/content/special-dates'
+import { buildWeeklyTimeline } from '@/lib/timeline'
 
 describe('fixed Catholic celebrations', () => {
   it('defines the compact fixed-date set without 1 January', () => {
@@ -35,8 +36,11 @@ describe('fixed Catholic celebrations', () => {
       { date: '2027-12-25', type: 'sunday', label: 'Christmas Day' },
     ])
 
-    expect(builtIns.some((entry) => 'date' in entry && entry.date.endsWith('-01-01')))
-      .toBe(false)
+    expect(
+      builtIns.some(
+        (entry) => 'date' in entry && entry.date.endsWith('-01-01')
+      )
+    ).toBe(false)
   })
 
   it('returns only manual overrides when fixed celebrations are disabled', () => {
@@ -51,6 +55,20 @@ describe('fixed Catholic celebrations', () => {
       date: '2026-08-15',
       type: 'sunday',
       label: 'Assumption',
+    })
+  })
+
+  it('feeds fixed celebrations into the normal Sunday-style timeline state', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2027-12-25T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+      specialDates: getConfiguredSpecialDates([2027], true),
+    })
+
+    expect(timeline.find((day) => day.date === '2027-12-25')).toMatchObject({
+      mode: 'sunday',
+      specialLabel: 'Christmas Day',
     })
   })
 
