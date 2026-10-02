@@ -24,7 +24,7 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Penguin states',
         items: [
-          'Adopted the approved glossy kawaii penguin as the canonical baseline and now render it from a cache-busted standalone asset as the background layer beneath work, coffee, stress and special-state overlays.',
+          'Adopted the approved high-quality PNG as the single canonical penguin baseline, rendered directly beneath the work, coffee, stress and special-state overlays.',
           'Kept the visual palette aligned with the Academic Website while reducing the deliberately pixel-like treatment.',
           'Standardised both work and coffee into six bands, producing 36 normal combinations with progressively stronger workload, coffee and stress cues.',
         ],
