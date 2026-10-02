@@ -43,6 +43,7 @@ export default function PenguinSprite({
         src={src}
         alt={label}
         fill
+        unoptimized
         sizes={large ? '(max-width: 760px) 280px, 350px' : '188px'}
       />
     </span>
