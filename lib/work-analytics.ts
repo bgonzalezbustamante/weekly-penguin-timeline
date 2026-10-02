@@ -1,4 +1,5 @@
 import { createPublicSupabaseClient } from '@/lib/supabase'
+import { parsePublicWorkAnalytics } from '@/lib/work-data'
 import type { PublicWorkAnalytics } from '@/types/timeline'
 
 export async function getPublicWorkAnalytics(
@@ -13,11 +14,5 @@ export async function getPublicWorkAnalytics(
     throw new Error(`Could not load public work analytics: ${error.message}`)
   }
 
-  const payload = data as PublicWorkAnalytics | null
-
-  if (!payload || !Array.isArray(payload.days)) {
-    throw new Error('Public work analytics returned an unexpected payload.')
-  }
-
-  return payload
+  return parsePublicWorkAnalytics(data, year)
 }
