@@ -783,6 +783,26 @@ h1 {
   text-align: center;
 }
 
+.special-gallery-note {
+  max-width: 170px;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.28rem;
+  color: var(--ash);
+  font-family: var(--font-roboto), Arial, sans-serif;
+  font-size: 0.58rem;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.special-gallery-note svg {
+  width: 0.7rem;
+  height: 0.7rem;
+  flex: 0 0 0.7rem;
+  margin-top: 0.04rem;
+  color: var(--coral);
+}
+
 .notes-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
