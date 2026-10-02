@@ -106,7 +106,19 @@ h1 {
 }
 
 .source-note strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   color: var(--blue);
+}
+
+.connection-dot {
+  width: 0.52rem;
+  height: 0.52rem;
+  display: inline-block;
+  border-radius: 50%;
+  background: #2f9e44;
+  box-shadow: 0 0 0 3px rgba(47, 158, 68, 0.12);
 }
 
 .timeline-section {
@@ -267,22 +279,23 @@ h1 {
 .sprite-stage {
   display: grid;
   place-items: center;
-  min-height: 181px;
+  min-height: 190px;
   margin-top: 0.2rem;
-  border-radius: 0.45rem;
+  border-radius: 0.55rem;
   background:
-    radial-gradient(circle at 50% 48%, rgba(185, 214, 242, 0.32), transparent 55%),
-    linear-gradient(180deg, rgba(237, 242, 247, 0.8), transparent 80%),
+    radial-gradient(circle at 50% 46%, rgba(185, 214, 242, 0.26), transparent 58%),
+    linear-gradient(180deg, rgba(237, 242, 247, 0.7), transparent 82%),
     var(--paper);
 }
 
 .penguin-sprite {
-  width: min(100%, 180px);
+  width: min(100%, 188px);
   height: auto;
+  filter: drop-shadow(0 6px 7px rgba(0, 33, 71, 0.08));
 }
 
 .penguin-sprite-large {
-  width: min(100%, 330px);
+  width: min(100%, 350px);
 }
 
 .day-footer {
@@ -426,6 +439,68 @@ h1 {
   accent-color: var(--blue);
 }
 
+.control-block.is-overridden {
+  opacity: 0.52;
+}
+
+.special-state-fieldset {
+  margin: 0;
+  border: 1px solid var(--stone);
+  border-radius: 0.55rem;
+  background: var(--blue-wash);
+  padding: 0.85rem;
+}
+
+.special-state-fieldset legend {
+  padding: 0 0.35rem;
+  color: var(--blue);
+  font-family: var(--font-roboto), Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.special-state-fieldset p {
+  margin: 0 0 0.7rem;
+  color: var(--ash);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.special-state-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.special-state-option {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 0.48rem;
+  border: 1px solid var(--stone);
+  border-radius: 0.45rem;
+  background: var(--paper);
+  padding: 0.45rem 0.55rem;
+  color: var(--charcoal);
+  font-family: var(--font-roboto), Arial, sans-serif;
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+
+.special-state-option:has(input:checked) {
+  border-color: var(--aqua);
+  background: rgba(0, 170, 180, 0.075);
+  color: var(--blue);
+  font-weight: 650;
+}
+
+.special-state-option input {
+  width: 0.95rem;
+  height: 0.95rem;
+  margin: 0;
+  accent-color: var(--aqua);
+}
+
 .tester-readout {
   display: flex;
   flex-wrap: wrap;
@@ -559,5 +634,9 @@ h1 {
 
   .tester-preview {
     min-height: 280px;
+  }
+
+  .special-state-options {
+    grid-template-columns: 1fr;
   }
 }

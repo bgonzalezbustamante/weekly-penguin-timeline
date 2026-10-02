@@ -57,9 +57,15 @@ export default async function HomePage() {
             Sundays and manually configured dates can override the normal
             activity state.
           </p>
-          <div className="source-note">
+          <div
+            className={`source-note${error ? ' is-offline' : ' is-online'}`}
+            aria-label={error ? 'Academic API unavailable' : 'Academic API connected'}
+          >
             <span>Data source</span>
-            <strong>Research Dashboard Academic API</strong>
+            <strong>
+              {!error ? <i className="connection-dot" aria-hidden="true" /> : null}
+              Academic API
+            </strong>
           </div>
         </div>
       </section>

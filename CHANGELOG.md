@@ -5,14 +5,14 @@
 ### Summary
 
 - Established the first named alpha release of Weekly Penguin Timeline.
-- Reworked the penguin visual system to better match the intended illustrated pixel-art character while retaining the Academic Website colour palette.
+- Reworked the penguin visual system towards a softer kawaii illustration while retaining the Academic Website colour palette.
 - Added live state inspection and started formal release documentation.
 
 ### Code changes
 
 `penguin visual system`
 
-- Replaced the initial minimal geometric penguin with a richer SVG illustration using the Academic Website Oxford blue, dark blue, coral, aqua, sky blue, off-white and neutral colours.
+- Replaced the harder-edged sprite treatment with a softer kawaii SVG illustration using the Academic Website Oxford blue, dark blue, coral, aqua, sky blue, off-white and neutral colours.
 - Added stronger character details including large glasses, eyes and highlights, blush, beak, body shading, wings and feet.
 - Added state-specific work props: resting state, notes and pencil, open book, laptop, books plus laptop, and an overloaded high-work state.
 - Made coffee intensity visible through progressively accumulated cups and higher-intensity visual accents.
@@ -30,12 +30,14 @@
 - Weekly timeline data now come only from `get_public_work_analytics(year)`.
 - Added an explicit live-data-unavailable state rather than silently substituting fixture values.
 - Marked the demonstration page as dynamically rendered so production builds do not require runtime Academic API credentials.
+- Simplified the visible data-source label to Academic API and added a green connection indicator when the live request succeeds.
 
 `interactive state testing`
 
 - Added a Penguin state tester between the weekly timeline and architecture cards.
 - Added working-hours and coffee sliders that reuse the production state resolver.
 - Displayed the resolved work bucket, coffee bucket and deterministic combined state identifier.
+- Added mutually exclusive tick-box controls for Sunday, winter holiday, summer holiday, trip and sickness states so special illustrations can be tested directly.
 
 `release documentation`
 
