@@ -10,6 +10,11 @@ import type { SpecialDate } from '@/types/timeline'
 export const specialDates: SpecialDate[] = [
   // Examples:
   // {
+  //   date: '2027-03-26',
+  //   type: 'sunday',
+  //   label: 'Good Friday',
+  // },
+  // {
   //   from: '2026-12-21',
   //   to: '2027-01-03',
   //   type: 'winter-holiday',
