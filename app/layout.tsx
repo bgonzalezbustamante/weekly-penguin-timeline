@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Noto_Serif, Roboto } from 'next/font/google'
 import type { ReactNode } from 'react'
 
+import SiteFooter from '@/components/site-footer'
 import './globals.css'
 
 const roboto = Roboto({
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.variable} ${notoSerif.variable}`}>
         {children}
+        <SiteFooter />
       </body>
     </html>
   )

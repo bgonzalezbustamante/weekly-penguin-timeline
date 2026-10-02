@@ -50,7 +50,7 @@ That separation is deliberate: the canonical mascot remains the immutable visual
 Requires Node.js 22 or later.
 
 ```bash
-npm install
+npm ci
 cp .env.example .env.local
 npm run dev
 ```
@@ -124,10 +124,43 @@ npm run check
 
 `npm run check` validates the PNG masters, lints, type-checks and runs the unit test suite.
 
+## Standalone deployment
+
+The recommended standalone host is `timeline.bgonzalezbustamante.com`. Netlify can deploy the repository directly as a Next.js site using the normal production build:
+
+```bash
+npm ci
+npm run build
+```
+
+Configure the same public Academic API environment variables used locally:
+
+```text
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
+```
+
+Add `timeline.bgonzalezbustamante.com` as the Netlify custom domain and follow Netlify's DNS instructions for the subdomain. No service-role credential is required or expected.
+
+## Academic Website integration
+
+The intended production integration is a source-level transplant into `bgonzalezbustamante/academic-website`, not an iframe or runtime dependency on the standalone Netlify deployment.
+
+For the Home-page integration:
+
+1. Move `components/weekly-penguin-timeline.tsx` and `components/penguin-sprite.tsx`.
+2. Move the timeline support modules: `lib/timeline.ts`, `lib/date-utils.ts`, `lib/work-data.ts`, `lib/special-date-rules.ts`, `lib/penguin-assets.ts`, `content/special-dates.ts`, and the relevant timeline types.
+3. Reuse the Academic Website's existing public Supabase client and `get_public_work_analytics(year)` adapter rather than introducing a second API connection. Bring the stricter payload validation from this repository with the component.
+4. Copy the approved penguin PNG masters and the asset-generation script. Merge penguin asset generation into the Academic Website's existing `predev`/`prebuild` workflow rather than replacing its current profile-sync steps.
+5. Port only the Weekly timeline CSS and map the PoC colour variables to the Academic Website's existing Oxford variables.
+6. Build the nine-week window on the Home page and pass the resulting `weeks` into `WeeklyPenguinTimeline`.
+
+The standalone hero, state tester, visual QA matrix, release notes, and footer are development/demo surfaces and should not be copied into the Academic Website unless separately wanted.
+
 ## Release documentation
 
-`CHANGELOG.md` contains the technical record. `lib/releases.ts` contains the shorter reader-facing release notes shown on the demonstration page.
+`CHANGELOG.md` contains the technical record. `lib/releases.ts` contains the shorter reader-facing release notes shown on the demonstration page. Both will be consolidated before the first public release.
 
-## Intended integration
+## Licensing
 
-The PoC is designed for eventual use in the Academic Website Home page, but integration is intentionally out of scope for this repository until the state model, visual language and special-date behaviour are approved.
+A repository licence has not yet been selected. The Creative Commons mark in the standalone footer mirrors the Academic Website presentation and should not be read as a software-licence grant. The final release should state separate terms for source code and original visual assets before the repository is made public.
