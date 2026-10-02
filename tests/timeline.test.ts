@@ -209,6 +209,15 @@ describe('week and display helpers', () => {
     expect(yearsForWorkAnalytics(now, 'Europe/Amsterdam')).toEqual([2026])
   })
 
+  it('does not request years below the Academic API lower bound', () => {
+    expect(
+      yearsForCurrentWeek(new Date('2000-01-01T12:00:00Z'), 'UTC')
+    ).toEqual([1999, 2000])
+    expect(
+      yearsForWorkAnalytics(new Date('2000-01-01T12:00:00Z'), 'UTC')
+    ).toEqual([2000])
+  })
+
   it('formats dates with the preferred Sept abbreviation', () => {
     expect(formatDisplayDate('2026-09-28')).toBe('28 Sept 2026')
   })
