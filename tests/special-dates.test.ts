@@ -13,7 +13,7 @@ describe('fixed Catholic celebrations', () => {
       { monthDay: '08-15', label: 'Assumption' },
       { monthDay: '11-01', label: 'All Saints' },
       { monthDay: '11-02', label: 'All Souls' },
-      { monthDay: '12-08', label: 'Immaculate Conception' },
+      { monthDay: '12-08', label: 'Immaculate' },
       { monthDay: '12-24', label: 'Christmas Eve' },
       { monthDay: '12-25', label: 'Christmas Day' },
     ])
@@ -30,7 +30,7 @@ describe('fixed Catholic celebrations', () => {
       {
         date: '2027-12-08',
         type: 'sunday',
-        label: 'Immaculate Conception',
+        label: 'Immaculate',
       },
       { date: '2027-12-24', type: 'sunday', label: 'Christmas Eve' },
       { date: '2027-12-25', type: 'sunday', label: 'Christmas Day' },
