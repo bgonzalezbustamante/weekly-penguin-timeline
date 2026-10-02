@@ -40,6 +40,8 @@
 - Allowed the Penguin state tester and visual-QA introductory copy to use the full section width.
 - Formatted timeline dates in British style, for example `28 Sept 2026`.
 - Renamed the timeline legend category from `Manual override / Sunday` to `Special state`.
+- Added weekly pagination across nine pages: four weeks before the current week, the current week, and four weeks after, with direct week buttons plus Older/Newer controls.
+- Kept Today and Upcoming semantics anchored to the real current date while browsing adjacent weeks.
 
 `Academic API`
 
@@ -51,6 +53,7 @@
 - Linked the Academic API status label to `https://dashboard.bgonzalezbustamante.com/api`.
 - Added strict runtime validation for the public work-analytics payload: expected year, annual averages, valid/unique calendar dates, non-negative integer daily metrics and complete 365/366-day coverage.
 - Prevented New Year-crossing weeks from requesting a future calendar year that the upstream Academic API rejects, while retaining both displayed calendar years for special-date resolution.
+- Expanded API-year discovery to the nine-week pagination window, fetching previous-year data when required while never requesting unsupported future years.
 
 `interactive state testing`
 
@@ -76,6 +79,7 @@
 - Added regression coverage for Monday-to-Sunday weeks crossing New Year, British date formatting and working-time formatting.
 - Added deterministic asset-resolver tests for canonical, activity, Sunday and Upcoming states.
 - Added regression tests for malformed/incomplete work data, duplicate daily rows, strict numeric inputs, New Year API availability and Europe/Amsterdam DST week boundaries.
+- Added pagination regression coverage for the -4…+4 week window, offset resolution, current-day anchoring and cross-year API loading.
 - Added the unit test suite to `npm run check` and GitHub Actions CI.
 
 `release documentation`

@@ -71,3 +71,12 @@ export type TimelineDay = {
   mode: PenguinMode
   specialLabel: string | null
 }
+
+
+export type TimelineWeek = {
+  offset: number
+  startDate: string
+  endDate: string
+  isCurrentWeek: boolean
+  days: TimelineDay[]
+}

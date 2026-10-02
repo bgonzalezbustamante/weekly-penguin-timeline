@@ -164,6 +164,122 @@ h1 {
   max-width: none;
 }
 
+.week-pagination-scroll {
+  overflow-x: auto;
+  margin: 0 0 0.7rem;
+  padding: 0 0 0.35rem;
+  scrollbar-width: thin;
+}
+
+.week-pagination {
+  min-width: 940px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.55rem;
+  align-items: stretch;
+}
+
+.week-pages {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(72px, 1fr));
+  gap: 0.4rem;
+}
+
+.week-nav-button,
+.week-page-button {
+  border: 1px solid var(--stone);
+  border-radius: 0.48rem;
+  background: var(--paper);
+  color: var(--blue);
+  font-family: var(--font-roboto), Arial, sans-serif;
+  cursor: pointer;
+}
+
+.week-nav-button {
+  min-width: 84px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.32rem;
+  padding: 0.48rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.week-page-button {
+  min-height: 52px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.06rem;
+  padding: 0.38rem 0.3rem;
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+
+.week-page-button span {
+  font-weight: 700;
+}
+
+.week-page-button small {
+  color: var(--ash);
+  font-size: 0.6rem;
+}
+
+.week-page-button.is-current-week {
+  border-color: rgba(254, 97, 90, 0.42);
+}
+
+.week-page-button.is-selected {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: var(--paper);
+  box-shadow: 0 0 0 2px rgba(0, 33, 71, 0.08);
+}
+
+.week-page-button.is-selected small {
+  color: var(--off-white);
+}
+
+.week-nav-button:hover:not(:disabled),
+.week-page-button:hover:not(.is-selected),
+.week-nav-button:focus-visible,
+.week-page-button:focus-visible {
+  border-color: var(--aqua);
+  outline: none;
+}
+
+.week-nav-button:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.selected-week-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.7rem;
+  margin: 0.2rem 0 0.45rem;
+  color: var(--ash);
+  font-family: var(--font-roboto), Arial, sans-serif;
+  font-size: 0.72rem;
+}
+
+.selected-week-heading strong {
+  color: var(--blue);
+  font-size: 0.78rem;
+}
+
+.selected-week-heading span {
+  display: inline-flex;
+  border-radius: 999px;
+  background: rgba(254, 97, 90, 0.09);
+  padding: 0.18rem 0.4rem;
+  color: var(--coral);
+  font-size: 0.64rem;
+  font-weight: 700;
+}
+
 .timeline-scroll {
   overflow-x: auto;
   padding: 0.25rem 0.15rem 0.8rem;
