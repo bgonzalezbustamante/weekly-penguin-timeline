@@ -17,6 +17,7 @@ This repository is intentionally separate from `academic-website`. Development a
 - Supports toggleable fixed Catholic celebrations that reuse the Sunday illustration with celebration-specific labels.
 - Supports manual overrides for Sunday-style holidays, winter holiday, summer holiday, trip, and sick dates.
 - Treats future days as Upcoming rather than falsely displaying zero activity.
+- Paginates the weekly timeline across a fixed nine-week window: four weeks before, the current week, and four weeks after.
 - Marks the current day as provisional with “so far”.
 - Uses the Academic Website Oxford palette and typography hierarchy.
 - Includes an interactive state tester for inspecting any work/coffee combination.
@@ -34,7 +35,7 @@ The proof-of-concept separates:
 7. `public/penguins/states/` — 36 validated activity PNG masters plus five validated special-state PNG masters.
 8. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
 9. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
-10. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
+10. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation with nine-week client-side pagination.
 11. `components/penguin-state-tester.tsx` — interactive state inspector.
 12. `components/penguin-state-gallery.tsx` — complete visual QA matrix for the 36 normal states and five special states.
 13. `content/special-dates.ts` — manual date overrides plus the toggleable fixed Catholic celebration set.
@@ -114,7 +115,7 @@ Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 
 
 ## Component hardening
 
-The alpha component includes regression coverage for work and coffee bucket boundaries, strict Academic API payload validation, duplicate and incomplete daily data, special-date validation and precedence, New Year API availability boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. The API loader does not request a future calendar year that the upstream RPC rejects; fixed and manual special dates can still resolve across the full displayed week.
+The alpha component includes regression coverage for work and coffee bucket boundaries, strict Academic API payload validation, duplicate and incomplete daily data, special-date validation and precedence, the nine-week pagination window, New Year API availability boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. The browser preloads only the calendar years required for four weeks before through four weeks after the current week. The API loader does not request a future calendar year that the upstream RPC rejects; fixed and manual special dates can still resolve across the full nine-week window.
 
 ```bash
 npm run test
