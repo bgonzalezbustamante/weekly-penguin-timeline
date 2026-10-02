@@ -11,6 +11,7 @@ import type {
   SpecialDate,
   SpecialDayType,
   TimelineDay,
+  TimelineWeek,
   WorkBucket,
 } from '@/types/timeline'
 
@@ -107,17 +108,23 @@ export function buildWeeklyTimeline({
   timeZone = 'Europe/Amsterdam',
   days,
   specialDates = [],
+  weekOffset = 0,
 }: {
   now?: Date
   timeZone?: string
   days: PublicWorkDay[]
   specialDates?: SpecialDate[]
+  weekOffset?: number
 }): TimelineDay[] {
   assertValidPublicWorkDays(days)
   assertValidSpecialDateRules(specialDates)
 
+  if (!Number.isInteger(weekOffset)) {
+    throw new Error('Week offset must be an integer.')
+  }
+
   const today = isoDateInTimeZone(now, timeZone)
-  const monday = mondayFor(today)
+  const monday = addDays(mondayFor(today), weekOffset * 7)
   const byDate = new Map(days.map((day) => [day.date, day]))
 
   return Array.from({ length: 7 }, (_, index) => {
@@ -161,27 +168,108 @@ export function buildWeeklyTimeline({
   })
 }
 
+function assertWeekWindow(pastWeeks: number, futureWeeks: number) {
+  if (
+    !Number.isInteger(pastWeeks) ||
+    !Number.isInteger(futureWeeks) ||
+    pastWeeks < 0 ||
+    futureWeeks < 0
+  ) {
+    throw new Error('Week window sizes must be non-negative integers.')
+  }
+}
+
+export function yearsForTimelineWindow(
+  now = new Date(),
+  timeZone = 'Europe/Amsterdam',
+  pastWeeks = 4,
+  futureWeeks = 4
+) {
+  assertWeekWindow(pastWeeks, futureWeeks)
+
+  const today = isoDateInTimeZone(now, timeZone)
+  const currentMonday = mondayFor(today)
+  const years = new Set<number>()
+
+  for (let offset = -pastWeeks; offset <= futureWeeks; offset += 1) {
+    const monday = addDays(currentMonday, offset * 7)
+    const sunday = addDays(monday, 6)
+    years.add(Number(monday.slice(0, 4)))
+    years.add(Number(sunday.slice(0, 4)))
+  }
+
+  return Array.from(years).sort((left, right) => left - right)
+}
+
 export function yearsForCurrentWeek(
   now = new Date(),
   timeZone = 'Europe/Amsterdam'
 ) {
-  const today = isoDateInTimeZone(now, timeZone)
-  const monday = mondayFor(today)
-  const sunday = addDays(monday, 6)
-  return Array.from(
-    new Set([Number(monday.slice(0, 4)), Number(sunday.slice(0, 4))])
-  )
+  return yearsForTimelineWindow(now, timeZone, 0, 0)
+}
+
+export function yearsForWorkAnalyticsWindow(
+  now = new Date(),
+  timeZone = 'Europe/Amsterdam',
+  pastWeeks = 4,
+  futureWeeks = 4
+) {
+  const latestApiYear = now.getUTCFullYear()
+
+  return yearsForTimelineWindow(
+    now,
+    timeZone,
+    pastWeeks,
+    futureWeeks
+  ).filter((year) => year >= 2000 && year <= latestApiYear)
 }
 
 export function yearsForWorkAnalytics(
   now = new Date(),
   timeZone = 'Europe/Amsterdam'
 ) {
-  const latestApiYear = now.getUTCFullYear()
+  return yearsForWorkAnalyticsWindow(now, timeZone, 0, 0)
+}
 
-  return yearsForCurrentWeek(now, timeZone).filter(
-    (year) => year >= 2000 && year <= latestApiYear
-  )
+export function buildTimelineWeeks({
+  now = new Date(),
+  timeZone = 'Europe/Amsterdam',
+  days,
+  specialDates = [],
+  pastWeeks = 4,
+  futureWeeks = 4,
+}: {
+  now?: Date
+  timeZone?: string
+  days: PublicWorkDay[]
+  specialDates?: SpecialDate[]
+  pastWeeks?: number
+  futureWeeks?: number
+}): TimelineWeek[] {
+  assertWeekWindow(pastWeeks, futureWeeks)
+  assertValidPublicWorkDays(days)
+  assertValidSpecialDateRules(specialDates)
+
+  return Array.from(
+    { length: pastWeeks + futureWeeks + 1 },
+    (_, index) => index - pastWeeks
+  ).map((offset) => {
+    const weekDays = buildWeeklyTimeline({
+      now,
+      timeZone,
+      days,
+      specialDates,
+      weekOffset: offset,
+    })
+
+    return {
+      offset,
+      startDate: weekDays[0].date,
+      endDate: weekDays[6].date,
+      isCurrentWeek: offset === 0,
+      days: weekDays,
+    }
+  })
 }
 
 export function formatDisplayDate(value: string) {
