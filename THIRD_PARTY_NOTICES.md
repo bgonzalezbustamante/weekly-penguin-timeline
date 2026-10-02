@@ -8,6 +8,10 @@ Third-party assets, names, logos, trademarks, and other branding are excluded fr
 
 Their inclusion does not grant permission to reproduce, modify, redistribute, or otherwise use that branding beyond rights independently available from the relevant rights holder.
 
+## Font Awesome Creative Commons icon
+
+The Creative Commons mark in `components/site-footer.tsx` reproduces the Font Awesome Free `creative-commons` brand icon used by the associated Academic Website. Font Awesome Free icons are provided under CC BY 4.0 by Fonticons, Inc. The icon remains subject to Font Awesome's applicable licence and trademark terms.
+
 ## Software dependencies
 
 Third-party software dependencies are distributed under their own licences. Their package metadata and resolved versions are recorded in `package.json` and `package-lock.json`. The project's MIT licence does not replace or supersede those dependency licences.
