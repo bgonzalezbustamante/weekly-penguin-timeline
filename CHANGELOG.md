@@ -20,9 +20,9 @@
 - Retired the hand-authored baseline shell and face from the runtime renderer after approving a canonical glossy mascot image.
 - Replaced the incomplete low-quality SVG wrapper assets with the user-supplied `public/penguins/canonical-baseline.png`. The PNG is the immutable mascot ground truth.
 - Replaced runtime-drawn work, coffee, stress and special-state SVG overlays with the complete approved PNG asset set: 36 normal work × coffee states and five special states.
-- Added `lib/penguin-assets.ts` as the deterministic asset resolver. The canonical baseline is used directly for the 0h + 0 coffee state and for the dimmed Upcoming treatment.
+- Added `lib/penguin-assets.ts` as the deterministic asset resolver. The canonical baseline is used directly for the 0h + 0 coffee state and for upcoming Saturdays; `working-day.png` is used for upcoming Monday–Friday dates.
 - Simplified `PenguinSprite` to render resolved approved assets through Next.js Image while retaining PNG masters in the repository.
-- Marked the complete 36-state activity matrix and five special-state images as the validated visual set for alpha.1.
+- Marked the complete 36-state activity matrix, five special-state images and dedicated upcoming working-day image as the validated visual set for alpha.1.
 - Added automated integrity checks for the canonical baseline and all 42 state PNG masters, including the dedicated upcoming working-day scene, filename coverage, PNG structure, minimum dimensions and transparency diagnostics.
 - Added incremental WebP generation for development and production builds. PNG masters remain unchanged and generated WebP runtime assets are ignored by Git.
 - Switched runtime rendering to the generated WebP files and disabled redundant Next.js image reprocessing for these already-optimised assets.
@@ -67,7 +67,7 @@
 - Extended manual special dates with a labelled `sunday` type so Christian holidays can reuse the praying mascot independently of weekday.
 - Ensured a custom label on a manual `sunday` override replaces the default “Sunday” footer label, while automatic Sundays continue to display “Sunday”.
 - Added a `ENABLE_CATHOLIC_FIXED_DATES` switch and recurring fixed Catholic dates for Assumption, All Saints, All Souls, Immaculate Conception, Christmas Eve and Christmas Day; 1 January remains excluded.
-- Applied precedence as manual special date → enabled fixed Catholic date → automatic Sunday → normal/upcoming state.
+- Applied precedence as manual special date → enabled fixed Catholic date → future weekday/weekend rule or automatic Sunday → normal activity state.
 
 
 `component hardening`
@@ -77,7 +77,7 @@
 - Added regression coverage for the fixed Catholic date set, its TRUE/FALSE switch, year expansion, duplicate-year handling and manual-first precedence.
 - Added runtime validation for manual special-date rules, including impossible dates, reversed ranges, empty labels and ambiguous overlaps; ordered manual-over-built-in overlap remains supported.
 - Added regression coverage for Monday-to-Sunday weeks crossing New Year, British date formatting and working-time formatting.
-- Added deterministic asset-resolver tests for canonical, activity, Sunday and Upcoming states.
+- Added deterministic asset-resolver tests for canonical, activity, Sunday, future working-day and generic Upcoming states.
 - Added regression tests for malformed/incomplete work data, duplicate daily rows, strict numeric inputs, New Year API availability and Europe/Amsterdam DST week boundaries.
 - Added pagination regression coverage for the -4…+4 week window, offset resolution, current-day anchoring and cross-year API loading.
 - Added the unit test suite to `npm run check` and GitHub Actions CI.
