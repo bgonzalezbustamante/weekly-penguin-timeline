@@ -27,14 +27,17 @@ The proof-of-concept separates:
 1. `lib/work-analytics.ts` — Academic API adapter.
 2. `lib/timeline.ts` — date, bucket and override resolution.
 3. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
-4. `components/penguin-sprite.tsx` — deterministic work, coffee, stress and special-state overlays around the canonical mascot.
-5. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
-6. `components/penguin-state-tester.tsx` — interactive state inspector.
-7. `content/special-dates.ts` — manual date overrides.
-8. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
-9. `app/page.tsx` — demonstration page only.
+4. `lib/penguin-assets.ts` — deterministic mapping from resolved state to approved image asset.
+5. `public/penguins/states/` — 36 approved activity PNGs plus five approved special-state PNGs.
+6. `components/penguin-sprite.tsx` — lightweight image renderer for the resolved asset.
+7. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
+8. `components/penguin-state-tester.tsx` — interactive state inspector.
+9. `components/penguin-state-gallery.tsx` — complete visual QA matrix for the 36 normal states and five special states.
+10. `content/special-dates.ts` — manual date overrides.
+11. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
+12. `app/page.tsx` — demonstration page only.
 
-That separation is deliberate: the canonical mascot is now an immutable visual baseline, while state logic and overlays remain independent. The timeline component and resolver can later be moved into another Next.js application without retaining the PoC shell.
+That separation is deliberate: the canonical mascot remains the immutable visual ground truth, while each approved state is a complete derived image rather than a runtime SVG composition. State resolution remains independent of presentation, so the timeline can later move into another Next.js application without retaining the PoC shell. Next.js image optimisation can serve efficient runtime formats from the PNG masters without replacing those masters in the repository.
 
 ## Local setup
 
