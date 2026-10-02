@@ -32,7 +32,7 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Timeline behaviour',
         items: [
-          'Kept Sunday and other overrides as special states, added labelled Sunday-style manual overrides for Christian holidays, moved labels to the card footer and simplified the legend to Special state.',
+          'Kept Sunday and other overrides as special states, added labelled Sunday-style manual overrides for Christian holidays, and let custom holiday labels replace the default Sunday footer text.',
           'Made Sunday, winter holiday, summer holiday, trip and sickness visually distinct with dedicated scene props and expressions.',
           'Kept future days visually distinct from genuine zero-activity days and switched displayed dates to British short-date formatting such as 28 Sept 2026.',
         ],

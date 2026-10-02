@@ -140,6 +140,8 @@ export function buildWeeklyTimeline({
       timeZone: 'UTC',
     }).format(parsed)
 
+    const mode = getMode(date, isFuture, special)
+
     return {
       date,
       weekday,
@@ -152,10 +154,14 @@ export function buildWeeklyTimeline({
       coffeeBucket,
       workLabel: WORK_LABELS[workBucket],
       coffeeLabel: COFFEE_LABELS[coffeeBucket],
-      mode: getMode(date, isFuture, special),
+      mode,
       specialLabel:
         special?.label ??
-        (special ? SPECIAL_LABELS[special.type] : null),
+        (special
+          ? SPECIAL_LABELS[special.type]
+          : mode === 'sunday'
+            ? SPECIAL_LABELS.sunday
+            : null),
     }
   })
 }

@@ -78,6 +78,21 @@ describe('weekly timeline resolution', () => {
     })
   })
 
+  it('labels an automatic weekly Sunday as Sunday', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-04T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+    })
+
+    const sunday = timeline.find((day) => day.date === '2026-10-04')
+
+    expect(sunday).toMatchObject({
+      mode: 'sunday',
+      specialLabel: 'Sunday',
+    })
+  })
+
   it('gives explicit overrides priority over the weekly Sunday rule', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-04T12:00:00Z'),
