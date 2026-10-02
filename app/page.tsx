@@ -1,3 +1,5 @@
+import PenguinStateTester from '@/components/penguin-state-tester'
+import ReleaseNotes from '@/components/release-notes'
 import WeeklyPenguinTimeline from '@/components/weekly-penguin-timeline'
 import { specialDates } from '@/content/special-dates'
 import {
@@ -5,19 +7,10 @@ import {
   yearsForCurrentWeek,
 } from '@/lib/timeline'
 import { getPublicWorkAnalytics } from '@/lib/work-analytics'
-import type { PublicWorkDay } from '@/types/timeline'
 
-export const revalidate = 300
+export const dynamic = 'force-dynamic'
 
 const TIME_ZONE = 'Europe/Amsterdam'
-
-const fallbackDays: PublicWorkDay[] = [
-  { date: '2026-09-28', net_minutes: 510, coffee_count: 5 },
-  { date: '2026-09-29', net_minutes: 390, coffee_count: 3 },
-  { date: '2026-09-30', net_minutes: 625, coffee_count: 9 },
-  { date: '2026-10-01', net_minutes: 285, coffee_count: 4 },
-  { date: '2026-10-02', net_minutes: 190, coffee_count: 2 },
-]
 
 async function loadCurrentWeek() {
   const years = yearsForCurrentWeek(new Date(), TIME_ZONE)
@@ -29,23 +22,28 @@ async function loadCurrentWeek() {
 
     return {
       days: results.flatMap((result) => result.days),
-      source: 'Academic API',
+      error: null,
     }
-  } catch {
+  } catch (error) {
     return {
-      days: fallbackDays,
-      source: 'Built-in demo data',
+      days: [],
+      error:
+        error instanceof Error
+          ? error.message
+          : 'The Academic API could not be loaded.',
     }
   }
 }
 
 export default async function HomePage() {
-  const { days, source } = await loadCurrentWeek()
-  const timeline = buildWeeklyTimeline({
-    days,
-    specialDates,
-    timeZone: TIME_ZONE,
-  })
+  const { days, error } = await loadCurrentWeek()
+  const timeline = error
+    ? []
+    : buildWeeklyTimeline({
+        days,
+        specialDates,
+        timeZone: TIME_ZONE,
+      })
 
   return (
     <main>
@@ -61,13 +59,30 @@ export default async function HomePage() {
           </p>
           <div className="source-note">
             <span>Data source</span>
-            <strong>{source}</strong>
+            <strong>Research Dashboard Academic API</strong>
           </div>
         </div>
       </section>
 
       <div className="shell">
-        <WeeklyPenguinTimeline days={timeline} />
+        {error ? (
+          <section className="timeline-section" aria-labelledby="weekly-timeline-title">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">Seven-day view</p>
+                <h2 id="weekly-timeline-title">Weekly timeline</h2>
+              </div>
+            </div>
+            <div className="data-error" role="status">
+              <strong>Live timeline unavailable.</strong>
+              <span>{error}</span>
+            </div>
+          </section>
+        ) : (
+          <WeeklyPenguinTimeline days={timeline} />
+        )}
+
+        <PenguinStateTester />
 
         <section className="notes-grid" aria-label="Proof-of-concept notes">
           <article>
@@ -98,6 +113,8 @@ export default async function HomePage() {
             </p>
           </article>
         </section>
+
+        <ReleaseNotes />
       </div>
     </main>
   )
