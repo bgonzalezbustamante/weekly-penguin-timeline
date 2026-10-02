@@ -20,18 +20,18 @@ const coffeeLevel: Record<CoffeeBucket, number> = {
   '10-plus': 4,
 }
 
-function PixelSparkles({ intense }: { intense: boolean }) {
+function Sparkles({ intense }: { intense: boolean }) {
   return (
-    <g aria-hidden="true" opacity={intense ? 1 : 0.55}>
-      <rect x="34" y="39" width="5" height="5" rx="1" fill="var(--aqua)" />
-      <rect x="28" y="44" width="17" height="3" rx="1" fill="var(--aqua)" />
-      <rect x="35" y="37" width="3" height="19" rx="1" fill="var(--aqua)" />
+    <g aria-hidden="true" opacity={intense ? 1 : 0.7}>
+      <path
+        d="M38 42 L42 50 L50 54 L42 58 L38 66 L34 58 L26 54 L34 50 Z"
+        fill="var(--aqua)"
+      />
       {intense ? (
-        <>
-          <rect x="179" y="35" width="4" height="4" rx="1" fill="var(--coral)" />
-          <rect x="173" y="40" width="16" height="3" rx="1" fill="var(--coral)" />
-          <rect x="180" y="33" width="3" height="18" rx="1" fill="var(--coral)" />
-        </>
+        <path
+          d="M194 38 L198 46 L206 50 L198 54 L194 62 L190 54 L182 50 L190 46 Z"
+          fill="var(--coral)"
+        />
       ) : null}
     </g>
   )
@@ -41,50 +41,43 @@ function CoffeeCups({ count }: { count: number }) {
   if (count === 0) return null
 
   const positions = [
-    { x: 166, y: 119 },
-    { x: 172, y: 138 },
-    { x: 154, y: 146 },
-    { x: 180, y: 157 },
+    { x: 174, y: 128 },
+    { x: 181, y: 150 },
+    { x: 158, y: 159 },
+    { x: 187, y: 174 },
   ]
 
   return (
     <g aria-hidden="true">
       {positions.slice(0, count).map((position, index) => (
         <g key={index} transform={`translate(${position.x} ${position.y})`}>
-          <rect
-            x="0"
-            y="4"
-            width="20"
-            height="13"
-            rx="4"
+          <path
+            d="M0 7 Q0 3 4 3 H20 Q24 3 24 7 V16 Q24 20 20 20 H4 Q0 20 0 16 Z"
             fill="var(--paper)"
-            stroke="var(--blue)"
-            strokeWidth="3"
+            stroke="var(--blue-dark)"
+            strokeWidth="3.2"
           />
           <path
-            d="M20 7 H24 C28 7 28 14 24 14 H20"
+            d="M24 7 H28 Q35 7 35 13 Q35 19 28 19 H24"
             fill="none"
-            stroke="var(--blue)"
+            stroke="var(--blue-dark)"
+            strokeWidth="3.2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M5 9 Q12 6 19 9"
+            fill="none"
+            stroke="var(--coral)"
             strokeWidth="3"
+            strokeLinecap="round"
           />
-          <rect x="4" y="7" width="12" height="4" rx="1" fill="var(--coral)" />
-          <rect
-            x="6"
-            y={index % 2 === 0 ? -2 : -5}
-            width="3"
-            height="5"
-            rx="1"
-            fill="var(--aqua)"
-            opacity="0.72"
-          />
-          <rect
-            x="12"
-            y={index % 2 === 0 ? -5 : -2}
-            width="3"
-            height="6"
-            rx="1"
-            fill="var(--aqua)"
-            opacity="0.5"
+          <path
+            d={index % 2 === 0 ? 'M8 0 Q4 -7 10 -12' : 'M14 0 Q20 -7 14 -12'}
+            fill="none"
+            stroke="var(--aqua)"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            opacity="0.7"
           />
         </g>
       ))}
@@ -95,39 +88,27 @@ function CoffeeCups({ count }: { count: number }) {
 function BookStack() {
   return (
     <g aria-hidden="true">
-      <rect
-        x="19"
-        y="144"
-        width="47"
-        height="11"
-        rx="3"
+      <path
+        d="M19 158 Q19 153 24 153 H68 Q73 153 73 158 V168 Q73 173 68 173 H24 Q19 173 19 168 Z"
         fill="var(--sky)"
-        stroke="var(--blue)"
-        strokeWidth="3"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.2"
       />
-      <rect
-        x="24"
-        y="133"
-        width="44"
-        height="11"
-        rx="3"
+      <path
+        d="M26 142 Q26 137 31 137 H72 Q77 137 77 142 V153 H26 Z"
         fill="var(--paper)"
-        stroke="var(--blue)"
-        strokeWidth="3"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.2"
       />
-      <rect
-        x="16"
-        y="122"
-        width="48"
-        height="11"
-        rx="3"
+      <path
+        d="M15 126 Q15 121 20 121 H66 Q71 121 71 126 V138 H15 Z"
         fill="var(--coral)"
-        stroke="var(--blue)"
-        strokeWidth="3"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.2"
       />
-      <rect x="23" y="126" width="30" height="3" fill="var(--paper)" />
-      <rect x="31" y="137" width="29" height="3" fill="var(--aqua)" />
-      <rect x="27" y="148" width="31" height="3" fill="var(--paper)" />
+      <path d="M26 130 H58" stroke="var(--paper)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M36 146 H67" stroke="var(--aqua)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M29 161 H63" stroke="var(--paper)" strokeWidth="3" strokeLinecap="round" />
     </g>
   )
 }
@@ -136,48 +117,38 @@ function Laptop({ crowded = false }: { crowded?: boolean }) {
   return (
     <g aria-hidden="true">
       <path
-        d="M56 119 H149 L144 167 H62 Z"
+        d="M58 124 Q58 117 65 117 H153 Q160 117 160 124 L155 166 H63 Z"
         fill="var(--blue-dark)"
-        stroke="var(--blue)"
-        strokeWidth="5"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M65 128 H140 L136 157 H69 Z"
-        fill="var(--sky)"
-        stroke="var(--paper)"
+        stroke="var(--blue-dark)"
         strokeWidth="3"
-        strokeLinejoin="round"
       />
-      <rect x="91" y="139" width="24" height="4" rx="2" fill="var(--aqua)" />
-      <rect x="97" y="146" width="15" height="3" rx="1" fill="var(--blue)" />
       <path
-        d="M50 168 H153 L147 178 H57 Z"
+        d="M68 127 Q68 123 72 123 H146 Q150 123 150 127 L147 157 H70 Z"
+        fill="var(--sky)"
+      />
+      <ellipse cx="109" cy="141" rx="12" ry="8" fill="var(--paper)" opacity="0.9" />
+      <path
+        d="M101 141 Q109 133 117 141 Q109 149 101 141 Z"
+        fill="var(--aqua)"
+      />
+      <path
+        d="M52 167 H166 Q165 177 154 179 H64 Q53 177 52 167 Z"
         fill="var(--blue)"
         stroke="var(--blue-dark)"
-        strokeWidth="4"
-        strokeLinejoin="round"
+        strokeWidth="3.5"
       />
       {crowded ? (
         <>
-          <rect
-            x="141"
-            y="105"
-            width="30"
-            height="9"
-            rx="2"
+          <path
+            d="M151 107 H185 Q189 107 189 111 V119 H151 Z"
             fill="var(--paper)"
-            stroke="var(--blue)"
+            stroke="var(--blue-dark)"
             strokeWidth="3"
           />
-          <rect
-            x="147"
-            y="96"
-            width="29"
-            height="9"
-            rx="2"
+          <path
+            d="M158 95 H192 Q196 95 196 99 V107 H158 Z"
             fill="var(--coral)"
-            stroke="var(--blue)"
+            stroke="var(--blue-dark)"
             strokeWidth="3"
           />
         </>
@@ -186,28 +157,28 @@ function Laptop({ crowded = false }: { crowded?: boolean }) {
   )
 }
 
-function OpenBook({ large = false }: { large?: boolean }) {
+function OpenBook() {
   return (
     <g aria-hidden="true">
       <path
-        d={large ? 'M45 126 Q73 116 105 127 V165 Q75 153 48 161 Z' : 'M54 135 Q77 126 102 136 V165 Q78 155 57 161 Z'}
+        d="M44 133 Q77 119 111 131 V171 Q77 156 49 166 Z"
         fill="var(--paper)"
-        stroke="var(--blue)"
-        strokeWidth="4"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.5"
         strokeLinejoin="round"
       />
       <path
-        d={large ? 'M105 127 Q138 116 165 126 L161 161 Q134 153 105 165 Z' : 'M102 136 Q126 126 149 135 L146 161 Q125 155 102 165 Z'}
+        d="M111 131 Q145 119 178 133 L173 166 Q145 156 111 171 Z"
         fill="var(--paper)"
-        stroke="var(--blue)"
-        strokeWidth="4"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.5"
         strokeLinejoin="round"
       />
-      <path d="M105 130 V164" stroke="var(--aqua)" strokeWidth="3" />
-      <path d="M61 142 L94 136" stroke="var(--stone)" strokeWidth="3" />
-      <path d="M62 150 L93 144" stroke="var(--stone)" strokeWidth="3" />
-      <path d="M117 137 L151 142" stroke="var(--stone)" strokeWidth="3" />
-      <path d="M117 145 L150 150" stroke="var(--stone)" strokeWidth="3" />
+      <path d="M111 134 V169" stroke="var(--aqua)" strokeWidth="2.8" />
+      <path d="M60 144 Q82 137 98 140" fill="none" stroke="var(--stone)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M61 153 Q82 146 97 149" fill="none" stroke="var(--stone)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M125 140 Q144 137 164 144" fill="none" stroke="var(--stone)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M126 149 Q145 146 162 153" fill="none" stroke="var(--stone)" strokeWidth="3" strokeLinecap="round" />
     </g>
   )
 }
@@ -216,51 +187,49 @@ function NotesProp() {
   return (
     <g aria-hidden="true">
       <path
-        d="M63 133 L124 124 L132 161 L70 169 Z"
+        d="M63 136 Q62 131 68 130 L132 121 Q138 120 139 126 L145 161 Q146 166 140 167 L77 176 Q71 177 70 171 Z"
         fill="var(--paper)"
-        stroke="var(--blue)"
-        strokeWidth="4"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.5"
       />
-      <path d="M77 141 L116 135" stroke="var(--stone)" strokeWidth="3" />
-      <path d="M79 149 L119 143" stroke="var(--stone)" strokeWidth="3" />
-      <path d="M81 157 L111 152" stroke="var(--aqua)" strokeWidth="3" />
+      <path d="M80 140 L125 134" stroke="var(--stone)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M82 149 L128 143" stroke="var(--stone)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M84 158 L118 153" stroke="var(--aqua)" strokeWidth="3" strokeLinecap="round" />
       <path
-        d="M127 116 L142 151"
+        d="M139 115 L156 155"
         stroke="var(--coral)"
-        strokeWidth="6"
+        strokeWidth="5"
         strokeLinecap="round"
       />
       <path
-        d="M142 151 L138 158"
-        stroke="var(--blue)"
-        strokeWidth="4"
+        d="M156 155 L151 164"
+        stroke="var(--blue-dark)"
+        strokeWidth="3"
         strokeLinecap="round"
       />
     </g>
   )
 }
 
-function ActivityProp({ workBucket }: { workBucket: WorkBucket }) {
-  if (workBucket === 'zero') {
-    return (
-      <g aria-hidden="true">
-        <rect
-          x="69"
-          y="148"
-          width="78"
-          height="17"
-          rx="5"
-          fill="var(--sky)"
-          stroke="var(--blue)"
-          strokeWidth="4"
-        />
-        <rect x="79" y="153" width="57" height="4" rx="2" fill="var(--paper)" />
-      </g>
-    )
-  }
+function RestingProp() {
+  return (
+    <g aria-hidden="true">
+      <path
+        d="M67 151 Q67 145 73 145 H151 Q157 145 157 151 V166 Q157 172 151 172 H73 Q67 172 67 166 Z"
+        fill="var(--sky)"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.5"
+      />
+      <path d="M82 153 H142" stroke="var(--paper)" strokeWidth="4" strokeLinecap="round" />
+      <path d="M91 161 H133" stroke="var(--aqua)" strokeWidth="3" strokeLinecap="round" />
+    </g>
+  )
+}
 
+function ActivityProp({ workBucket }: { workBucket: WorkBucket }) {
+  if (workBucket === 'zero') return <RestingProp />
   if (workBucket === 'under-4') return <NotesProp />
-  if (workBucket === '4-6') return <OpenBook large />
+  if (workBucket === '4-6') return <OpenBook />
   if (workBucket === '6-8') return <Laptop />
 
   if (workBucket === '8-10') {
@@ -278,19 +247,19 @@ function ActivityProp({ workBucket }: { workBucket: WorkBucket }) {
       <Laptop crowded />
       <g aria-hidden="true">
         <path
-          d="M35 91 L61 84 L68 105 L43 112 Z"
+          d="M34 95 Q34 90 39 89 L66 84 L72 106 L44 112 Q39 113 38 108 Z"
           fill="var(--paper)"
-          stroke="var(--blue)"
+          stroke="var(--blue-dark)"
           strokeWidth="3"
         />
         <path
-          d="M151 80 L178 87 L171 108 L145 100 Z"
+          d="M159 82 Q160 77 165 78 L194 84 L188 107 L158 100 Z"
           fill="var(--paper)"
-          stroke="var(--blue)"
+          stroke="var(--blue-dark)"
           strokeWidth="3"
         />
-        <rect x="42" y="96" width="17" height="3" fill="var(--aqua)" />
-        <rect x="153" y="91" width="16" height="3" fill="var(--coral)" />
+        <path d="M44 99 L63 95" stroke="var(--aqua)" strokeWidth="3" strokeLinecap="round" />
+        <path d="M168 92 L185 96" stroke="var(--coral)" strokeWidth="3" strokeLinecap="round" />
       </g>
     </>
   )
@@ -301,32 +270,29 @@ function SpecialProp({ mode }: { mode: PenguinMode }) {
     return (
       <g aria-hidden="true">
         <path
-          d="M55 38 Q79 13 112 29 L126 43 Q92 34 55 48 Z"
+          d="M57 47 Q78 16 113 27 Q131 31 143 48 Q107 41 57 56 Z"
           fill="var(--sky)"
-          stroke="var(--blue)"
-          strokeWidth="4"
+          stroke="var(--blue-dark)"
+          strokeWidth="3.5"
         />
-        <rect
-          x="53"
-          y="43"
-          width="76"
-          height="12"
-          rx="6"
-          fill="var(--coral)"
-          stroke="var(--blue)"
-          strokeWidth="4"
-        />
-        <rect x="77" y="119" width="65" height="13" rx="6" fill="var(--aqua)" />
         <path
-          d="M131 124 Q151 141 140 159"
+          d="M54 50 Q98 40 146 50"
           fill="none"
-          stroke="var(--aqua)"
+          stroke="var(--coral)"
           strokeWidth="10"
           strokeLinecap="round"
         />
-        <rect x="31" y="79" width="5" height="5" fill="var(--sky)" />
-        <rect x="173" y="72" width="6" height="6" fill="var(--sky)" />
-        <rect x="43" y="106" width="4" height="4" fill="var(--sky)" />
+        <circle cx="145" cy="47" r="7" fill="var(--coral)" />
+        <path
+          d="M78 132 Q116 123 150 136"
+          fill="none"
+          stroke="var(--aqua)"
+          strokeWidth="11"
+          strokeLinecap="round"
+        />
+        <circle cx="34" cy="80" r="4" fill="var(--sky)" />
+        <circle cx="184" cy="75" r="5" fill="var(--sky)" />
+        <circle cx="45" cy="111" r="3.5" fill="var(--sky)" />
       </g>
     )
   }
@@ -334,43 +300,36 @@ function SpecialProp({ mode }: { mode: PenguinMode }) {
   if (mode === 'summer-holiday') {
     return (
       <g aria-hidden="true">
-        <circle cx="174" cy="41" r="14" fill="var(--coral)" opacity="0.9" />
+        <circle cx="185" cy="39" r="15" fill="var(--coral)" opacity="0.9" />
         <path
-          d="M52 61 H91"
+          d="M58 65 Q76 56 94 64"
+          fill="none"
           stroke="var(--blue-dark)"
-          strokeWidth="11"
+          strokeWidth="10"
           strokeLinecap="round"
         />
         <path
-          d="M111 61 H150"
+          d="M119 64 Q137 55 155 64"
+          fill="none"
           stroke="var(--blue-dark)"
-          strokeWidth="11"
+          strokeWidth="10"
           strokeLinecap="round"
         />
-        <path d="M92 61 H110" stroke="var(--blue-dark)" strokeWidth="5" />
+        <path d="M95 65 H117" stroke="var(--blue-dark)" strokeWidth="5" strokeLinecap="round" />
         <path
-          d="M62 143 H150 L141 164 H70 Z"
+          d="M61 148 Q106 134 158 147 L149 173 H70 Z"
           fill="var(--sky)"
-          stroke="var(--blue)"
-          strokeWidth="4"
+          stroke="var(--blue-dark)"
+          strokeWidth="3.5"
         />
+        <path d="M163 122 L178 158" stroke="var(--aqua)" strokeWidth="4" strokeLinecap="round" />
         <path
-          d="M153 118 L168 159"
-          stroke="var(--aqua)"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-        <rect
-          x="145"
-          y="145"
-          width="27"
-          height="25"
-          rx="8"
+          d="M156 151 Q156 145 162 145 H181 Q187 145 187 151 V169 Q187 175 181 175 H162 Q156 175 156 169 Z"
           fill="var(--paper)"
-          stroke="var(--blue)"
-          strokeWidth="4"
+          stroke="var(--blue-dark)"
+          strokeWidth="3.5"
         />
-        <rect x="151" y="149" width="15" height="8" rx="3" fill="var(--coral)" />
+        <path d="M163 153 Q171 149 180 153" stroke="var(--coral)" strokeWidth="3" strokeLinecap="round" />
       </g>
     )
   }
@@ -378,30 +337,26 @@ function SpecialProp({ mode }: { mode: PenguinMode }) {
   if (mode === 'trip') {
     return (
       <g aria-hidden="true">
-        <rect
-          x="137"
-          y="127"
-          width="44"
-          height="49"
-          rx="8"
+        <path
+          d="M145 130 Q145 123 152 123 H185 Q192 123 192 130 V175 Q192 182 185 182 H152 Q145 182 145 175 Z"
           fill="var(--aqua)"
-          stroke="var(--blue)"
-          strokeWidth="5"
+          stroke="var(--blue-dark)"
+          strokeWidth="3.8"
         />
         <path
-          d="M148 128 V117 H170 V128"
+          d="M156 123 V114 Q156 109 161 109 H176 Q181 109 181 114 V123"
           fill="none"
-          stroke="var(--blue)"
-          strokeWidth="5"
+          stroke="var(--blue-dark)"
+          strokeWidth="3.8"
         />
-        <rect x="152" y="144" width="14" height="5" rx="2" fill="var(--paper)" />
+        <path d="M159 146 H178" stroke="var(--paper)" strokeWidth="4" strokeLinecap="round" />
         <path
-          d="M45 135 L85 125 L91 149 L51 158 Z"
+          d="M43 143 Q43 138 48 137 L87 129 Q92 128 93 133 L97 151 Q98 156 93 157 L53 165 Q48 166 47 161 Z"
           fill="var(--paper)"
-          stroke="var(--blue)"
-          strokeWidth="4"
+          stroke="var(--blue-dark)"
+          strokeWidth="3.5"
         />
-        <path d="M58 141 L78 136" stroke="var(--coral)" strokeWidth="3" />
+        <path d="M58 146 L80 141" stroke="var(--coral)" strokeWidth="3" strokeLinecap="round" />
       </g>
     )
   }
@@ -410,34 +365,32 @@ function SpecialProp({ mode }: { mode: PenguinMode }) {
     return (
       <g aria-hidden="true">
         <path
-          d="M45 130 Q105 111 165 131 V172 H48 Z"
+          d="M45 142 Q103 116 170 139 V179 H48 Z"
           fill="var(--sky)"
-          stroke="var(--blue)"
-          strokeWidth="5"
+          stroke="var(--blue-dark)"
+          strokeWidth="3.8"
         />
         <path
-          d="M51 143 Q105 128 159 143"
+          d="M53 153 Q108 135 163 151"
           fill="none"
           stroke="var(--aqua)"
           strokeWidth="4"
-        />
-        <path
-          d="M147 91 L158 126"
-          stroke="var(--blue)"
-          strokeWidth="5"
           strokeLinecap="round"
         />
-        <rect
-          x="150"
-          y="84"
-          width="10"
-          height="33"
-          rx="5"
+        <path
+          d="M158 88 V123"
+          stroke="var(--blue-dark)"
+          strokeWidth="4"
+          strokeLinecap="round"
+        />
+        <path
+          d="M153 83 Q153 78 158 78 Q163 78 163 83 V113 Q163 119 158 119 Q153 119 153 113 Z"
           fill="var(--paper)"
-          stroke="var(--blue)"
+          stroke="var(--blue-dark)"
           strokeWidth="3"
         />
-        <rect x="153" y="101" width="4" height="12" rx="2" fill="var(--coral)" />
+        <path d="M158 99 V112" stroke="var(--coral)" strokeWidth="4" strokeLinecap="round" />
+        <circle cx="158" cy="114" r="5" fill="var(--coral)" />
       </g>
     )
   }
@@ -449,36 +402,105 @@ function PrayingPose() {
   return (
     <g aria-hidden="true">
       <path
-        d="M60 124 Q76 106 94 117 L103 141 Q81 140 64 151 Z"
-        fill="var(--blue-dark)"
-        stroke="var(--blue)"
-        strokeWidth="4"
+        d="M61 132 Q73 113 92 116 Q104 118 111 135 Q96 148 72 156 Z"
+        fill="var(--blue)"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.5"
       />
       <path
-        d="M145 124 Q129 106 111 117 L102 141 Q124 140 141 151 Z"
-        fill="var(--blue-dark)"
-        stroke="var(--blue)"
-        strokeWidth="4"
+        d="M157 132 Q145 113 126 116 Q114 118 107 135 Q122 148 146 156 Z"
+        fill="var(--blue)"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.5"
       />
       <path
-        d="M93 116 Q102 106 111 116 L109 145 H96 Z"
+        d="M97 123 Q109 111 121 123 L118 151 H100 Z"
         fill="var(--paper)"
-        stroke="var(--blue)"
+        stroke="var(--blue-dark)"
         strokeWidth="3"
       />
-      <path
-        d="M45 173 H163"
-        stroke="var(--coral)"
-        strokeWidth="7"
-        strokeLinecap="round"
-      />
-      <path
-        d="M57 166 H151"
-        stroke="var(--aqua)"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
+      <path d="M53 180 H169" stroke="var(--coral)" strokeWidth="7" strokeLinecap="round" />
+      <path d="M65 171 H157" stroke="var(--aqua)" strokeWidth="4" strokeLinecap="round" />
     </g>
+  )
+}
+
+function Face({ praying, highCoffee }: { praying: boolean; highCoffee: boolean }) {
+  return (
+    <>
+      <ellipse cx="84" cy="82" rx="33" ry="31" fill="var(--paper)" />
+      <ellipse cx="137" cy="82" rx="33" ry="31" fill="var(--paper)" />
+
+      <rect
+        x="50"
+        y="49"
+        width="67"
+        height="59"
+        rx="20"
+        fill="none"
+        stroke="var(--blue-dark)"
+        strokeWidth="7"
+      />
+      <rect
+        x="104"
+        y="49"
+        width="67"
+        height="59"
+        rx="20"
+        fill="none"
+        stroke="var(--blue-dark)"
+        strokeWidth="7"
+      />
+      <path d="M116 68 H105" stroke="var(--blue-dark)" strokeWidth="7" strokeLinecap="round" />
+      <path d="M50 70 L34 77" stroke="var(--aqua)" strokeWidth="6" strokeLinecap="round" />
+      <path d="M171 70 L187 76" stroke="var(--aqua)" strokeWidth="6" strokeLinecap="round" />
+
+      {praying ? (
+        <>
+          <path
+            d="M69 82 Q84 92 98 82"
+            fill="none"
+            stroke="var(--blue-dark)"
+            strokeWidth="4.5"
+            strokeLinecap="round"
+          />
+          <path
+            d="M123 82 Q137 92 152 82"
+            fill="none"
+            stroke="var(--blue-dark)"
+            strokeWidth="4.5"
+            strokeLinecap="round"
+          />
+        </>
+      ) : (
+        <>
+          <ellipse cx="84" cy="82" rx={highCoffee ? 11 : 10} ry={highCoffee ? 15 : 13} fill="var(--blue-dark)" />
+          <ellipse cx="137" cy="82" rx={highCoffee ? 11 : 10} ry={highCoffee ? 15 : 13} fill="var(--blue-dark)" />
+          <circle cx="80" cy="77" r="4" fill="var(--paper)" />
+          <circle cx="133" cy="77" r="4" fill="var(--paper)" />
+          <circle cx="88" cy="87" r="2.5" fill="var(--paper)" opacity="0.85" />
+          <circle cx="141" cy="87" r="2.5" fill="var(--paper)" opacity="0.85" />
+        </>
+      )}
+
+      <ellipse cx="61" cy="106" rx="10" ry="6" fill="var(--coral)" opacity="0.68" />
+      <ellipse cx="159" cy="106" rx="10" ry="6" fill="var(--coral)" opacity="0.68" />
+
+      <path
+        d="M96 104 Q110 92 124 104 Q113 118 110 118 Q107 118 96 104 Z"
+        fill="var(--coral)"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M102 106 Q110 113 118 106"
+        fill="none"
+        stroke="var(--paper)"
+        strokeWidth="2.8"
+        strokeLinecap="round"
+      />
+    </>
   )
 }
 
@@ -499,146 +521,84 @@ export default function PenguinSprite({
   return (
     <svg
       className={`penguin-sprite${large ? ' penguin-sprite-large' : ''}`}
-      viewBox="0 0 220 200"
+      viewBox="0 0 240 220"
       role="img"
       aria-label={label}
       shapeRendering="geometricPrecision"
     >
-      <g opacity={upcoming ? 0.32 : 1}>
-        <ellipse cx="105" cy="181" rx="72" ry="9" fill="var(--blue-wash)" />
-        <PixelSparkles intense={highCoffee || workBucket === '10-plus'} />
+      <defs>
+        <linearGradient id="penguinBlue" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stopColor="var(--blue)" />
+          <stop offset="100%" stopColor="var(--blue-dark)" />
+        </linearGradient>
+        <linearGradient id="bellyWash" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor="var(--paper)" />
+          <stop offset="100%" stopColor="var(--blue-wash)" />
+        </linearGradient>
+      </defs>
+
+      <g opacity={upcoming ? 0.33 : 1}>
+        <ellipse cx="112" cy="198" rx="78" ry="10" fill="var(--blue-wash)" />
+        <Sparkles intense={highCoffee || workBucket === '10-plus'} />
 
         <path
-          d="M53 106 Q35 126 28 154 Q43 151 59 143 Z"
+          d="M54 119 Q29 139 30 169 Q49 163 66 149 Z"
           fill="var(--blue)"
           stroke="var(--blue-dark)"
-          strokeWidth="6"
+          strokeWidth="5"
           strokeLinejoin="round"
         />
         <path
-          d="M157 109 Q181 125 190 153 Q171 151 156 141 Z"
+          d="M166 119 Q193 137 197 168 Q177 163 159 150 Z"
           fill="var(--blue)"
           stroke="var(--blue-dark)"
-          strokeWidth="6"
+          strokeWidth="5"
           strokeLinejoin="round"
         />
 
         <ellipse
-          cx="105"
-          cy="103"
-          rx="65"
-          ry="76"
-          fill="var(--blue)"
+          cx="111"
+          cy="111"
+          rx="70"
+          ry="84"
+          fill="url(#penguinBlue)"
           stroke="var(--blue-dark)"
-          strokeWidth="7"
+          strokeWidth="5.5"
         />
         <path
-          d="M63 77 Q70 42 103 37 Q137 40 150 77 Q128 69 106 82 Q86 68 63 77 Z"
+          d="M60 84 Q67 42 108 35 Q151 38 164 83 Q137 69 111 88 Q85 69 60 84 Z"
           fill="var(--blue-dark)"
         />
-        <ellipse cx="105" cy="116" rx="47" ry="55" fill="var(--paper)" />
-        <ellipse cx="105" cy="136" rx="39" ry="36" fill="var(--sky)" opacity="0.72" />
-
-        <ellipse cx="78" cy="76" rx="28" ry="27" fill="var(--paper)" />
-        <ellipse cx="132" cy="76" rx="28" ry="27" fill="var(--paper)" />
-
-        <rect
-          x="48"
-          y="51"
-          width="58"
-          height="49"
-          rx="15"
-          fill="none"
-          stroke="var(--blue-dark)"
-          strokeWidth="8"
+        <ellipse
+          cx="111"
+          cy="130"
+          rx="52"
+          ry="59"
+          fill="url(#bellyWash)"
         />
-        <rect
-          x="105"
-          y="51"
-          width="58"
-          height="49"
-          rx="15"
-          fill="none"
-          stroke="var(--blue-dark)"
-          strokeWidth="8"
-        />
-        <path
-          d="M106 66 H105"
-          stroke="var(--blue-dark)"
-          strokeWidth="8"
-          strokeLinecap="round"
-        />
-        <path
-          d="M48 68 L31 75"
-          stroke="var(--aqua)"
-          strokeWidth="7"
-          strokeLinecap="round"
-        />
-        <path
-          d="M163 68 L178 74"
-          stroke="var(--aqua)"
-          strokeWidth="7"
-          strokeLinecap="round"
+        <ellipse
+          cx="111"
+          cy="153"
+          rx="43"
+          ry="34"
+          fill="var(--sky)"
+          opacity="0.55"
         />
 
-        {praying ? (
-          <>
-            <path
-              d="M66 77 Q77 82 88 77"
-              fill="none"
-              stroke="var(--blue-dark)"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
-            <path
-              d="M121 77 Q132 82 143 77"
-              fill="none"
-              stroke="var(--blue-dark)"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
-          </>
-        ) : (
-          <>
-            <ellipse
-              cx="79"
-              cy="76"
-              rx={highCoffee ? 9 : 8}
-              ry={highCoffee ? 12 : 10}
-              fill="var(--blue-dark)"
-            />
-            <ellipse
-              cx="132"
-              cy="76"
-              rx={highCoffee ? 9 : 8}
-              ry={highCoffee ? 12 : 10}
-              fill="var(--blue-dark)"
-            />
-            <circle cx="76" cy="72" r="3" fill="var(--paper)" />
-            <circle cx="129" cy="72" r="3" fill="var(--paper)" />
-          </>
-        )}
-
-        <ellipse cx="62" cy="97" rx="9" ry="5" fill="var(--coral)" opacity="0.78" />
-        <ellipse cx="148" cy="97" rx="9" ry="5" fill="var(--coral)" opacity="0.78" />
+        <Face praying={praying} highCoffee={highCoffee} />
 
         <path
-          d="M91 96 L105 85 L120 96 L105 108 Z"
+          d="M70 187 Q80 181 94 187 Q94 200 82 202 Q70 199 70 187 Z"
           fill="var(--coral)"
           stroke="var(--blue-dark)"
-          strokeWidth="4"
-          strokeLinejoin="round"
+          strokeWidth="3"
         />
         <path
-          d="M96 99 Q105 108 115 99"
-          fill="none"
-          stroke="var(--paper)"
+          d="M128 187 Q139 181 153 187 Q153 200 141 202 Q128 199 128 187 Z"
+          fill="var(--coral)"
+          stroke="var(--blue-dark)"
           strokeWidth="3"
-          strokeLinecap="round"
         />
-
-        <rect x="65" y="171" width="29" height="11" rx="5" fill="var(--coral)" />
-        <rect x="116" y="171" width="29" height="11" rx="5" fill="var(--coral)" />
 
         {praying ? (
           <PrayingPose />
@@ -653,19 +613,16 @@ export default function PenguinSprite({
 
       {upcoming ? (
         <g aria-hidden="true">
-          <rect
-            x="83"
-            y="116"
-            width="45"
-            height="34"
-            rx="6"
+          <path
+            d="M84 133 Q84 126 91 126 H132 Q139 126 139 133 V161 Q139 168 132 168 H91 Q84 168 84 161 Z"
             fill="var(--paper)"
             stroke="var(--ash)"
-            strokeWidth="4"
+            strokeWidth="3.5"
           />
-          <rect x="83" y="116" width="45" height="9" rx="4" fill="var(--ash)" />
-          <rect x="93" y="133" width="25" height="4" rx="2" fill="var(--stone)" />
-          <rect x="101" y="141" width="9" height="4" rx="2" fill="var(--stone)" />
+          <path d="M84 139 H139" stroke="var(--ash)" strokeWidth="7" />
+          <circle cx="101" cy="150" r="3" fill="var(--stone)" />
+          <circle cx="112" cy="150" r="3" fill="var(--stone)" />
+          <circle cx="123" cy="150" r="3" fill="var(--stone)" />
         </g>
       ) : null}
     </svg>
