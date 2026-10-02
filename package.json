@@ -6,12 +6,17 @@
     "node": ">=22.0.0"
   },
   "scripts": {
+    "assets:validate": "node scripts/penguin-assets.mjs",
+    "assets:generate": "node scripts/penguin-assets.mjs --generate",
+    "assets:generate:force": "node scripts/penguin-assets.mjs --generate --force",
+    "predev": "npm run assets:generate",
     "dev": "next dev",
+    "prebuild": "npm run assets:generate",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "check": "npm run lint && npm run typecheck"
+    "check": "npm run assets:validate && npm run lint && npm run typecheck"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.3",
@@ -25,6 +30,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
-    "typescript": "^5"
+    "typescript": "^5",
+    "sharp": "^0.34.4"
   }
 }

@@ -24,9 +24,9 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Penguin states',
         items: [
-          'Kept the approved canonical PNG as the immutable mascot ground truth and moved runtime rendering to complete derived state images.',
-          'Resolved all 36 work × coffee combinations and five special states to approved PNG assets through a dedicated asset resolver.',
-          'Kept the visual palette aligned with the Academic Website and use Next.js image optimisation for runtime delivery without replacing the PNG masters.',
+          'Kept the approved canonical PNG as the immutable mascot ground truth and froze the validated alpha.1 visual set: 36 activity states and five special states.',
+          'Added automated integrity checks for every PNG master and deterministic state-to-asset resolution.',
+          'Generate lightweight WebP runtime derivatives while preserving the validated PNG masters unchanged.',
         ],
       },
       {
@@ -47,8 +47,8 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Project structure',
         items: [
-          'Separated API access, state resolution, sprite rendering, timeline presentation and manual date overrides for later reuse.',
-          'Added technical changelog and readable in-app release notes as the project enters its alpha release line.',
+          'Separated API access, state resolution, asset preparation, sprite rendering, timeline presentation and manual date overrides for later reuse.',
+          'Added CI asset validation, technical changelog and readable in-app release notes as the project enters its alpha release line.',
         ],
       },
     ],

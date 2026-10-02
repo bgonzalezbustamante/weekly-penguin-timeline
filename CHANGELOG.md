@@ -21,7 +21,11 @@
 - Replaced the incomplete low-quality SVG wrapper assets with the user-supplied `public/penguins/canonical-baseline.png`. The PNG is the immutable mascot ground truth.
 - Replaced runtime-drawn work, coffee, stress and special-state SVG overlays with the complete approved PNG asset set: 36 normal work × coffee states and five special states.
 - Added `lib/penguin-assets.ts` as the deterministic asset resolver. The canonical baseline is used directly for the 0h + 0 coffee state and for the dimmed Upcoming treatment.
-- Simplified `PenguinSprite` to render resolved approved assets through Next.js Image, allowing runtime image optimisation while retaining PNG masters in the repository.
+- Simplified `PenguinSprite` to render resolved approved assets through Next.js Image while retaining PNG masters in the repository.
+- Marked the complete 36-state activity matrix and five special-state images as the validated visual set for alpha.1.
+- Added automated integrity checks for the canonical baseline and all 41 state PNG masters, including filename coverage, PNG structure, minimum dimensions and transparency diagnostics.
+- Added incremental WebP generation for development and production builds. PNG masters remain unchanged and generated WebP runtime assets are ignored by Git.
+- Switched runtime rendering to the generated WebP files and disabled redundant Next.js image reprocessing for these already-optimised assets.
 - Strengthened work-intensity progression from resting through notes, reading and laptop work to book stacks, a measuring tape and overloaded high-work scenes inspired by the supplied reference.
 - Expanded coffee to six matching intervals and up to five clear mugs, with visible handles, coffee surfaces, saucers and steam.
 - Reworked special illustrations so each state has a distinct scene: prayer and cross motif for Sunday; hat, scarf, snow and present for winter holiday; sunglasses, sun, beach ball and cold drink for summer holiday; suitcase, ticket and aircraft for trip; and blanket, thermometer, tissue box and cooling pack for sickness.
@@ -60,6 +64,7 @@
 - Added a release-notes section to the demonstration page.
 - Added this technical CHANGELOG.
 - Expanded the reader-facing release summary to use the full release-note card width.
+- Added asset validation to CI so missing or malformed mascot states fail before merge.
 
 ### Release status
 

@@ -21,6 +21,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Validate penguin assets
+        run: npm run assets:validate
+
       - name: Lint
         run: npm run lint
 
