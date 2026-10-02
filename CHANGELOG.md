@@ -36,6 +36,8 @@
 - Moved Sunday and manual special-date labels from the body of the daily card to its footer.
 - Kept future days distinct from zero-activity days.
 - Expanded the introductory copy to use the full available content width.
+- Reduced the vertical gap between the hero and the Seven-day view.
+- Allowed the Penguin state tester and visual-QA introductory copy to use the full section width.
 - Formatted timeline dates in British style, for example `28 Sept 2026`.
 - Renamed the timeline legend category from `Manual override / Sunday` to `Special state`.
 
@@ -46,16 +48,27 @@
 - Added an explicit live-data-unavailable state rather than silently substituting fixture values.
 - Marked the demonstration page as dynamically rendered so production builds do not require runtime Academic API credentials.
 - Simplified the visible data-source label to Academic API, with a green point when the live request succeeds and a muted red point when the API is unavailable.
+- Linked the Academic API status label to `https://dashboard.bgonzalezbustamante.com/api`.
 
 `interactive state testing`
 
 - Added a Penguin state tester between the weekly timeline and architecture cards.
 - Added working-hours and coffee sliders that reuse the production state resolver.
-- Displayed the resolved work bucket, coffee bucket and deterministic combined state identifier.
+- Displayed the resolved work and coffee buckets while removing the redundant internal state identifier from the tester UI.
 - Standardised work and coffee into six matching bands: zero, under 4, 4–6, 6–8, 8–10 and 10-plus, producing 36 normal combinations.
 - Added mutually exclusive tick-box controls for Sunday, winter holiday, summer holiday, trip and sickness states so special illustrations can be tested directly.
 - Added a complete visual QA matrix showing all 36 normal activity states and all five special-state assets on one page.
 - Replaced the fieldset legend treatment with an in-panel Special state heading so the title no longer overlaps the control border.
+- Extended manual special dates with a labelled `sunday` type so Christian holidays can reuse the praying mascot independently of weekday.
+
+
+`component hardening`
+
+- Added Vitest regression coverage for all work and coffee bucket boundaries.
+- Added timeline tests for labelled Sunday-style holidays, explicit-override precedence, missing API days and future-day behaviour.
+- Added regression coverage for Monday-to-Sunday weeks crossing New Year, British date formatting and working-time formatting.
+- Added deterministic asset-resolver tests for canonical, activity, Sunday and Upcoming states.
+- Added the unit test suite to `npm run check` and GitHub Actions CI.
 
 `release documentation`
 

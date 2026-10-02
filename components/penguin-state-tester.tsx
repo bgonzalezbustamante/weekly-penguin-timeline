@@ -65,9 +65,6 @@ export default function PenguinStateTester() {
       coffeeLabel: COFFEE_LABELS[coffeeBucket],
       mode,
       specialLabel,
-      id: specialMode
-        ? `special-${specialMode}`
-        : `work-${workBucket}__coffee-${coffeeBucket}`,
     }
   }, [hours, coffees, specialMode])
 
@@ -77,7 +74,7 @@ export default function PenguinStateTester() {
         <div>
           <p className="eyebrow">Interactive test</p>
           <h2 id="state-tester-title">Penguin state tester</h2>
-          <p className="section-intro">
+          <p className="section-intro section-intro-wide">
             Change working time and coffee count, or select a special state,
             to inspect the exact penguin used by the weekly timeline.
           </p>
@@ -161,9 +158,6 @@ export default function PenguinStateTester() {
                 </span>
               </>
             )}
-            <span className="tester-state-chip">
-              State <strong>{state.id}</strong>
-            </span>
           </div>
         </div>
 

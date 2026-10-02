@@ -16,7 +16,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "check": "npm run assets:validate && npm run lint && npm run typecheck"
+    "check": "npm run assets:validate && npm run lint && npm run typecheck && npm run test",
+    "test": "vitest run"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.3",
@@ -31,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
     "typescript": "^5",
-    "sharp": "^0.34.4"
+    "sharp": "^0.34.4",
+    "vitest": "^3.2.4"
   }
 }
