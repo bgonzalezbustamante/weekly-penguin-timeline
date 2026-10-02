@@ -1,6 +1,6 @@
 # Weekly Penguin Timeline
 
-**v0.1.0-alpha.1 "Bold Cipher" — in development**
+**v0.1.0-alpha.1 "Bold Cipher" — pre-release, 2 October 2026**
 
 A standalone proof-of-concept for a reusable Next.js weekly timeline component. It converts public daily working-time and coffee data into one Oxford-colour, kawaii-style penguin state per day.
 
@@ -141,7 +141,7 @@ The standalone hero, state tester, visual QA matrix, release notes, and footer a
 
 ## Release documentation
 
-`CHANGELOG.md` contains the technical record. `lib/releases.ts` contains the shorter reader-facing release notes shown on the demonstration page. Both will be consolidated before the first public release.
+`CHANGELOG.md` contains the technical record. `lib/releases.ts` contains the shorter reader-facing release notes shown on the demonstration page. Both are kept aligned for public releases.
 
 ## Licensing
 
