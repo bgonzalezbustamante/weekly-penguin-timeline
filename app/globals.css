@@ -304,19 +304,23 @@ h1 {
   filter: drop-shadow(0 6px 7px rgba(0, 33, 71, 0.08));
 }
 
-.penguin-sprite-large {
-  width: min(100%, 350px);
+.penguin-sprite::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/penguins/canonical-baseline-v2.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 1;
 }
 
-.penguin-sprite-baseline {
-  position: absolute;
-  top: 0;
-  left: 6.15%;
-  width: 87.7%;
-  height: 99.1%;
-  display: block;
-  object-fit: contain;
-  object-position: center;
+.penguin-sprite.is-upcoming::before {
+  opacity: 0.33;
+}
+
+.penguin-sprite-large {
+  width: min(100%, 350px);
 }
 
 .penguin-sprite-overlay {
