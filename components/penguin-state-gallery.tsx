@@ -111,6 +111,22 @@ export default function PenguinStateGallery() {
               label={state.label}
             />
             <strong>{state.label}</strong>
+            {state.mode === 'sunday' ? (
+              <span className="special-gallery-note">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.8" />
+                  <path d="M12 10.5v6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  <circle cx="12" cy="7.3" r="1.1" fill="currentColor" />
+                </svg>
+                <span>
+                  Also used for major, widely observed Catholic celebrations.
+                </span>
+              </span>
+            ) : null}
           </article>
         ))}
       </div>
