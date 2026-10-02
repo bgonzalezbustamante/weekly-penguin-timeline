@@ -659,29 +659,29 @@ function BasePenguinShell() {
   return (
     <g aria-hidden="true">
       <ellipse
-        cx="120"
-        cy="207"
+        cx="130"
+        cy="216"
         rx="86"
-        ry="10"
+        ry="8"
         fill="var(--blue-wash)"
       />
 
       <path
-        d="M50 158 Q33 175 18 177 Q31 191 57 185"
+        d="M67 155 Q45 171 29 170 Q39 188 67 181"
         fill="var(--blue)"
         stroke="var(--blue-dark)"
-        strokeWidth="5"
+        strokeWidth="6"
         strokeLinejoin="round"
       />
 
       <path
-        d="M120 24
-           C78 23 48 49 43 92
-           C38 133 49 177 76 198
-           C88 208 103 213 120 213
-           C138 213 154 208 166 198
-           C193 177 202 134 197 93
-           C192 50 163 24 120 24 Z"
+        d="M130 18
+           C86 16 59 40 55 82
+           C51 131 62 177 90 204
+           C101 215 115 220 130 220
+           C145 220 159 215 171 204
+           C199 177 209 131 205 82
+           C201 40 174 17 130 18 Z"
         fill="var(--blue)"
         stroke="var(--blue-dark)"
         strokeWidth="6.5"
@@ -689,125 +689,148 @@ function BasePenguinShell() {
       />
 
       <path
-        d="M50 118
-           Q31 137 31 170
-           Q51 165 72 148
-           L76 116
-           Q63 111 50 118 Z"
-        fill="var(--blue)"
-        stroke="var(--blue-dark)"
-        strokeWidth="5"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M188 118
-           Q210 136 211 169
-           Q190 165 168 149
-           L164 116
-           Q177 111 188 118 Z"
-        fill="var(--blue)"
-        stroke="var(--blue-dark)"
-        strokeWidth="5"
-        strokeLinejoin="round"
-      />
-
-      <path
-        d="M56 89
-           Q62 46 103 31
-           Q137 18 170 39
-           Q190 53 195 88
-           Q165 67 140 78
-           Q126 84 119 95
-           Q110 83 96 78
-           Q76 70 56 89 Z"
+        d="M67 65
+           Q80 36 109 28
+           Q82 52 79 89
+           Q75 135 91 180
+           Q75 168 67 141
+           Q56 105 67 65 Z"
         fill="var(--blue-dark)"
+        opacity="0.72"
       />
 
       <path
-        d="M72 117
-           Q83 99 101 94
-           Q118 90 137 96
-           Q157 102 167 121
-           Q178 143 171 171
-           Q166 193 151 203
-           Q136 211 119 211
-           Q102 211 87 202
-           Q70 191 66 169
-           Q60 141 72 117 Z"
-        fill="var(--paper)"
-      />
-
-      <path
-        d="M76 147
-           Q93 129 119 129
-           Q146 129 163 148
-           Q166 177 151 197
-           Q136 205 119 205
-           Q101 205 87 197
-           Q73 178 76 147 Z"
+        d="M75 55
+           Q105 25 150 28
+           Q176 30 192 50
+           Q158 36 122 39
+           Q94 41 75 55 Z"
         fill="var(--sky)"
-        opacity="0.78"
-      />
-
-      <path
-        d="M74 56
-           Q105 30 146 37
-           Q162 40 177 50"
-        fill="none"
-        stroke="var(--sky)"
-        strokeWidth="12"
-        strokeLinecap="round"
-        opacity="0.38"
+        opacity="0.45"
       />
       <path
-        d="M78 48
-           Q103 29 132 31"
+        d="M83 44 Q108 27 136 29"
         fill="none"
         stroke="var(--paper)"
-        strokeWidth="5"
+        strokeWidth="6.5"
         strokeLinecap="round"
+        opacity="0.96"
+      />
+      <ellipse
+        cx="155"
+        cy="34"
+        rx="7"
+        ry="4"
+        fill="var(--paper)"
         opacity="0.92"
       />
       <ellipse
-        cx="146"
-        cy="38"
-        rx="7"
-        ry="3.5"
+        cx="171"
+        cy="40"
+        rx="4"
+        ry="2.5"
         fill="var(--paper)"
-        opacity="0.82"
+        opacity="0.85"
       />
 
       <path
-        d="M43 129 Q52 144 65 151"
-        fill="none"
-        stroke="var(--aqua)"
-        strokeWidth="4"
-        strokeLinecap="round"
-        opacity="0.85"
+        d="M71 79
+           Q74 49 99 41
+           Q119 35 130 66
+           Q140 35 162 41
+           Q187 50 190 81
+           Q171 71 154 74
+           Q141 76 130 89
+           Q119 76 105 74
+           Q88 71 71 79 Z"
+        fill="var(--paper)"
+      />
+
+      <path
+        d="M77 106
+           Q96 91 130 91
+           Q164 91 183 108
+           Q193 147 178 184
+           Q162 207 130 209
+           Q99 207 82 184
+           Q68 147 77 106 Z"
+        fill="var(--paper)"
+      />
+
+      <path
+        d="M88 145
+           Q106 123 130 124
+           Q155 124 172 145
+           Q171 178 157 196
+           Q143 204 130 204
+           Q116 204 103 196
+           Q89 179 88 145 Z"
+        fill="var(--sky)"
+        opacity="0.86"
+      />
+
+      <path
+        d="M71 111
+           Q45 124 43 155
+           Q66 151 90 132 Z"
+        fill="var(--blue)"
+        stroke="var(--blue-dark)"
+        strokeWidth="6"
+        strokeLinejoin="round"
       />
       <path
-        d="M176 149 Q190 142 198 129"
+        d="M188 111
+           Q215 124 217 154
+           Q193 151 171 133 Z"
+        fill="var(--blue)"
+        stroke="var(--blue-dark)"
+        strokeWidth="6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M50 141 Q66 146 82 135"
+        fill="none"
+        stroke="var(--aqua)"
+        strokeWidth="4.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M181 136 Q196 143 207 135"
         fill="none"
         stroke="var(--sky)"
         strokeWidth="4"
         strokeLinecap="round"
-        opacity="0.5"
+        opacity="0.65"
       />
 
       <path
-        d="M72 198 Q82 189 96 195 Q103 199 101 207 Q92 216 80 211 Q73 208 72 198 Z"
+        d="M90 197
+           Q104 187 118 198
+           Q116 214 103 220
+           Q90 216 90 197 Z"
         fill="var(--coral)"
         stroke="var(--blue-dark)"
-        strokeWidth="3.5"
+        strokeWidth="4"
       />
       <path
-        d="M138 195 Q152 189 164 198 Q166 208 157 213 Q145 216 137 207 Q135 200 138 195 Z"
+        d="M143 198
+           Q157 187 171 198
+           Q171 215 158 220
+           Q144 216 143 198 Z"
         fill="var(--coral)"
         stroke="var(--blue-dark)"
-        strokeWidth="3.5"
+        strokeWidth="4"
       />
-      <path d="M81 203 L86 212 L91 202" fill="var(--paper)" opacity="0.6" />
-      <path d="M147 202 L152 212 L157 202" fill="var(--paper)" opacity="0.6" />
+      <path
+        d="M98 199 L103 215 L109 198"
+        fill="var(--paper)"
+        opacity="0.55"
+      />
+      <path
+        d="M151 199 L157 215 L163 199"
+        fill="var(--paper)"
+        opacity="0.55"
+      />
     </g>
   )
 }
@@ -821,80 +844,75 @@ function Face({
 }) {
   const stressed = stressLevel >= 6
   const highlyStressed = stressLevel >= 9
+
   return (
     <>
-      <path
-        d="M55 82
-           Q57 57 77 48
-           Q98 39 113 58
-           Q119 66 119 82
-           Q119 101 108 110
-           Q91 123 73 112
-           Q57 102 55 82 Z"
-        fill="var(--paper)"
-      />
-      <path
-        d="M119 82
-           Q120 58 141 49
-           Q162 40 177 59
-           Q184 68 183 84
-           Q182 102 171 111
-           Q154 123 136 112
-           Q120 102 119 82 Z"
-        fill="var(--paper)"
-      />
-
       <rect
-        x="50"
-        y="49"
-        width="72"
-        height="69"
-        rx="21"
+        x="64"
+        y="65"
+        width="63"
+        height="55"
+        rx="17"
         fill="none"
         stroke="var(--blue-dark)"
         strokeWidth="9"
       />
       <rect
-        x="116"
-        y="49"
-        width="72"
-        height="69"
-        rx="21"
+        x="133"
+        y="65"
+        width="63"
+        height="55"
+        rx="17"
         fill="none"
         stroke="var(--blue-dark)"
         strokeWidth="9"
       />
-      <path d="M121 69 H116" stroke="var(--blue-dark)" strokeWidth="9" strokeLinecap="round" />
-      <path d="M50 72 L33 81" stroke="var(--aqua)" strokeWidth="7" strokeLinecap="round" />
-      <path d="M188 72 L205 79" stroke="var(--aqua)" strokeWidth="7" strokeLinecap="round" />
       <path
-        d="M58 56 Q83 47 111 55"
-        fill="none"
-        stroke="var(--sky)"
-        strokeWidth="3.5"
+        d="M127 79 H133"
+        stroke="var(--blue-dark)"
+        strokeWidth="9"
         strokeLinecap="round"
-        opacity="0.9"
       />
       <path
-        d="M124 55 Q149 47 179 56"
+        d="M64 82 L44 90"
+        stroke="var(--aqua)"
+        strokeWidth="7"
+        strokeLinecap="round"
+      />
+      <path
+        d="M196 82 L214 88"
+        stroke="var(--aqua)"
+        strokeWidth="7"
+        strokeLinecap="round"
+      />
+      <path
+        d="M72 72 Q95 65 119 71"
         fill="none"
         stroke="var(--sky)"
         strokeWidth="3.5"
         strokeLinecap="round"
-        opacity="0.9"
+        opacity="0.95"
+      />
+      <path
+        d="M141 71 Q163 65 187 72"
+        fill="none"
+        stroke="var(--sky)"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        opacity="0.95"
       />
 
       {eyesClosed ? (
         <>
           <path
-            d="M74 88 Q91 100 108 88"
+            d="M82 92 Q96 102 110 92"
             fill="none"
             stroke="var(--blue-dark)"
             strokeWidth="5"
             strokeLinecap="round"
           />
           <path
-            d="M130 88 Q147 100 164 88"
+            d="M150 92 Q164 102 178 92"
             fill="none"
             stroke="var(--blue-dark)"
             strokeWidth="5"
@@ -903,56 +921,111 @@ function Face({
         </>
       ) : (
         <>
-          <ellipse cx="87" cy="84" rx={stressed ? 14 : 12} ry={stressed ? 19 : 17} fill="var(--blue-dark)" />
-          <ellipse cx="153" cy="84" rx={stressed ? 14 : 12} ry={stressed ? 19 : 17} fill="var(--blue-dark)" />
-          <circle cx="82" cy="77" r="5" fill="var(--paper)" />
-          <circle cx="148" cy="77" r="5" fill="var(--paper)" />
-          <circle cx="93" cy="94" r="3.2" fill="var(--paper)" opacity="0.88" />
-          <circle cx="159" cy="94" r="3.2" fill="var(--paper)" opacity="0.88" />
+          <ellipse
+            cx="96"
+            cy="92"
+            rx={stressed ? 15 : 13}
+            ry={stressed ? 19 : 17}
+            fill="var(--blue-dark)"
+          />
+          <ellipse
+            cx="164"
+            cy="92"
+            rx={stressed ? 15 : 13}
+            ry={stressed ? 19 : 17}
+            fill="var(--blue-dark)"
+          />
+          <circle cx="91" cy="85" r="5" fill="var(--paper)" />
+          <circle cx="159" cy="85" r="5" fill="var(--paper)" />
+          <circle
+            cx="101"
+            cy="100"
+            r="3.5"
+            fill="var(--paper)"
+            opacity="0.92"
+          />
+          <circle
+            cx="169"
+            cy="100"
+            r="3.5"
+            fill="var(--paper)"
+            opacity="0.92"
+          />
         </>
       )}
 
       {highlyStressed ? (
         <>
-          <path d="M69 61 Q88 51 104 61" fill="none" stroke="var(--coral)" strokeWidth="3.2" strokeLinecap="round" />
-          <path d="M133 61 Q151 51 168 61" fill="none" stroke="var(--coral)" strokeWidth="3.2" strokeLinecap="round" />
-          <path d="M187 87 Q198 95 190 106 Q181 100 187 87 Z" fill="var(--aqua)" opacity="0.9" />
+          <path
+            d="M78 69 Q95 60 111 68"
+            fill="none"
+            stroke="var(--coral)"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+          <path
+            d="M149 68 Q165 59 182 69"
+            fill="none"
+            stroke="var(--coral)"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+          <path
+            d="M200 95 Q210 103 202 114 Q193 108 200 95 Z"
+            fill="var(--aqua)"
+            opacity="0.9"
+          />
         </>
       ) : null}
 
-      <ellipse cx="62" cy="112" rx="12" ry="6" fill="var(--coral)" opacity={stressed ? 0.84 : 0.68} />
-      <ellipse cx="177" cy="112" rx="12" ry="6" fill="var(--coral)" opacity={stressed ? 0.84 : 0.68} />
+      <ellipse
+        cx="72"
+        cy="122"
+        rx="12"
+        ry="6.5"
+        fill="var(--coral)"
+        opacity={stressed ? 0.9 : 0.78}
+      />
+      <ellipse
+        cx="188"
+        cy="122"
+        rx="12"
+        ry="6.5"
+        fill="var(--coral)"
+        opacity={stressed ? 0.9 : 0.78}
+      />
 
       <path
-        d="M102 109 Q119 94 136 109 L119 120 Z"
+        d="M113 116 Q130 101 147 116 L130 128 Z"
         fill="var(--coral)"
         stroke="var(--blue-dark)"
-        strokeWidth="3.2"
+        strokeWidth="3.5"
         strokeLinejoin="round"
       />
       <path
-        d="M105 117 Q119 130 133 117
-           Q129 135 119 138
-           Q109 135 105 117 Z"
+        d="M114 127
+           Q130 144 147 127
+           Q143 148 130 152
+           Q117 148 114 127 Z"
         fill="var(--blue-dark)"
         stroke="var(--blue-dark)"
-        strokeWidth="2"
+        strokeWidth="2.5"
         strokeLinejoin="round"
       />
       <path
-        d="M112 127 Q119 132 126 127"
+        d="M121 140 Q130 146 139 140"
         fill="none"
         stroke="var(--coral)"
-        strokeWidth="4"
+        strokeWidth="4.5"
         strokeLinecap="round"
       />
       <path
-        d="M108 108 Q119 101 130 108"
+        d="M119 116 Q130 108 141 116"
         fill="none"
         stroke="var(--paper)"
         strokeWidth="2.5"
         strokeLinecap="round"
-        opacity="0.8"
+        opacity="0.72"
       />
     </>
   )
