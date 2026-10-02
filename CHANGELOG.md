@@ -60,6 +60,7 @@
 - Added a complete visual QA matrix showing all 36 normal activity states and all five special-state assets on one page.
 - Replaced the fieldset legend treatment with an in-panel Special state heading so the title no longer overlaps the control border.
 - Extended manual special dates with a labelled `sunday` type so Christian holidays can reuse the praying mascot independently of weekday.
+- Ensured a custom label on a manual `sunday` override replaces the default “Sunday” footer label, while automatic Sundays continue to display “Sunday”.
 
 
 `component hardening`
