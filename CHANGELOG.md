@@ -23,7 +23,7 @@
 - Added `lib/penguin-assets.ts` as the deterministic asset resolver. The canonical baseline is used directly for the 0h + 0 coffee state and for the dimmed Upcoming treatment.
 - Simplified `PenguinSprite` to render resolved approved assets through Next.js Image while retaining PNG masters in the repository.
 - Marked the complete 36-state activity matrix and five special-state images as the validated visual set for alpha.1.
-- Added automated integrity checks for the canonical baseline and all 41 state PNG masters, including filename coverage, PNG structure, minimum dimensions and transparency diagnostics.
+- Added automated integrity checks for the canonical baseline and all 42 state PNG masters, including the dedicated upcoming working-day scene, filename coverage, PNG structure, minimum dimensions and transparency diagnostics.
 - Added incremental WebP generation for development and production builds. PNG masters remain unchanged and generated WebP runtime assets are ignored by Git.
 - Switched runtime rendering to the generated WebP files and disabled redundant Next.js image reprocessing for these already-optimised assets.
 - Strengthened work-intensity progression from resting through notes, reading and laptop work to book stacks, a measuring tape and overloaded high-work scenes inspired by the supplied reference.
@@ -34,7 +34,7 @@
 `timeline presentation`
 
 - Moved Sunday and manual special-date labels from the body of the daily card to its footer.
-- Kept future days distinct from zero-activity days.
+- Kept future days distinct from zero-activity days; future Monday–Friday dates use `working-day.png`, Saturdays use the canonical baseline, Sundays retain the Sunday scene, all future images are dimmed, and special dates retain priority.
 - Expanded the introductory copy to use the full available content width.
 - Reduced the vertical gap between the hero and the Seven-day view.
 - Allowed the Penguin state tester and visual-QA introductory copy to use the full section width.
