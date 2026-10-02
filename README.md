@@ -28,16 +28,17 @@ The proof-of-concept separates:
 2. `lib/timeline.ts` — date, bucket and override resolution.
 3. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
 4. `lib/penguin-assets.ts` — deterministic mapping from resolved state to approved image asset.
-5. `public/penguins/states/` — 36 approved activity PNGs plus five approved special-state PNGs.
-6. `components/penguin-sprite.tsx` — lightweight image renderer for the resolved asset.
-7. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
-8. `components/penguin-state-tester.tsx` — interactive state inspector.
-9. `components/penguin-state-gallery.tsx` — complete visual QA matrix for the 36 normal states and five special states.
-10. `content/special-dates.ts` — manual date overrides.
-11. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
-12. `app/page.tsx` — demonstration page only.
+5. `public/penguins/states/` — 36 validated activity PNG masters plus five validated special-state PNG masters.
+6. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
+7. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
+8. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
+9. `components/penguin-state-tester.tsx` — interactive state inspector.
+10. `components/penguin-state-gallery.tsx` — complete visual QA matrix for the 36 normal states and five special states.
+11. `content/special-dates.ts` — manual date overrides.
+12. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
+13. `app/page.tsx` — demonstration page only.
 
-That separation is deliberate: the canonical mascot remains the immutable visual ground truth, while each approved state is a complete derived image rather than a runtime SVG composition. State resolution remains independent of presentation, so the timeline can later move into another Next.js application without retaining the PoC shell. Next.js image optimisation can serve efficient runtime formats from the PNG masters without replacing those masters in the repository.
+That separation is deliberate: the canonical mascot remains the immutable visual ground truth, while each approved state is a complete derived image rather than a runtime SVG composition. The validated PNG files remain the source masters. Development and production builds generate ignored WebP derivatives for runtime delivery, so optimisation never overwrites the approved images. State resolution remains independent of presentation, allowing the timeline to move into another Next.js application without retaining the PoC shell.
 
 ## Local setup
 
@@ -57,6 +58,22 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
 
 The publishable key is used only with the curated anonymous-safe RPC. If the Academic API cannot be loaded, the page shows an explicit unavailable state; it does not substitute sample work or coffee values.
+
+## Penguin asset pipeline
+
+The 42 PNG masters are validated before development and production builds: one canonical baseline, 36 normal activity states, and five special states. Validation checks filenames, PNG structure, minimum dimensions and file integrity; transparency is reported as an additional diagnostic.
+
+`npm run dev` and `npm run build` automatically create WebP runtime derivatives when they are missing or older than their PNG source. Generated WebP files are ignored by Git and the PNG masters are never modified.
+
+Useful commands:
+
+```bash
+npm run assets:validate
+npm run assets:generate
+npm run assets:generate:force
+```
+
+If a PNG master is replaced while the development server is already running, run `npm run assets:generate` and refresh the page. Because the renderer serves the pre-generated WebP directly, it does not rely on Next.js image-optimiser cache entries.
 
 ## Manual overrides
 
