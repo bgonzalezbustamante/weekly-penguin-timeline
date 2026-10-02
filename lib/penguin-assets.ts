@@ -23,11 +23,11 @@ export const COFFEE_BUCKETS: CoffeeBucket[] = [
 ]
 
 const SPECIAL_ASSETS: Partial<Record<PenguinMode, string>> = {
-  sunday: '/penguins/states/sunday.png',
-  'winter-holiday': '/penguins/states/winter-holiday.png',
-  'summer-holiday': '/penguins/states/summer-holiday.png',
-  trip: '/penguins/states/trip.png',
-  sick: '/penguins/states/sick.png',
+  sunday: '/penguins/states/webp/sunday.webp',
+  'winter-holiday': '/penguins/states/webp/winter-holiday.webp',
+  'summer-holiday': '/penguins/states/webp/summer-holiday.webp',
+  trip: '/penguins/states/webp/trip.webp',
+  sick: '/penguins/states/webp/sick.webp',
 }
 
 export function resolvePenguinAsset({
@@ -40,7 +40,7 @@ export function resolvePenguinAsset({
   coffeeBucket: CoffeeBucket
 }) {
   if (mode === 'upcoming') {
-    return '/penguins/canonical-baseline.png'
+    return '/penguins/canonical-baseline.webp'
   }
 
   const specialAsset = SPECIAL_ASSETS[mode]
@@ -49,7 +49,7 @@ export function resolvePenguinAsset({
   }
 
   if (workBucket === 'zero' && coffeeBucket === 'zero') {
-    return '/penguins/canonical-baseline.png'
+    return '/penguins/canonical-baseline.webp'
   }
 
   return `/penguins/states/work-${workBucket}__coffee-${coffeeBucket}.png`
