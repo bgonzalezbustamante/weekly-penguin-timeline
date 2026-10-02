@@ -24,7 +24,7 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Penguin states',
         items: [
-          'Rebuilt the shared baseline penguin again after direct visual comparison with the supplied reference: a much larger rounded head, clearer V-shaped white face, wider rectangular glasses, larger circular eyes, shorter body and more reference-like tail, flippers and feet.',
+          'Replaced the shared baseline penguin with a from-scratch glossy kawaii mascot: broader head, stronger dark outline, larger white face patches, more dominant square glasses, bigger highlighted eyes, compact body and a clearer smiling beak/mouth treatment.',
           'Kept the visual palette aligned with the Academic Website while reducing the deliberately pixel-like treatment.',
           'Standardised both work and coffee into six bands, producing 36 normal combinations with progressively stronger workload, coffee and stress cues.',
         ],
