@@ -655,6 +655,163 @@ function SpecialScene({ mode }: { mode: PenguinMode }) {
   return null
 }
 
+function BasePenguinShell() {
+  return (
+    <g aria-hidden="true">
+      <ellipse
+        cx="120"
+        cy="207"
+        rx="86"
+        ry="10"
+        fill="var(--blue-wash)"
+      />
+
+      <path
+        d="M50 158 Q33 175 18 177 Q31 191 57 185"
+        fill="var(--blue)"
+        stroke="var(--blue-dark)"
+        strokeWidth="5"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M120 24
+           C78 23 48 49 43 92
+           C38 133 49 177 76 198
+           C88 208 103 213 120 213
+           C138 213 154 208 166 198
+           C193 177 202 134 197 93
+           C192 50 163 24 120 24 Z"
+        fill="var(--blue)"
+        stroke="var(--blue-dark)"
+        strokeWidth="6.5"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M50 118
+           Q31 137 31 170
+           Q51 165 72 148
+           L76 116
+           Q63 111 50 118 Z"
+        fill="var(--blue)"
+        stroke="var(--blue-dark)"
+        strokeWidth="5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M188 118
+           Q210 136 211 169
+           Q190 165 168 149
+           L164 116
+           Q177 111 188 118 Z"
+        fill="var(--blue)"
+        stroke="var(--blue-dark)"
+        strokeWidth="5"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M56 89
+           Q62 46 103 31
+           Q137 18 170 39
+           Q190 53 195 88
+           Q165 67 140 78
+           Q126 84 119 95
+           Q110 83 96 78
+           Q76 70 56 89 Z"
+        fill="var(--blue-dark)"
+      />
+
+      <path
+        d="M72 117
+           Q83 99 101 94
+           Q118 90 137 96
+           Q157 102 167 121
+           Q178 143 171 171
+           Q166 193 151 203
+           Q136 211 119 211
+           Q102 211 87 202
+           Q70 191 66 169
+           Q60 141 72 117 Z"
+        fill="var(--paper)"
+      />
+
+      <path
+        d="M76 147
+           Q93 129 119 129
+           Q146 129 163 148
+           Q166 177 151 197
+           Q136 205 119 205
+           Q101 205 87 197
+           Q73 178 76 147 Z"
+        fill="var(--sky)"
+        opacity="0.78"
+      />
+
+      <path
+        d="M74 56
+           Q105 30 146 37
+           Q162 40 177 50"
+        fill="none"
+        stroke="var(--sky)"
+        strokeWidth="12"
+        strokeLinecap="round"
+        opacity="0.38"
+      />
+      <path
+        d="M78 48
+           Q103 29 132 31"
+        fill="none"
+        stroke="var(--paper)"
+        strokeWidth="5"
+        strokeLinecap="round"
+        opacity="0.92"
+      />
+      <ellipse
+        cx="146"
+        cy="38"
+        rx="7"
+        ry="3.5"
+        fill="var(--paper)"
+        opacity="0.82"
+      />
+
+      <path
+        d="M43 129 Q52 144 65 151"
+        fill="none"
+        stroke="var(--aqua)"
+        strokeWidth="4"
+        strokeLinecap="round"
+        opacity="0.85"
+      />
+      <path
+        d="M176 149 Q190 142 198 129"
+        fill="none"
+        stroke="var(--sky)"
+        strokeWidth="4"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
+
+      <path
+        d="M72 198 Q82 189 96 195 Q103 199 101 207 Q92 216 80 211 Q73 208 72 198 Z"
+        fill="var(--coral)"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.5"
+      />
+      <path
+        d="M138 195 Q152 189 164 198 Q166 208 157 213 Q145 216 137 207 Q135 200 138 195 Z"
+        fill="var(--coral)"
+        stroke="var(--blue-dark)"
+        strokeWidth="3.5"
+      />
+      <path d="M81 203 L86 212 L91 202" fill="var(--paper)" opacity="0.6" />
+      <path d="M147 202 L152 212 L157 202" fill="var(--paper)" opacity="0.6" />
+    </g>
+  )
+}
+
 function Face({
   eyesClosed,
   stressLevel,
@@ -666,32 +823,66 @@ function Face({
   const highlyStressed = stressLevel >= 9
   return (
     <>
-      <ellipse cx="91" cy="87" rx="36" ry="34" fill="var(--paper)" />
-      <ellipse cx="147" cy="87" rx="36" ry="34" fill="var(--paper)" />
+      <path
+        d="M55 82
+           Q57 57 77 48
+           Q98 39 113 58
+           Q119 66 119 82
+           Q119 101 108 110
+           Q91 123 73 112
+           Q57 102 55 82 Z"
+        fill="var(--paper)"
+      />
+      <path
+        d="M119 82
+           Q120 58 141 49
+           Q162 40 177 59
+           Q184 68 183 84
+           Q182 102 171 111
+           Q154 123 136 112
+           Q120 102 119 82 Z"
+        fill="var(--paper)"
+      />
 
       <rect
-        x="54"
-        y="52"
-        width="73"
-        height="67"
-        rx="23"
+        x="50"
+        y="49"
+        width="72"
+        height="69"
+        rx="21"
         fill="none"
         stroke="var(--blue-dark)"
-        strokeWidth="7"
+        strokeWidth="9"
       />
       <rect
-        x="111"
-        y="52"
-        width="73"
-        height="67"
-        rx="23"
+        x="116"
+        y="49"
+        width="72"
+        height="69"
+        rx="21"
         fill="none"
         stroke="var(--blue-dark)"
-        strokeWidth="7"
+        strokeWidth="9"
       />
-      <path d="M127 73 H111" stroke="var(--blue-dark)" strokeWidth="7" strokeLinecap="round" />
-      <path d="M54 76 L37 83" stroke="var(--aqua)" strokeWidth="6" strokeLinecap="round" />
-      <path d="M184 76 L201 82" stroke="var(--aqua)" strokeWidth="6" strokeLinecap="round" />
+      <path d="M121 69 H116" stroke="var(--blue-dark)" strokeWidth="9" strokeLinecap="round" />
+      <path d="M50 72 L33 81" stroke="var(--aqua)" strokeWidth="7" strokeLinecap="round" />
+      <path d="M188 72 L205 79" stroke="var(--aqua)" strokeWidth="7" strokeLinecap="round" />
+      <path
+        d="M58 56 Q83 47 111 55"
+        fill="none"
+        stroke="var(--sky)"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        opacity="0.9"
+      />
+      <path
+        d="M124 55 Q149 47 179 56"
+        fill="none"
+        stroke="var(--sky)"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        opacity="0.9"
+      />
 
       {eyesClosed ? (
         <>
@@ -712,12 +903,12 @@ function Face({
         </>
       ) : (
         <>
-          <ellipse cx="91" cy="87" rx={stressed ? 13 : 11} ry={stressed ? 18 : 15} fill="var(--blue-dark)" />
-          <ellipse cx="147" cy="87" rx={stressed ? 13 : 11} ry={stressed ? 18 : 15} fill="var(--blue-dark)" />
-          <circle cx="86" cy="81" r="4.5" fill="var(--paper)" />
-          <circle cx="142" cy="81" r="4.5" fill="var(--paper)" />
-          <circle cx="96" cy="94" r="3" fill="var(--paper)" opacity="0.88" />
-          <circle cx="152" cy="94" r="3" fill="var(--paper)" opacity="0.88" />
+          <ellipse cx="87" cy="84" rx={stressed ? 14 : 12} ry={stressed ? 19 : 17} fill="var(--blue-dark)" />
+          <ellipse cx="153" cy="84" rx={stressed ? 14 : 12} ry={stressed ? 19 : 17} fill="var(--blue-dark)" />
+          <circle cx="82" cy="77" r="5" fill="var(--paper)" />
+          <circle cx="148" cy="77" r="5" fill="var(--paper)" />
+          <circle cx="93" cy="94" r="3.2" fill="var(--paper)" opacity="0.88" />
+          <circle cx="159" cy="94" r="3.2" fill="var(--paper)" opacity="0.88" />
         </>
       )}
 
@@ -729,22 +920,39 @@ function Face({
         </>
       ) : null}
 
-      <ellipse cx="66" cy="114" rx="11" ry="6.5" fill="var(--coral)" opacity={stressed ? 0.82 : 0.62} />
-      <ellipse cx="172" cy="114" rx="11" ry="6.5" fill="var(--coral)" opacity={stressed ? 0.82 : 0.62} />
+      <ellipse cx="62" cy="112" rx="12" ry="6" fill="var(--coral)" opacity={stressed ? 0.84 : 0.68} />
+      <ellipse cx="177" cy="112" rx="12" ry="6" fill="var(--coral)" opacity={stressed ? 0.84 : 0.68} />
 
       <path
-        d="M103 111 Q119 97 135 111 Q123 126 119 126 Q115 126 103 111 Z"
+        d="M102 109 Q119 94 136 109 L119 120 Z"
         fill="var(--coral)"
         stroke="var(--blue-dark)"
-        strokeWidth="3"
+        strokeWidth="3.2"
         strokeLinejoin="round"
       />
       <path
-        d="M110 113 Q119 121 128 113"
+        d="M105 117 Q119 130 133 117
+           Q129 135 119 138
+           Q109 135 105 117 Z"
+        fill="var(--blue-dark)"
+        stroke="var(--blue-dark)"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M112 127 Q119 132 126 127"
+        fill="none"
+        stroke="var(--coral)"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <path
+        d="M108 108 Q119 101 130 108"
         fill="none"
         stroke="var(--paper)"
-        strokeWidth="2.8"
+        strokeWidth="2.5"
         strokeLinecap="round"
+        opacity="0.8"
       />
     </>
   )
@@ -774,83 +982,13 @@ export default function PenguinSprite({
       shapeRendering="geometricPrecision"
     >
       <g opacity={upcoming ? 0.33 : 1}>
-        <ellipse cx="120" cy="207" rx="83" ry="10" fill="var(--blue-wash)" />
+        <BasePenguinShell />
+
         {!special ? (
           <Sparkles intense={highCoffee || workBucket === '10-plus'} />
         ) : null}
 
-        <path
-          d="M59 127 Q31 147 33 179 Q54 172 73 156 Z"
-          fill="var(--blue)"
-          stroke="var(--blue-dark)"
-          strokeWidth="5"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M179 127 Q208 145 212 178 Q190 172 171 157 Z"
-          fill="var(--blue)"
-          stroke="var(--blue-dark)"
-          strokeWidth="5"
-          strokeLinejoin="round"
-        />
-
-        <ellipse
-          cx="119"
-          cy="118"
-          rx="76"
-          ry="91"
-          fill="var(--blue)"
-          stroke="var(--blue-dark)"
-          strokeWidth="5.5"
-        />
-        <ellipse
-          cx="115"
-          cy="97"
-          rx="61"
-          ry="62"
-          fill="var(--blue-dark)"
-        />
-        <path
-          d="M69 62 Q106 28 157 56 Q128 43 92 66 Z"
-          fill="var(--sky)"
-          opacity="0.42"
-        />
-        <ellipse cx="94" cy="48" rx="10" ry="5" fill="var(--paper)" opacity="0.92" />
-        <ellipse cx="112" cy="42" rx="4" ry="2.5" fill="var(--paper)" opacity="0.86" />
-        <path
-          d="M61 91 Q69 44 115 36 Q162 39 178 90 Q148 73 119 94 Q89 73 61 91 Z"
-          fill="var(--blue-dark)"
-        />
-        <ellipse
-          cx="119"
-          cy="142"
-          rx="56"
-          ry="64"
-          fill="var(--paper)"
-        />
-        <ellipse
-          cx="119"
-          cy="169"
-          rx="47"
-          ry="35"
-          fill="var(--sky)"
-          opacity="0.47"
-        />
-
         <Face eyesClosed={eyesClosed} stressLevel={special ? 0 : stressLevel} />
-
-        <path
-          d="M76 197 Q87 190 102 197 Q102 210 89 212 Q76 209 76 197 Z"
-          fill="var(--coral)"
-          stroke="var(--blue-dark)"
-          strokeWidth="3"
-        />
-        <path
-          d="M137 197 Q149 190 164 197 Q164 210 151 212 Q137 209 137 197 Z"
-          fill="var(--coral)"
-          stroke="var(--blue-dark)"
-          strokeWidth="3"
-        />
 
         {special ? (
           <SpecialScene mode={mode} />
