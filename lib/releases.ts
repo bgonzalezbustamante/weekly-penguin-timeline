@@ -40,8 +40,8 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Data and testing',
         items: [
-          'Kept the timeline on live Academic API data only, linked the status label to the public API page, and retained green connected and muted-red unavailable indicators.',
-          'Added regression tests for state boundaries, labelled Sunday-style holidays, fixed-date toggling and precedence, missing data, New Year week boundaries and deterministic asset resolution.',
+          'Kept the timeline on live Academic API data only, validated the yearly payload before rendering, avoided unsupported future-year requests, linked the status label to the public API page, and retained green connected and muted-red unavailable indicators.',
+          'Added regression tests for state boundaries, strict API payload validation, special-date rules and precedence, New Year API availability, DST-sensitive week boundaries and deterministic asset resolution.',
           'Kept the interactive tester and complete 36-state visual QA matrix while simplifying the tester readout.',
         ],
       },
