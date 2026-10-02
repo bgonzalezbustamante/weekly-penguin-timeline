@@ -840,15 +840,15 @@ h1 {
 }
 
 .cc-icon {
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 0.82rem;
+  height: 0.82rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid currentColor;
+  border: 1px solid currentColor;
   border-radius: 50%;
   color: var(--coral);
-  font-size: 0.48rem;
+  font-size: 0.31rem;
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 1;
