@@ -39,6 +39,10 @@ export function resolvePenguinAsset({
   workBucket: WorkBucket
   coffeeBucket: CoffeeBucket
 }) {
+  if (mode === 'working-day') {
+    return '/penguins/states/webp/working-day.webp'
+  }
+
   if (mode === 'upcoming') {
     return '/penguins/canonical-baseline.webp'
   }
