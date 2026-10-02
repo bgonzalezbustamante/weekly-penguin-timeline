@@ -1,3 +1,9 @@
+import {
+  isoDateInTimeZone,
+  parseIsoDateUtc,
+} from '@/lib/date-utils'
+import { assertValidSpecialDateRules } from '@/lib/special-date-rules'
+import { assertValidPublicWorkDays } from '@/lib/work-data'
 import type {
   CoffeeBucket,
   PenguinMode,
@@ -35,7 +41,11 @@ const SPECIAL_LABELS: Record<SpecialDayType, string> = {
 }
 
 export function resolveWorkBucket(minutes: number): WorkBucket {
-  if (minutes <= 0) return 'zero'
+  if (!Number.isFinite(minutes) || minutes < 0) {
+    throw new Error('Working minutes must be a non-negative finite number.')
+  }
+
+  if (minutes === 0) return 'zero'
   if (minutes < 240) return 'under-4'
   if (minutes < 360) return '4-6'
   if (minutes < 480) return '6-8'
@@ -44,7 +54,11 @@ export function resolveWorkBucket(minutes: number): WorkBucket {
 }
 
 export function resolveCoffeeBucket(count: number): CoffeeBucket {
-  if (count <= 0) return 'zero'
+  if (!Number.isInteger(count) || count < 0) {
+    throw new Error('Coffee count must be a non-negative integer.')
+  }
+
+  if (count === 0) return 'zero'
   if (count < 4) return 'under-4'
   if (count < 6) return '4-6'
   if (count < 8) return '6-8'
@@ -52,36 +66,14 @@ export function resolveCoffeeBucket(count: number): CoffeeBucket {
   return '10-plus'
 }
 
-function toIsoDate(date: Date, timeZone: string) {
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(date)
-
-  const values = Object.fromEntries(
-    parts
-      .filter((part) => part.type !== 'literal')
-      .map((part) => [part.type, part.value])
-  )
-
-  return `${values.year}-${values.month}-${values.day}`
-}
-
-function parseIsoDate(value: string) {
-  const [year, month, day] = value.split('-').map(Number)
-  return new Date(Date.UTC(year, month - 1, day, 12))
-}
-
 function addDays(value: string, days: number) {
-  const date = parseIsoDate(value)
+  const date = parseIsoDateUtc(value)
   date.setUTCDate(date.getUTCDate() + days)
   return date.toISOString().slice(0, 10)
 }
 
 function mondayFor(value: string) {
-  const date = parseIsoDate(value)
+  const date = parseIsoDateUtc(value)
   const weekday = date.getUTCDay()
   const offset = weekday === 0 ? -6 : 1 - weekday
   return addDays(value, offset)
@@ -103,7 +95,7 @@ function getMode(
 ): PenguinMode {
   if (special) return special.type
 
-  const weekday = parseIsoDate(date).getUTCDay()
+  const weekday = parseIsoDateUtc(date).getUTCDay()
   if (weekday === 0) return 'sunday'
   if (isFuture) return 'upcoming'
 
@@ -121,7 +113,10 @@ export function buildWeeklyTimeline({
   days: PublicWorkDay[]
   specialDates?: SpecialDate[]
 }): TimelineDay[] {
-  const today = toIsoDate(now, timeZone)
+  assertValidPublicWorkDays(days)
+  assertValidSpecialDateRules(specialDates)
+
+  const today = isoDateInTimeZone(now, timeZone)
   const monday = mondayFor(today)
   const byDate = new Map(days.map((day) => [day.date, day]))
 
@@ -134,7 +129,7 @@ export function buildWeeklyTimeline({
     const coffeeCount = source?.coffee_count ?? 0
     const workBucket = resolveWorkBucket(netMinutes)
     const coffeeBucket = resolveCoffeeBucket(coffeeCount)
-    const parsed = parseIsoDate(date)
+    const parsed = parseIsoDateUtc(date)
     const weekday = new Intl.DateTimeFormat('en-GB', {
       weekday: 'long',
       timeZone: 'UTC',
@@ -170,11 +165,22 @@ export function yearsForCurrentWeek(
   now = new Date(),
   timeZone = 'Europe/Amsterdam'
 ) {
-  const today = toIsoDate(now, timeZone)
+  const today = isoDateInTimeZone(now, timeZone)
   const monday = mondayFor(today)
   const sunday = addDays(monday, 6)
   return Array.from(
     new Set([Number(monday.slice(0, 4)), Number(sunday.slice(0, 4))])
+  )
+}
+
+export function yearsForWorkAnalytics(
+  now = new Date(),
+  timeZone = 'Europe/Amsterdam'
+) {
+  const latestApiYear = now.getUTCFullYear()
+
+  return yearsForCurrentWeek(now, timeZone).filter(
+    (year) => year <= latestApiYear
   )
 }
 
@@ -184,12 +190,16 @@ export function formatDisplayDate(value: string) {
     month: 'short',
     year: 'numeric',
     timeZone: 'UTC',
-  }).format(parseIsoDate(value))
+  }).format(parseIsoDateUtc(value))
 
   return formatted.replace('Sep ', 'Sept ')
 }
 
 export function formatMinutes(minutes: number) {
+  if (!Number.isInteger(minutes) || minutes < 0) {
+    throw new Error('Working minutes must be a non-negative integer.')
+  }
+
   const hours = Math.floor(minutes / 60)
   const remainder = minutes % 60
 
