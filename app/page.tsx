@@ -2,7 +2,7 @@ import PenguinStateGallery from '@/components/penguin-state-gallery'
 import PenguinStateTester from '@/components/penguin-state-tester'
 import ReleaseNotes from '@/components/release-notes'
 import WeeklyPenguinTimeline from '@/components/weekly-penguin-timeline'
-import { specialDates } from '@/content/special-dates'
+import { getConfiguredSpecialDates } from '@/content/special-dates'
 import {
   buildWeeklyTimeline,
   yearsForCurrentWeek,
@@ -13,8 +13,8 @@ export const dynamic = 'force-dynamic'
 
 const TIME_ZONE = 'Europe/Amsterdam'
 
-async function loadCurrentWeek() {
-  const years = yearsForCurrentWeek(new Date(), TIME_ZONE)
+async function loadCurrentWeek(now: Date) {
+  const years = yearsForCurrentWeek(now, TIME_ZONE)
 
   try {
     const results = await Promise.all(
@@ -24,6 +24,7 @@ async function loadCurrentWeek() {
     return {
       days: results.flatMap((result) => result.days),
       error: null,
+      years,
     }
   } catch (error) {
     return {
@@ -32,17 +33,20 @@ async function loadCurrentWeek() {
         error instanceof Error
           ? error.message
           : 'The Academic API could not be loaded.',
+      years,
     }
   }
 }
 
 export default async function HomePage() {
-  const { days, error } = await loadCurrentWeek()
+  const now = new Date()
+  const { days, error, years } = await loadCurrentWeek(now)
   const timeline = error
     ? []
     : buildWeeklyTimeline({
+        now,
         days,
-        specialDates,
+        specialDates: getConfiguredSpecialDates(years),
         timeZone: TIME_ZONE,
       })
 
@@ -117,9 +121,9 @@ export default async function HomePage() {
             <h2>Special dates stay manual</h2>
             <p>
               Holidays, trips and sickness are kept in one small configuration
-              file. Christian holidays can reuse the Sunday illustration with
-              a custom label. Explicit overrides take priority over the weekly
-              Sunday state.
+              file. A switch enables widely observed fixed Catholic
+              celebrations, while manual overrides take priority over built-in
+              dates and the weekly Sunday state.
             </p>
           </article>
           <article>
