@@ -14,7 +14,8 @@ This repository is intentionally separate from `academic-website`. Development a
 - Resolves six coffee states: `0`, `<4`, `4–6`, `6–8`, `8–10`, and `10+`.
 - Produces 36 normal combined activity states.
 - Uses a praying penguin on Sundays.
-- Supports manual overrides for winter holiday, summer holiday, trip, and sick dates.
+- Supports toggleable fixed Catholic celebrations that reuse the Sunday illustration with celebration-specific labels.
+- Supports manual overrides for Sunday-style holidays, winter holiday, summer holiday, trip, and sick dates.
 - Treats future days as Upcoming rather than falsely displaying zero activity.
 - Marks the current day as provisional with “so far”.
 - Uses the Academic Website Oxford palette and typography hierarchy.
@@ -34,7 +35,7 @@ The proof-of-concept separates:
 8. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
 9. `components/penguin-state-tester.tsx` — interactive state inspector.
 10. `components/penguin-state-gallery.tsx` — complete visual QA matrix for the 36 normal states and five special states.
-11. `content/special-dates.ts` — manual date overrides, including labelled `sunday` states for Christian holidays.
+11. `content/special-dates.ts` — manual date overrides plus the toggleable fixed Catholic celebration set.
 12. `tests/` — boundary, override, week-crossing and asset-resolution regression tests.
 13. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
 14. `app/page.tsx` — demonstration page only.
@@ -76,9 +77,17 @@ npm run assets:generate:force
 
 If a PNG master is replaced while the development server is already running, run `npm run assets:generate` and refresh the page. Because the renderer serves the pre-generated WebP directly, it does not rely on Next.js image-optimiser cache entries.
 
-## Manual overrides
+## Special dates
 
-Edit `content/special-dates.ts`. Exact dates and inclusive ranges are supported. A labelled `sunday` override can reuse the praying Sunday illustration for Christian holidays on any weekday:
+Edit `content/special-dates.ts`. The built-in fixed Catholic celebrations are controlled by:
+
+```ts
+export const ENABLE_CATHOLIC_FIXED_DATES = true
+```
+
+When enabled, the recurring fixed-date set is Assumption (15 August), All Saints (1 November), All Souls (2 November), Immaculate Conception (8 December), Christmas Eve (24 December), and Christmas Day (25 December). The 1 January celebration is intentionally not included.
+
+Manual exact dates and inclusive ranges remain supported. A labelled `sunday` override can reuse the praying Sunday illustration for Christian holidays on any weekday:
 
 ```ts
 {
@@ -95,7 +104,7 @@ Edit `content/special-dates.ts`. Exact dates and inclusive ranges are supported.
 }
 ```
 
-Explicit manual overrides take precedence over the automatic weekly Sunday state. The optional `label` is shown in the daily-card footer.
+Precedence is: manual special date → enabled fixed Catholic date → automatic weekly Sunday → normal/upcoming state. The optional `label` is shown in the daily-card footer.
 
 ## Activity bands
 
