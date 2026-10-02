@@ -34,9 +34,10 @@ The proof-of-concept separates:
 8. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation.
 9. `components/penguin-state-tester.tsx` — interactive state inspector.
 10. `components/penguin-state-gallery.tsx` — complete visual QA matrix for the 36 normal states and five special states.
-11. `content/special-dates.ts` — manual date overrides.
-12. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
-13. `app/page.tsx` — demonstration page only.
+11. `content/special-dates.ts` — manual date overrides, including labelled `sunday` states for Christian holidays.
+12. `tests/` — boundary, override, week-crossing and asset-resolution regression tests.
+13. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
+14. `app/page.tsx` — demonstration page only.
 
 That separation is deliberate: the canonical mascot remains the immutable visual ground truth, while each approved state is a complete derived image rather than a runtime SVG composition. The validated PNG files remain the source masters. Development and production builds generate ignored WebP derivatives for runtime delivery, so optimisation never overwrites the approved images. State resolution remains independent of presentation, allowing the timeline to move into another Next.js application without retaining the PoC shell.
 
@@ -77,9 +78,15 @@ If a PNG master is replaced while the development server is already running, run
 
 ## Manual overrides
 
-Edit `content/special-dates.ts`. Exact dates and inclusive ranges are supported:
+Edit `content/special-dates.ts`. Exact dates and inclusive ranges are supported. A labelled `sunday` override can reuse the praying Sunday illustration for Christian holidays on any weekday:
 
 ```ts
+{
+  date: '2027-03-26',
+  type: 'sunday',
+  label: 'Good Friday',
+}
+
 {
   from: '2026-12-21',
   to: '2027-01-03',
@@ -88,11 +95,22 @@ Edit `content/special-dates.ts`. Exact dates and inclusive ranges are supported:
 }
 ```
 
-Explicit manual overrides take precedence over Sunday. Otherwise Sunday takes precedence over the normal work/coffee state.
+Explicit manual overrides take precedence over the automatic weekly Sunday state. The optional `label` is shown in the daily-card footer.
 
 ## Activity bands
 
 Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 6–8, 8–10 and 10-plus. Working time is displayed in hours; coffee uses the same thresholds as counts. The combination produces 36 normal activity states.
+
+## Component hardening
+
+The alpha component includes regression coverage for work and coffee bucket boundaries, manual-override precedence, labelled Sunday-style holidays, missing API days, New Year week boundaries, display helpers and deterministic asset resolution.
+
+```bash
+npm run test
+npm run check
+```
+
+`npm run check` validates the PNG masters, lints, type-checks and runs the unit test suite.
 
 ## Release documentation
 
