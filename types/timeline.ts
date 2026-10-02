@@ -15,6 +15,7 @@ export type CoffeeBucket =
   | '10-plus'
 
 export type SpecialDayType =
+  | 'sunday'
   | 'winter-holiday'
   | 'summer-holiday'
   | 'trip'
