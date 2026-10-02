@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 import type {
   CoffeeBucket,
   PenguinMode,
@@ -657,10 +659,13 @@ function SpecialScene({ mode }: { mode: PenguinMode }) {
 
 function CanonicalMascot({ dimmed }: { dimmed: boolean }) {
   return (
-    <img
+    <Image
       className="penguin-sprite-baseline"
       src="/penguins/canonical-baseline.svg"
       alt=""
+      width={228}
+      height={228}
+      unoptimized
       aria-hidden="true"
       style={{ opacity: dimmed ? 0.33 : 1 }}
     />
