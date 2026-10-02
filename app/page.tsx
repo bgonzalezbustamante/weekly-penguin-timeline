@@ -64,11 +64,18 @@ export default async function HomePage() {
           >
             <span>Data source</span>
             <strong>
-              <i
-                className={`connection-dot${error ? ' is-offline' : ' is-online'}`}
-                aria-hidden="true"
-              />
-              Academic API
+              <a
+                className="source-link"
+                href="https://dashboard.bgonzalezbustamante.com/api"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i
+                  className={`connection-dot${error ? ' is-offline' : ' is-online'}`}
+                  aria-hidden="true"
+                />
+                Academic API
+              </a>
             </strong>
           </div>
         </div>
@@ -109,9 +116,10 @@ export default async function HomePage() {
             <p className="eyebrow">Overrides</p>
             <h2>Special dates stay manual</h2>
             <p>
-              Winter holidays, summer holidays, trips and sickness are kept in
-              one small configuration file. Explicit overrides take priority
-              over the Sunday state.
+              Holidays, trips and sickness are kept in one small configuration
+              file. Christian holidays can reuse the Sunday illustration with
+              a custom label. Explicit overrides take priority over the weekly
+              Sunday state.
             </p>
           </article>
           <article>
