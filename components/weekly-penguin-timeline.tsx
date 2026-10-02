@@ -1,12 +1,38 @@
+'use client'
+
+import { useState } from 'react'
+
 import PenguinSprite from '@/components/penguin-sprite'
 import { formatDisplayDate, formatMinutes } from '@/lib/timeline'
-import type { TimelineDay } from '@/types/timeline'
+import type { TimelineWeek } from '@/types/timeline'
+
+function compactDate(value: string) {
+  return formatDisplayDate(value).replace(/\s+\d{4}$/, '')
+}
+
+function relativeWeekLabel(offset: number) {
+  if (offset === 0) return 'Current'
+  if (offset < 0) {
+    const weeks = Math.abs(offset)
+    return `${weeks}w ago`
+  }
+  return `in ${offset}w`
+}
 
 export default function WeeklyPenguinTimeline({
-  days,
+  weeks,
 }: {
-  days: TimelineDay[]
+  weeks: TimelineWeek[]
 }) {
+  const currentIndex = Math.max(
+    0,
+    weeks.findIndex((week) => week.isCurrentWeek)
+  )
+  const [selectedIndex, setSelectedIndex] = useState(currentIndex)
+  const selectedWeek = weeks[selectedIndex]
+
+  if (!selectedWeek) return null
+
   return (
     <section className="timeline-section" aria-labelledby="weekly-timeline-title">
       <div className="section-heading">
@@ -15,14 +41,77 @@ export default function WeeklyPenguinTimeline({
           <h2 id="weekly-timeline-title">Weekly timeline</h2>
           <p className="section-intro">
             Daily net working time and coffee counts translated into one
-            penguin state per day.
+            penguin state per day. Browse four weeks before and four weeks
+            after the current week.
           </p>
         </div>
       </div>
 
+      <div className="week-pagination-scroll">
+        <nav className="week-pagination" aria-label="Weekly timeline pagination">
+          <button
+            className="week-nav-button"
+            type="button"
+            onClick={() => setSelectedIndex((index) => Math.max(0, index - 1))}
+            disabled={selectedIndex === 0}
+            aria-label="Show older week"
+          >
+            <span aria-hidden="true">←</span>
+            Older
+          </button>
+
+          <div className="week-pages">
+            {weeks.map((week, index) => {
+              const selected = index === selectedIndex
+
+              return (
+                <button
+                  className={[
+                    'week-page-button',
+                    selected ? 'is-selected' : '',
+                    week.isCurrentWeek ? 'is-current-week' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  type="button"
+                  key={week.startDate}
+                  onClick={() => setSelectedIndex(index)}
+                  aria-current={selected ? 'page' : undefined}
+                  aria-label={`Show week ${formatDisplayDate(week.startDate)} to ${formatDisplayDate(week.endDate)}`}
+                >
+                  <span>{compactDate(week.startDate)}</span>
+                  <small>{relativeWeekLabel(week.offset)}</small>
+                </button>
+              )
+            })}
+          </div>
+
+          <button
+            className="week-nav-button"
+            type="button"
+            onClick={() =>
+              setSelectedIndex((index) => Math.min(weeks.length - 1, index + 1))
+            }
+            disabled={selectedIndex === weeks.length - 1}
+            aria-label="Show newer week"
+          >
+            Newer
+            <span aria-hidden="true">→</span>
+          </button>
+        </nav>
+      </div>
+
+      <div className="selected-week-heading" aria-live="polite">
+        <strong>
+          {formatDisplayDate(selectedWeek.startDate)} –{' '}
+          {formatDisplayDate(selectedWeek.endDate)}
+        </strong>
+        {selectedWeek.isCurrentWeek ? <span>Current week</span> : null}
+      </div>
+
       <div className="timeline-scroll" tabIndex={0}>
         <ol className="weekly-timeline">
-          {days.map((day) => {
+          {selectedWeek.days.map((day) => {
             const specialText = day.specialLabel
 
             return (
