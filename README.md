@@ -11,8 +11,8 @@ This repository is intentionally separate from `academic-website`. Development a
 - Reads `get_public_work_analytics(year)` from the Research Dashboard Academic API.
 - Uses live daily `net_minutes` and `coffee_count`; there is no built-in activity-data fallback.
 - Resolves six working-time states: `0h`, `<4h`, `4–6h`, `6–8h`, `8–10h`, and `10h+`.
-- Resolves five coffee states: `0`, `2–4`, `4–6`, `8–10`, and `10+`.
-- Produces 30 normal combined activity states.
+- Resolves six coffee states: `0`, `<4`, `4–6`, `6–8`, `8–10`, and `10+`.
+- Produces 36 normal combined activity states.
 - Uses a praying penguin on Sundays.
 - Supports manual overrides for winter holiday, summer holiday, trip, and sick dates.
 - Treats future days as Upcoming rather than falsely displaying zero activity.
@@ -69,9 +69,9 @@ Edit `content/special-dates.ts`. Exact dates and inclusive ranges are supported:
 
 Explicit manual overrides take precedence over Sunday. Otherwise Sunday takes precedence over the normal work/coffee state.
 
-## Coffee-band note
+## Activity bands
 
-The requested display intervals are `0`, `2–4`, `4–6`, `8–10`, and `10+`. As written, they omit 1 and 7 and overlap at 4 and 10. The PoC preserves those labels but uses one deterministic resolver for every integer count. The mapping is isolated in `resolveCoffeeBucket()` so it can be adjusted without changing any component code.
+Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 6–8, 8–10 and 10-plus. Working time is displayed in hours; coffee uses the same thresholds as counts. The combination produces 36 normal activity states.
 
 ## Release documentation
 
