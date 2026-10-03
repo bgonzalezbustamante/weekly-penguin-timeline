@@ -16,7 +16,8 @@ This repository is intentionally separate from `academic-website`. Development a
 - Uses a praying penguin on Sundays.
 - Supports toggleable fixed Catholic celebrations that reuse the Sunday illustration with celebration-specific labels.
 - Supports manual overrides for Sunday-style holidays, winter holiday, summer holiday, trip, and sick dates.
-- Uses `canonical-couple.png` on Saturdays, past or future, unless a special-date override takes priority.
+- Uses the normal activity state on Saturdays when work or coffee is recorded; zero-work/zero-coffee Saturdays use `canonical-couple.png` instead.
+- Uses `canonical-couple.png` for upcoming Saturdays; special-date overrides retain priority over every Saturday rule.
 - Treats future dates as provisional rather than falsely displaying zero activity: Monday–Friday use the dedicated working-day scene, Saturday uses the canonical couple scene, and Sunday uses the Sunday scene; future illustrations remain visually provisional.
 - Paginates the weekly timeline across a fixed nine-week window: four weeks before, the current week, and four weeks after.
 - Marks the current day as provisional with “so far”.
@@ -116,7 +117,7 @@ Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 
 
 ## Component hardening
 
-The current component includes regression coverage for work and coffee bucket boundaries, strict Academic API payload validation, duplicate and incomplete daily data, special-date validation and precedence, weekday/Saturday/Sunday state selection, the nine-week pagination window, New Year API availability boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. The browser preloads only the calendar years required for four weeks before through four weeks after the current week. The API loader does not request a future calendar year that the upstream RPC rejects; fixed and manual special dates can still resolve across the full nine-week window.
+The current component includes regression coverage for work and coffee bucket boundaries, strict Academic API payload validation, duplicate and incomplete daily data, special-date validation and precedence, active/free/upcoming Saturday behaviour, weekday/Sunday state selection, the nine-week pagination window, New Year API availability boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. The browser preloads only the calendar years required for four weeks before through four weeks after the current week. The API loader does not request a future calendar year that the upstream RPC rejects; fixed and manual special dates can still resolve across the full nine-week window.
 
 ```bash
 npm run test
