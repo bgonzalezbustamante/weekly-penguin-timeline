@@ -194,6 +194,10 @@ h1 {
   justify-self: start;
 }
 
+.week-current-week-button {
+  justify-self: end;
+}
+
 .week-pagination > .week-nav-button,
 .week-pages {
   align-self: end;
