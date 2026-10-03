@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import PenguinSprite from '@/components/penguin-sprite'
 import { formatDisplayDate, formatMinutes } from '@/lib/timeline'
@@ -29,7 +29,16 @@ export default function WeeklyPenguinTimeline({
     weeks.findIndex((week) => week.isCurrentWeek)
   )
   const [selectedIndex, setSelectedIndex] = useState(currentIndex)
+  const pageRefs = useRef<Array<HTMLButtonElement | null>>([])
   const selectedWeek = weeks[selectedIndex]
+
+  useEffect(() => {
+    pageRefs.current[selectedIndex]?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    })
+  }, [selectedIndex])
 
   if (!selectedWeek) return null
 
@@ -75,6 +84,9 @@ export default function WeeklyPenguinTimeline({
                     .join(' ')}
                   type="button"
                   key={week.startDate}
+                  ref={(element) => {
+                    pageRefs.current[index] = element
+                  }}
                   onClick={() => setSelectedIndex(index)}
                   aria-current={selected ? 'page' : undefined}
                   aria-label={`Show week ${formatDisplayDate(week.startDate)} to ${formatDisplayDate(week.endDate)}`}
