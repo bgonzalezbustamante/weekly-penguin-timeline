@@ -10,13 +10,19 @@ function compactDate(value: string) {
   return formatDisplayDate(value).replace(/\s+\d{4}$/, '')
 }
 
-function relativeWeekLabel(offset: number) {
-  if (offset === 0) return 'Current'
+function relativeDayLabel(
+  startIndex: number,
+  currentDayStartIndex: number
+) {
+  const offset = startIndex - currentDayStartIndex
+
+  if (offset === 0) return 'Today'
   if (offset < 0) {
-    const weeks = Math.abs(offset)
-    return `${weeks}w ago`
+    const days = Math.abs(offset)
+    return `${days}d ago`
   }
-  return `in ${offset}w`
+
+  return `in ${offset}d`
 }
 
 export default function WeeklyPenguinTimeline({
@@ -42,22 +48,22 @@ export default function WeeklyPenguinTimeline({
     selectedStartIndex,
     selectedStartIndex + 7
   )
-  const selectedWeekIndex = Math.min(
-    weeks.length - 1,
-    Math.floor(selectedStartIndex / 7)
+  const availableStartCount = maxStartIndex + 1
+  const visiblePageCount = Math.min(9, availableStartCount)
+  const maxWindowStart = Math.max(
+    0,
+    availableStartCount - visiblePageCount
   )
-  const visiblePageCount = Math.min(9, weeks.length)
-  const maxWindowStart = Math.max(0, weeks.length - visiblePageCount)
   const windowStart = Math.min(
     maxWindowStart,
     Math.max(
       0,
-      selectedWeekIndex - Math.floor(visiblePageCount / 2)
+      selectedStartIndex - Math.floor(visiblePageCount / 2)
     )
   )
-  const visibleWeeks = weeks.slice(
-    windowStart,
-    windowStart + visiblePageCount
+  const visibleStartIndices = Array.from(
+    { length: visiblePageCount },
+    (_, index) => windowStart + index
   )
   const selectedStartDate = selectedDays[0]?.date
   const selectedEndDate = selectedDays[selectedDays.length - 1]?.date
@@ -105,31 +111,32 @@ export default function WeeklyPenguinTimeline({
           </div>
 
           <div className="week-pages">
-            {visibleWeeks.map((week, visibleIndex) => {
-              const index = windowStart + visibleIndex
-              const selected = index === selectedWeekIndex
+            {visibleStartIndices.map((startIndex) => {
+              const startDay = allDays[startIndex]
+              const selected = startIndex === selectedStartIndex
+              const isCurrentDay = startIndex === currentDayStartIndex
+
+              if (!startDay) return null
 
               return (
                 <button
                   className={[
                     'week-page-button',
                     selected ? 'is-selected' : '',
-                    week.isCurrentWeek ? 'is-current-week' : '',
+                    isCurrentDay ? 'is-current-day' : '',
                   ]
                     .filter(Boolean)
                     .join(' ')}
                   type="button"
-                  key={week.startDate}
-                  onClick={() =>
-                    setSelectedStartIndex(
-                      Math.min(index * 7, maxStartIndex)
-                    )
-                  }
+                  key={startDay.date}
+                  onClick={() => setSelectedStartIndex(startIndex)}
                   aria-current={selected ? 'page' : undefined}
-                  aria-label={`Show week ${formatDisplayDate(week.startDate)} to ${formatDisplayDate(week.endDate)}`}
+                  aria-label={`Show seven-day window starting ${formatDisplayDate(startDay.date)}`}
                 >
-                  <span>{compactDate(week.startDate)}</span>
-                  <small>{relativeWeekLabel(week.offset)}</small>
+                  <span>{compactDate(startDay.date)}</span>
+                  <small>
+                    {relativeDayLabel(startIndex, currentDayStartIndex)}
+                  </small>
                 </button>
               )
             })}
