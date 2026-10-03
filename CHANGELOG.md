@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## v0.1.0-beta.1 "Frozen Ridge" (in development)
+
+### Summary
+
+- Opened the first beta development line after the tagged Bold Cipher alpha.
+- Added the canonical couple illustration as the automatic Saturday state.
+- Preserved special-date overrides as the highest-priority calendar rule.
+
+### Code changes
+
+`penguin visual system`
+
+- Registered `public/penguins/states/canonical-couple.png` as a required validated PNG master.
+- Added automatic WebP generation for `canonical-couple.webp`.
+- Added deterministic Saturday asset resolution to `lib/penguin-assets.ts`.
+
+`timeline behaviour`
+
+- Added a dedicated `saturday` penguin mode.
+- Saturdays now use the canonical couple illustration whether they are past or future.
+- Manual and generated special-date overrides continue to take priority over the Saturday rule.
+- Future Saturdays retain the existing provisional/dimmed presentation.
+
+`testing and release metadata`
+
+- Added regression coverage for future and past Saturday mode resolution and the Saturday couple asset.
+- Bumped application and lockfile metadata to `0.1.0-beta.1`.
+- Marked Frozen Ridge as in development in the README and reader-facing release notes.
+
+### Release status
+
+- Frozen Ridge beta.1 is in development.
+- Release date: TBC.
+
 ## v0.1.0-alpha.1 "Bold Cipher" — 2 October 2026
 
 ### Summary
