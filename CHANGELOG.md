@@ -32,7 +32,7 @@
 - Added a `list_public_availability(year)` adapter alongside the existing work-analytics RPC.
 - Added strict runtime validation for the public availability contract: exact fields, controlled type vocabulary, real in-year ranges, start/end ordering, duplicate-range rejection and the mandatory generic `Unavailable` label.
 - Mapped `winter_holiday` → `winter-holiday`, `summer_holiday` → `summer-holiday`, `trip` → `trip`, and `unavailable` → a generic unavailable timeline mode.
-- Public availability is inserted after manual overrides and before fixed Catholic dates. When public ranges overlap, `unavailable` takes priority over `trip`, followed by holiday states.
+- Source precedence is manual override → fixed Catholic celebration → public availability → calendar defaults → normal activity. Overlapping public availability ranges are allowed; when more than one applies to a day, `unavailable` takes priority over `trip`, followed by holiday states.
 - The public `unavailable` state keeps the user-facing label `Unavailable` and does not consume sickness reasons, notes or other private Planning fields.
 - The existing sick-state artwork is reused for the generic unavailable mode; manual `sick` overrides remain supported separately.
 - Work analytics and public availability are loaded together and the timeline fails closed if either required RPC is unavailable or violates its contract.
@@ -42,9 +42,11 @@
 
 - Added regression coverage for active, free and upcoming Saturday mode resolution and the Saturday couple asset.
 - Added public-availability validator tests for controlled types, exact fields, malformed/reversed/cross-year ranges, privacy labels and duplicates.
-- Added precedence tests for manual overrides → public availability → fixed Catholic dates and coverage for the generic unavailable state.
+- Added precedence tests for manual overrides → fixed Catholic dates → public availability and coverage for the generic unavailable state.
+- Added regression coverage confirming that overlapping public availability ranges are accepted.
 - Bumped application and lockfile metadata to `0.1.0-beta.1`.
 - Marked Frozen Ridge as in development in the README and reader-facing release notes.
+- Documented the intended future replacement of the local fixed Catholic-date layer with `bgonzalezbustamante/catholic-calendar`, followed by reassessment of manual overrides and `content/special-dates.ts`.
 
 ### Release status
 
