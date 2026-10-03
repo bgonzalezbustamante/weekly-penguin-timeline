@@ -3,6 +3,7 @@ import PenguinStateTester from '@/components/penguin-state-tester'
 import ReleaseNotes from '@/components/release-notes'
 import WeeklyPenguinTimeline from '@/components/weekly-penguin-timeline'
 import { getConfiguredSpecialDates } from '@/content/special-dates'
+import { getPublicAvailability } from '@/lib/availability'
 import {
   buildTimelineWeeks,
   yearsForTimelineWindow,
@@ -29,20 +30,31 @@ async function loadTimelineWindow(now: Date) {
     PAST_WEEKS,
     FUTURE_WEEKS
   )
+  const latestAvailabilityYear = now.getUTCFullYear() + 5
+  const availabilityYears = calendarYears.filter(
+    (year) => year >= 2000 && year <= latestAvailabilityYear
+  )
 
   try {
-    const results = await Promise.all(
-      analyticsYears.map((year) => getPublicWorkAnalytics(year))
-    )
+    const [analyticsResults, availabilityResults] = await Promise.all([
+      Promise.all(
+        analyticsYears.map((year) => getPublicWorkAnalytics(year))
+      ),
+      Promise.all(
+        availabilityYears.map((year) => getPublicAvailability(year))
+      ),
+    ])
 
     return {
-      days: results.flatMap((result) => result.days),
+      days: analyticsResults.flatMap((result) => result.days),
+      availability: availabilityResults.flat(),
       error: null,
       calendarYears,
     }
   } catch (error) {
     return {
       days: [],
+      availability: [],
       error:
         error instanceof Error
           ? error.message
@@ -54,13 +66,18 @@ async function loadTimelineWindow(now: Date) {
 
 export default async function HomePage() {
   const now = new Date()
-  const { days, error, calendarYears } = await loadTimelineWindow(now)
+  const { days, availability, error, calendarYears } =
+    await loadTimelineWindow(now)
   const timelineWeeks = error
     ? []
     : buildTimelineWeeks({
         now,
         days,
-        specialDates: getConfiguredSpecialDates(calendarYears),
+        specialDates: getConfiguredSpecialDates(
+          calendarYears,
+          undefined,
+          availability
+        ),
         timeZone: TIME_ZONE,
         pastWeeks: PAST_WEEKS,
         futureWeeks: FUTURE_WEEKS,
@@ -75,8 +92,8 @@ export default async function HomePage() {
           <p className="hero-copy">
             A reusable Next.js component that turns seven days of public
             working-time and coffee data into a compact visual timeline.
-            Sundays, configured celebrations and manual dates can override
-            the normal activity state.
+            Sundays, public availability, configured celebrations and
+            manual dates can override the normal activity state.
           </p>
           <div
             className={`source-note${error ? ' is-offline' : ' is-online'}`}
@@ -136,10 +153,10 @@ export default async function HomePage() {
             <p className="eyebrow">Overrides</p>
             <h2>Special dates stay configurable</h2>
             <p>
-              Holidays, trips and sickness are kept in one small configuration
-              file. A switch enables widely observed fixed Catholic
-              celebrations, while manual overrides take priority over built-in
-              dates and the weekly Sunday state.
+              Trips, Winter/Summer holidays and generic unavailable periods
+              are loaded from the privacy-safe Academic API. Manual overrides
+              remain available, while a switch enables widely observed fixed
+              Catholic celebrations.
             </p>
           </article>
           <article>
