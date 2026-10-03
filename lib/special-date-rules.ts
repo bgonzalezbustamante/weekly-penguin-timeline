@@ -7,6 +7,7 @@ const SPECIAL_DAY_TYPES = new Set<SpecialDayType>([
   'summer-holiday',
   'trip',
   'sick',
+  'unavailable',
 ])
 
 function bounds(entry: SpecialDate) {
