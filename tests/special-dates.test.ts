@@ -8,19 +8,28 @@ import {
 } from '@/content/special-dates'
 import {
   catholicCalendarToSpecialDates,
-  TIMELINE_CATHOLIC_OBSERVANCE_IDS,
+  TIMELINE_CATHOLIC_OBSERVANCES,
 } from '@/lib/catholic-calendar'
 import { assertValidSpecialDateRules } from '@/lib/special-date-rules'
 import { buildWeeklyTimeline } from '@/lib/timeline'
 
 describe('Catholic Calendar integration', () => {
-  it('keeps the timeline Catholic scope explicit and compact', () => {
-    expect(TIMELINE_CATHOLIC_OBSERVANCE_IDS).toEqual([
-      'assumption',
-      'all-saints',
-      'all-souls',
-      'immaculate-conception',
-      'christmas',
+  it('keeps the timeline Catholic scope explicit with repo-specific labels', () => {
+    expect(TIMELINE_CATHOLIC_OBSERVANCES).toEqual([
+      { id: 'palm-sunday', label: 'Palm Sunday' },
+      { id: 'holy-thursday', label: 'Holy Thursday' },
+      { id: 'good-friday', label: 'Good Friday' },
+      { id: 'holy-saturday', label: 'Holy Saturday' },
+      { id: 'easter-sunday', label: 'Easter Sunday' },
+      { id: 'divine-mercy-sunday', label: 'Divine Mercy' },
+      { id: 'ascension', label: 'Ascension' },
+      { id: 'pentecost', label: 'Pentecost' },
+      { id: 'corpus-christi', label: 'Corpus Christi' },
+      { id: 'assumption', label: 'Assumption' },
+      { id: 'all-saints', label: 'All Saints' },
+      { id: 'all-souls', label: 'All Souls' },
+      { id: 'immaculate-conception', label: 'Immaculate' },
+      { id: 'christmas', label: 'Christmas' },
     ])
 
     expect(recurringSpecialDates).toEqual([
@@ -34,12 +43,57 @@ describe('Catholic Calendar integration', () => {
     expect(specialDates).toEqual([])
   })
 
-  it('resolves selected celebrations from the package', () => {
+  it('resolves selected celebrations from the package with timeline labels', () => {
     expect(catholicCalendarToSpecialDates([2027])).toEqual([
+      {
+        date: '2027-03-21',
+        type: 'sunday',
+        label: 'Palm Sunday',
+      },
+      {
+        date: '2027-03-25',
+        type: 'sunday',
+        label: 'Holy Thursday',
+      },
+      {
+        date: '2027-03-26',
+        type: 'sunday',
+        label: 'Good Friday',
+      },
+      {
+        date: '2027-03-27',
+        type: 'sunday',
+        label: 'Holy Saturday',
+      },
+      {
+        date: '2027-03-28',
+        type: 'sunday',
+        label: 'Easter Sunday',
+      },
+      {
+        date: '2027-04-04',
+        type: 'sunday',
+        label: 'Divine Mercy',
+      },
+      {
+        date: '2027-05-06',
+        type: 'sunday',
+        label: 'Ascension',
+      },
+      {
+        date: '2027-05-16',
+        type: 'sunday',
+        label: 'Pentecost',
+      },
+      {
+        date: '2027-05-27',
+        type: 'sunday',
+        label: 'Corpus Christi',
+      },
       {
         date: '2027-08-15',
         type: 'sunday',
-        label: 'Assumption of the Blessed Virgin Mary',
+        label: 'Assumption',
       },
       {
         date: '2027-11-01',
@@ -54,7 +108,7 @@ describe('Catholic Calendar integration', () => {
       {
         date: '2027-12-08',
         type: 'sunday',
-        label: 'Immaculate Conception',
+        label: 'Immaculate',
       },
       {
         date: '2027-12-25',
@@ -69,20 +123,20 @@ describe('Catholic Calendar integration', () => {
     const immaculate = dates.find(
       (entry) =>
         'date' in entry &&
-        entry.label === 'Immaculate Conception'
+        entry.label === 'Immaculate'
     )
 
     expect(immaculate).toEqual({
       date: '2024-12-09',
       type: 'sunday',
-      label: 'Immaculate Conception',
+      label: 'Immaculate',
     })
     expect(
       dates.some(
         (entry) =>
           'date' in entry &&
           entry.date === '2024-12-08' &&
-          entry.label === 'Immaculate Conception'
+          entry.label === 'Immaculate'
       )
     ).toBe(false)
   })
@@ -116,7 +170,7 @@ describe('Catholic Calendar integration', () => {
   })
 
   it('deduplicates repeated requested years', () => {
-    expect(getConfiguredSpecialDates([2027, 2027])).toHaveLength(6)
+    expect(getConfiguredSpecialDates([2027, 2027])).toHaveLength(15)
   })
 
   it('rejects years outside the package contract', () => {
