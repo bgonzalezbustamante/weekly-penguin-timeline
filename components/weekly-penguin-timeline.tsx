@@ -200,23 +200,51 @@ export default function WeeklyPenguinTimeline({
             </button>
           </div>
         </nav>
-        <div className="week-pagination-edges" aria-label="Timeline range shortcuts">
-          <button
-            className="week-edge-button"
-            type="button"
-            onClick={() => selectStartIndex(0)}
-            disabled={selectedStartIndex === 0}
-          >
-            First
-          </button>
-          <button
-            className="week-edge-button"
-            type="button"
-            onClick={() => selectStartIndex(maxStartIndex)}
-            disabled={selectedStartIndex === maxStartIndex}
-          >
-            Last
-          </button>
+        <div
+          className="week-pagination-secondary"
+          aria-label="Weekly timeline shortcuts"
+        >
+          <div className="week-pagination-secondary-group">
+            <button
+              className="week-edge-button"
+              type="button"
+              onClick={() => selectStartIndex(0)}
+              disabled={selectedStartIndex === 0}
+            >
+              First
+            </button>
+            <button
+              className="week-jump-button"
+              type="button"
+              onClick={() => selectStartIndex(selectedStartIndex - 7)}
+              disabled={selectedStartIndex === 0}
+              aria-label="Move seven-day window back one week"
+            >
+              <span aria-hidden="true">←</span>
+              Previous week
+            </button>
+          </div>
+
+          <div className="week-pagination-secondary-group">
+            <button
+              className="week-jump-button"
+              type="button"
+              onClick={() => selectStartIndex(selectedStartIndex + 7)}
+              disabled={selectedStartIndex === maxStartIndex}
+              aria-label="Move seven-day window forward one week"
+            >
+              Next week
+              <span aria-hidden="true">→</span>
+            </button>
+            <button
+              className="week-edge-button"
+              type="button"
+              onClick={() => selectStartIndex(maxStartIndex)}
+              disabled={selectedStartIndex === maxStartIndex}
+            >
+              Last
+            </button>
+          </div>
         </div>
       </div>
 
