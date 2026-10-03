@@ -41,7 +41,7 @@ export const releases: ReleaseNote[] = [
         title: 'Academic API availability',
         items: [
           'Added strict consumption of list_public_availability(year) for Winter/Summer holidays, trips and generic unavailable periods.',
-          'Public availability is applied after manual overrides and before fixed Catholic dates, with deterministic overlap priority.',
+          'Source precedence is manual override, fixed Catholic celebration, then public availability; overlapping public ranges remain supported with deterministic visual resolution.',
           'Unavailable periods remain labelled Unavailable and never consume private sickness reasons or Planning notes; the existing unavailable/sick artwork is reused for the visual state.',
         ],
       },
@@ -49,6 +49,7 @@ export const releases: ReleaseNote[] = [
         title: 'Release line',
         items: [
           'Started v0.1.0-beta.1 Frozen Ridge as the active development release after the tagged Bold Cipher alpha.1.',
+          'The local Catholic-date layer is transitional: once the catholic-calendar project is ready for consumption, it should replace the local fixed set and trigger a review of manual overrides and special-dates.ts.',
         ],
       },
     ],
