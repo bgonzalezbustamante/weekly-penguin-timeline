@@ -244,7 +244,7 @@ h1 {
   font-size: 0.6rem;
 }
 
-.week-page-button.is-current-week {
+.week-page-button.is-current-day {
   border-color: rgba(254, 97, 90, 0.42);
 }
 
