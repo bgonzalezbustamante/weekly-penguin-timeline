@@ -277,9 +277,9 @@ h1 {
 }
 
 .week-pagination-secondary {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   margin-top: 0.4rem;
 }
@@ -287,7 +287,16 @@ h1 {
 .week-pagination-secondary-group {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+}
+
+.week-range-first {
+  justify-self: start;
+}
+
+.week-range-last {
+  justify-self: end;
 }
 
 .week-jump-button {
@@ -314,30 +323,6 @@ h1 {
 }
 
 .week-jump-button:disabled {
-  opacity: 0.36;
-  cursor: not-allowed;
-}
-
-.week-edge-button {
-  border: 0;
-  background: transparent;
-  padding: 0.12rem 0.18rem;
-  color: var(--ash);
-  font-family: var(--font-roboto), Arial, sans-serif;
-  font-size: 0.62rem;
-  font-weight: 650;
-  cursor: pointer;
-}
-
-.week-edge-button:hover:not(:disabled),
-.week-edge-button:focus-visible {
-  color: var(--blue);
-  text-decoration: underline;
-  text-underline-offset: 0.16em;
-  outline: none;
-}
-
-.week-edge-button:disabled {
   opacity: 0.36;
   cursor: not-allowed;
 }
