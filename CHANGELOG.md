@@ -26,7 +26,9 @@
 - Non-future zero-work/zero-coffee Saturdays use the canonical couple illustration.
 - Manual, Catholic and public-availability states continue to take priority over Saturday defaults.
 - Future Saturdays retain the existing provisional/dimmed presentation.
-- Expanded the weekly browser from four weeks either side to a dynamic ±3-month date window while retaining a compact nine-button pagination window with Older/Newer controls and no horizontal pagination scroll.
+- Expanded the browser from four weeks either side to a dynamic ±3-month date window while retaining nine compact week jump buttons and no horizontal pagination scroll.
+- Replaced Older/Newer week stepping with Previous day/Next day controls that move the rolling seven-day view by exactly one day.
+- Added small First/Last shortcuts below the paginator for direct jumps to the beginning or end of the available range.
 - Reordered the seven contextual gallery states to Sunday, Teaching Saturdays, Free Saturdays, Trip, Winter holiday, Summer holiday and Unavailable, keeping them in one horizontal row.
 
 `Academic API`
