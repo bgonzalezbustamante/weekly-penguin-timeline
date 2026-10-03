@@ -194,7 +194,7 @@ h1 {
 }
 
 .week-nav-button {
-  min-width: 84px;
+  min-width: 104px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -250,6 +250,37 @@ h1 {
 
 .week-nav-button:disabled {
   opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.week-pagination-edges {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.32rem;
+}
+
+.week-edge-button {
+  border: 0;
+  background: transparent;
+  padding: 0.12rem 0.18rem;
+  color: var(--ash);
+  font-family: var(--font-roboto), Arial, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.week-edge-button:hover:not(:disabled),
+.week-edge-button:focus-visible {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+  outline: none;
+}
+
+.week-edge-button:disabled {
+  opacity: 0.36;
   cursor: not-allowed;
 }
 
@@ -947,10 +978,6 @@ h1 {
   .notes-grid,
   .release-sections {
     grid-template-columns: 1fr;
-  }
-
-  .special-gallery {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .tester-preview {
