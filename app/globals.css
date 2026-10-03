@@ -191,10 +191,6 @@ h1 {
 }
 
 .week-current-day-button {
-  justify-self: start;
-}
-
-.week-current-week-button {
   justify-self: end;
 }
 
