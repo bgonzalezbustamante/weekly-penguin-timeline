@@ -125,6 +125,28 @@ describe('public availability validation', () => {
     ).toThrow('must be "Unavailable"')
   })
 
+  it('allows overlapping availability ranges', () => {
+    expect(() =>
+      parsePublicAvailability(
+        [
+          {
+            type: 'trip',
+            start_date: '2026-08-10',
+            end_date: '2026-08-14',
+            label: 'Trip',
+          },
+          {
+            type: 'unavailable',
+            start_date: '2026-08-12',
+            end_date: '2026-08-13',
+            label: 'Unavailable',
+          },
+        ],
+        2026
+      )
+    ).not.toThrow()
+  })
+
   it('rejects duplicate identical ranges', () => {
     const item = {
       type: 'trip',
