@@ -9,6 +9,7 @@ import {
   yearsForTimelineWindow,
   yearsForWorkAnalyticsWindow,
 } from '@/lib/timeline'
+import { getPublicTeachingSettings } from '@/lib/teaching-settings'
 import { getPublicWorkAnalytics } from '@/lib/work-analytics'
 
 export const dynamic = 'force-dynamic'
@@ -36,18 +37,24 @@ async function loadTimelineWindow(now: Date) {
   )
 
   try {
-    const [analyticsResults, availabilityResults] = await Promise.all([
+    const [
+      analyticsResults,
+      availabilityResults,
+      teachingSettings,
+    ] = await Promise.all([
       Promise.all(
         analyticsYears.map((year) => getPublicWorkAnalytics(year))
       ),
       Promise.all(
         availabilityYears.map((year) => getPublicAvailability(year))
       ),
+      getPublicTeachingSettings(),
     ])
 
     return {
       days: analyticsResults.flatMap((result) => result.days),
       availability: availabilityResults.flat(),
+      teachingSeasonActive: teachingSettings.teaching_season_active,
       error: null,
       calendarYears,
     }
@@ -55,6 +62,7 @@ async function loadTimelineWindow(now: Date) {
     return {
       days: [],
       availability: [],
+      teachingSeasonActive: false,
       error:
         error instanceof Error
           ? error.message
@@ -66,8 +74,13 @@ async function loadTimelineWindow(now: Date) {
 
 export default async function HomePage() {
   const now = new Date()
-  const { days, availability, error, calendarYears } =
-    await loadTimelineWindow(now)
+  const {
+    days,
+    availability,
+    teachingSeasonActive,
+    error,
+    calendarYears,
+  } = await loadTimelineWindow(now)
   const timelineWeeks = error
     ? []
     : buildTimelineWeeks({
@@ -78,6 +91,7 @@ export default async function HomePage() {
           undefined,
           availability
         ),
+        teachingSeasonActive,
         timeZone: TIME_ZONE,
         pastWeeks: PAST_WEEKS,
         futureWeeks: FUTURE_WEEKS,
