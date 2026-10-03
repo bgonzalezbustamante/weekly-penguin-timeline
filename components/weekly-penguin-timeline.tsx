@@ -24,24 +24,41 @@ export default function WeeklyPenguinTimeline({
 }: {
   weeks: TimelineWeek[]
 }) {
-  const currentIndex = Math.max(
+  const currentWeekIndex = Math.max(
     0,
     weeks.findIndex((week) => week.isCurrentWeek)
   )
-  const [selectedIndex, setSelectedIndex] = useState(currentIndex)
-  const selectedWeek = weeks[selectedIndex]
+  const allDays = weeks.flatMap((week) => week.days)
+  const maxStartIndex = Math.max(0, allDays.length - 7)
+  const currentStartIndex = Math.min(currentWeekIndex * 7, maxStartIndex)
+  const [selectedStartIndex, setSelectedStartIndex] =
+    useState(currentStartIndex)
+  const selectedDays = allDays.slice(
+    selectedStartIndex,
+    selectedStartIndex + 7
+  )
+  const selectedWeekIndex = Math.min(
+    weeks.length - 1,
+    Math.floor(selectedStartIndex / 7)
+  )
   const visiblePageCount = Math.min(9, weeks.length)
   const maxWindowStart = Math.max(0, weeks.length - visiblePageCount)
   const windowStart = Math.min(
     maxWindowStart,
-    Math.max(0, selectedIndex - Math.floor(visiblePageCount / 2))
+    Math.max(
+      0,
+      selectedWeekIndex - Math.floor(visiblePageCount / 2)
+    )
   )
   const visibleWeeks = weeks.slice(
     windowStart,
     windowStart + visiblePageCount
   )
+  const selectedStartDate = selectedDays[0]?.date
+  const selectedEndDate = selectedDays[selectedDays.length - 1]?.date
+  const isCurrentWeek = selectedStartIndex === currentStartIndex
 
-  if (!selectedWeek) return null
+  if (!selectedStartDate || !selectedEndDate) return null
 
   return (
     <section className="timeline-section" aria-labelledby="weekly-timeline-title">
@@ -62,18 +79,20 @@ export default function WeeklyPenguinTimeline({
           <button
             className="week-nav-button"
             type="button"
-            onClick={() => setSelectedIndex((index) => Math.max(0, index - 1))}
-            disabled={selectedIndex === 0}
-            aria-label="Show older week"
+            onClick={() =>
+              setSelectedStartIndex((index) => Math.max(0, index - 1))
+            }
+            disabled={selectedStartIndex === 0}
+            aria-label="Move seven-day window back one day"
           >
             <span aria-hidden="true">←</span>
-            Older
+            Previous day
           </button>
 
           <div className="week-pages">
             {visibleWeeks.map((week, visibleIndex) => {
               const index = windowStart + visibleIndex
-              const selected = index === selectedIndex
+              const selected = index === selectedWeekIndex
 
               return (
                 <button
@@ -86,7 +105,11 @@ export default function WeeklyPenguinTimeline({
                     .join(' ')}
                   type="button"
                   key={week.startDate}
-                  onClick={() => setSelectedIndex(index)}
+                  onClick={() =>
+                    setSelectedStartIndex(
+                      Math.min(index * 7, maxStartIndex)
+                    )
+                  }
                   aria-current={selected ? 'page' : undefined}
                   aria-label={`Show week ${formatDisplayDate(week.startDate)} to ${formatDisplayDate(week.endDate)}`}
                 >
@@ -101,28 +124,48 @@ export default function WeeklyPenguinTimeline({
             className="week-nav-button"
             type="button"
             onClick={() =>
-              setSelectedIndex((index) => Math.min(weeks.length - 1, index + 1))
+              setSelectedStartIndex((index) =>
+                Math.min(maxStartIndex, index + 1)
+              )
             }
-            disabled={selectedIndex === weeks.length - 1}
-            aria-label="Show newer week"
+            disabled={selectedStartIndex === maxStartIndex}
+            aria-label="Move seven-day window forward one day"
           >
-            Newer
+            Next day
             <span aria-hidden="true">→</span>
           </button>
         </nav>
+        <div className="week-pagination-edges" aria-label="Timeline range shortcuts">
+          <button
+            className="week-edge-button"
+            type="button"
+            onClick={() => setSelectedStartIndex(0)}
+            disabled={selectedStartIndex === 0}
+          >
+            First
+          </button>
+          <button
+            className="week-edge-button"
+            type="button"
+            onClick={() => setSelectedStartIndex(maxStartIndex)}
+            disabled={selectedStartIndex === maxStartIndex}
+          >
+            Last
+          </button>
+        </div>
       </div>
 
       <div className="selected-week-heading" aria-live="polite">
         <strong>
-          {formatDisplayDate(selectedWeek.startDate)} –{' '}
-          {formatDisplayDate(selectedWeek.endDate)}
+          {formatDisplayDate(selectedStartDate)} –{' '}
+          {formatDisplayDate(selectedEndDate)}
         </strong>
-        {selectedWeek.isCurrentWeek ? <span>Current week</span> : null}
+        {isCurrentWeek ? <span>Current week</span> : null}
       </div>
 
       <div className="timeline-scroll" tabIndex={0}>
         <ol className="weekly-timeline">
-          {selectedWeek.days.map((day) => {
+          {selectedDays.map((day) => {
             const specialText = day.specialLabel
 
             return (
