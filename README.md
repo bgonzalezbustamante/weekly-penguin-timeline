@@ -17,7 +17,7 @@ This repository is intentionally separate from `academic-website`. Development a
 - Resolves six coffee states: `0`, `<4`, `4–6`, `6–8`, `8–10`, and `10+`.
 - Produces 36 normal combined activity states.
 - Uses a praying penguin on Sundays.
-- Resolves the selected Catholic celebrations used by the timeline through `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1`, reusing the Sunday illustration with package-provided observed dates and names.
+- Resolves selected Catholic celebrations through `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1`, reusing the Sunday illustration with package-provided observed dates and concise repository-specific labels.
 - Supports manual overrides for Sunday-style holidays, winter holiday, summer holiday, trip, and sick dates.
 - On Saturdays, recorded work or coffee always uses the normal activity state, even during Teaching season.
 - When there is no recorded Saturday activity and `teaching_season_active` is true, use `teaching.png` — including the current Saturday and future Saturdays.
@@ -92,15 +92,15 @@ If a PNG master is replaced while the development server is already running, run
 
 Edit `content/special-dates.ts` for timeline-only manual or local presentation overrides. Catholic observance dates are no longer maintained there: the timeline consumes the pinned package `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1` through `lib/catholic-calendar.ts`.
 
-The timeline deliberately keeps its existing compact Catholic scope rather than treating every package observance as a special penguin state. It currently consumes Assumption, All Saints, All Souls, the Immaculate Conception and Christmas. The package supplies their observed dates, including transfers, and their canonical English names. The 1 January observance remains outside the Weekly Timeline’s selected subset.
+The timeline deliberately selects a subset of package observances rather than treating every Catholic Calendar entry as a special penguin state. It currently consumes Palm Sunday, Holy Thursday, Good Friday, Holy Saturday, Easter Sunday, Divine Mercy Sunday, Ascension, Pentecost, Corpus Christi, Assumption, All Saints, All Souls, the Immaculate Conception and Christmas. The package supplies calendar semantics and observed dates, including transfers; this repository owns the compact display labels `Palm Sunday`, `Holy Thursday`, `Good Friday`, `Holy Saturday`, `Easter Sunday`, `Divine Mercy`, `Ascension`, `Pentecost`, `Corpus Christi`, `Assumption`, `All Saints`, `All Souls`, `Immaculate` and `Christmas`. The 1 January observance remains outside the Weekly Timeline’s selected subset.
 
 Christmas Eve is not a discrete observance in the Catholic Calendar package, so `special-dates.ts` retains it as one local recurring Sunday-style presentation rule. Manual exact dates and inclusive ranges remain supported for future project-specific exceptions:
 
 ```ts
 {
-  date: '2027-03-26',
+  date: '2027-07-18',
   type: 'sunday',
-  label: 'Good Friday',
+  label: 'Local patronal feast',
 }
 
 {
