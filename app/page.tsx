@@ -6,6 +6,7 @@ import { getConfiguredSpecialDates } from '@/content/special-dates'
 import { getPublicAvailability } from '@/lib/availability'
 import {
   buildTimelineWeeks,
+  weekWindowForMonthRange,
   yearsForTimelineWindow,
   yearsForWorkAnalyticsWindow,
 } from '@/lib/timeline'
@@ -15,21 +16,27 @@ import { getPublicWorkAnalytics } from '@/lib/work-analytics'
 export const dynamic = 'force-dynamic'
 
 const TIME_ZONE = 'Europe/Amsterdam'
-const PAST_WEEKS = 4
-const FUTURE_WEEKS = 4
+const PAST_MONTHS = 3
+const FUTURE_MONTHS = 3
 
 async function loadTimelineWindow(now: Date) {
+  const { pastWeeks, futureWeeks } = weekWindowForMonthRange(
+    now,
+    TIME_ZONE,
+    PAST_MONTHS,
+    FUTURE_MONTHS
+  )
   const calendarYears = yearsForTimelineWindow(
     now,
     TIME_ZONE,
-    PAST_WEEKS,
-    FUTURE_WEEKS
+    pastWeeks,
+    futureWeeks
   )
   const analyticsYears = yearsForWorkAnalyticsWindow(
     now,
     TIME_ZONE,
-    PAST_WEEKS,
-    FUTURE_WEEKS
+    pastWeeks,
+    futureWeeks
   )
   const latestAvailabilityYear = now.getUTCFullYear() + 5
   const availabilityYears = calendarYears.filter(
@@ -57,6 +64,8 @@ async function loadTimelineWindow(now: Date) {
       teachingSeasonActive: teachingSettings.teaching_season_active,
       error: null,
       calendarYears,
+      pastWeeks,
+      futureWeeks,
     }
   } catch (error) {
     return {
@@ -68,6 +77,8 @@ async function loadTimelineWindow(now: Date) {
           ? error.message
           : 'The Academic API could not be loaded.',
       calendarYears,
+      pastWeeks,
+      futureWeeks,
     }
   }
 }
@@ -80,6 +91,8 @@ export default async function HomePage() {
     teachingSeasonActive,
     error,
     calendarYears,
+    pastWeeks,
+    futureWeeks,
   } = await loadTimelineWindow(now)
   const timelineWeeks = error
     ? []
@@ -93,8 +106,8 @@ export default async function HomePage() {
         ),
         teachingSeasonActive,
         timeZone: TIME_ZONE,
-        pastWeeks: PAST_WEEKS,
-        futureWeeks: FUTURE_WEEKS,
+        pastWeeks,
+        futureWeeks,
       })
 
   return (
