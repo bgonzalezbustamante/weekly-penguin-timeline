@@ -14,14 +14,15 @@ import type {
  * @bgonzalezbustamante/catholic-calendar. Keep this module for timeline-only
  * exceptions that are not part of the package's selected observance model.
  */
-export const specialDates: SpecialDate[] = [
+export const recurringSpecialDates = [
   {
-    from: '2026-12-24',
-    to: '2026-12-24',
+    monthDay: '12-24',
     type: 'sunday',
     label: 'Christmas Eve',
   },
-]
+] as const
+
+export const specialDates: SpecialDate[] = []
 
 const AVAILABILITY_TYPE_MAP: Record<
   PublicAvailabilityType,
@@ -70,9 +71,26 @@ export function getConfiguredSpecialDates(
 ): SpecialDate[] {
   assertValidSpecialDateRules(specialDates, { allowOverlaps: false })
 
-  const catholicDates = catholicCalendarToSpecialDates(years)
+  const uniqueYears = Array.from(new Set(years))
+  const localRecurringDates: SpecialDate[] = uniqueYears.flatMap((year) =>
+    recurringSpecialDates.map(({ monthDay, type, label }) => ({
+      date: `${year}-${monthDay}`,
+      type,
+      label,
+    }))
+  )
+  const catholicDates = catholicCalendarToSpecialDates(uniqueYears)
   const availabilityDates =
     availabilityToSpecialDates(publicAvailability)
 
-  return [...specialDates, ...catholicDates, ...availabilityDates]
+  assertValidSpecialDateRules(localRecurringDates, {
+    allowOverlaps: false,
+  })
+
+  return [
+    ...specialDates,
+    ...localRecurringDates,
+    ...catholicDates,
+    ...availabilityDates,
+  ]
 }
