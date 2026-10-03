@@ -9,7 +9,9 @@ This repository is intentionally separate from `academic-website`. Development a
 ## What the PoC does
 
 - Reads `get_public_work_analytics(year)` from the Research Dashboard Academic API.
+- Reads the privacy-safe `list_public_availability(year)` resource for Winter/Summer holidays, trips and generic unavailable periods.
 - Uses live daily `net_minutes` and `coffee_count`; there is no built-in activity-data fallback.
+- Maps public availability to the existing timeline states without exposing private Planning records or sickness reasons/notes.
 - Resolves six working-time states: `0h`, `<4h`, `4–6h`, `6–8h`, `8–10h`, and `10h+`.
 - Resolves six coffee states: `0`, `<4`, `4–6`, `6–8`, `8–10`, and `10+`.
 - Produces 36 normal combined activity states.
@@ -28,8 +30,8 @@ This repository is intentionally separate from `academic-website`. Development a
 
 The proof-of-concept separates:
 
-1. `lib/work-analytics.ts` — Academic API adapter.
-2. `lib/work-data.ts` — strict runtime validation for the public work-analytics contract.
+1. `lib/work-analytics.ts` and `lib/work-data.ts` — work-analytics RPC adapter and strict runtime validation.
+2. `lib/availability.ts` and `lib/availability-data.ts` — public-availability RPC adapter and strict runtime validation.
 3. `lib/date-utils.ts` and `lib/special-date-rules.ts` — calendar-date and override-rule validation.
 4. `lib/timeline.ts` — date, bucket and override resolution.
 5. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
@@ -40,8 +42,8 @@ The proof-of-concept separates:
 10. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation with nine-week client-side pagination.
 11. `components/penguin-state-tester.tsx` — interactive state inspector.
 12. `components/penguin-state-gallery.tsx` — complete visual QA matrix for the 36 normal states and five special states.
-13. `content/special-dates.ts` — manual date overrides plus the toggleable fixed Catholic celebration set.
-14. `tests/` — data-contract, date-rule, boundary, timezone and asset-resolution regression tests.
+13. `content/special-dates.ts` — manual overrides, public-availability mapping and toggleable fixed Catholic celebrations.
+14. `tests/` — API-contract, date-rule, boundary, timezone and asset-resolution regression tests.
 15. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
 16. `app/page.tsx` — demonstration page only.
 
@@ -64,7 +66,7 @@ NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
 
-The publishable key is used only with the curated anonymous-safe RPC. The adapter validates the returned year, annual averages and every daily row before the data reach the timeline. Duplicate dates, malformed dates, negative/non-integer daily metrics and incomplete calendar-year payloads fail explicitly rather than being silently coerced. If the Academic API cannot be loaded or violates its contract, the page shows an explicit unavailable state; it does not substitute sample work or coffee values.
+The publishable key is used only with curated anonymous-safe RPCs. Work analytics are validated for the requested year, annual aggregates, complete daily coverage, unique dates and non-negative integer daily metrics. Public availability is validated against the controlled `winter_holiday`, `summer_holiday`, `trip` and `unavailable` vocabulary, exact response fields, real in-year date ranges, duplicate ranges and the required generic `Unavailable` privacy label. If either required Academic API resource cannot be loaded or violates its contract, the timeline fails closed instead of silently substituting fixture data or omitting availability.
 
 ## Penguin asset pipeline
 
@@ -109,7 +111,7 @@ Manual exact dates and inclusive ranges remain supported. A labelled `sunday` ov
 }
 ```
 
-Precedence is: manual special date → enabled fixed Catholic date → future weekday/weekend rule or automatic weekly Sunday → normal activity state. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and overlapping manual rules fail explicitly. Ordered overlap between manual and generated built-in dates remains allowed so manual-first precedence works as intended. The optional `label` is shown in the daily-card footer.
+Precedence is: manual special date → public availability → enabled fixed Catholic date → Saturday/Sunday/future-day rule → normal activity state. Within overlapping public availability ranges, generic `unavailable` takes priority over `trip`, followed by Winter/Summer holiday states. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and ambiguous manual overlaps fail explicitly. Public `unavailable` remains labelled `Unavailable` in the UI; private sickness reasons and notes are never consumed by this repository.
 
 ## Activity bands
 
@@ -117,7 +119,7 @@ Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 
 
 ## Component hardening
 
-The current component includes regression coverage for work and coffee bucket boundaries, strict Academic API payload validation, duplicate and incomplete daily data, special-date validation and precedence, active/free/upcoming Saturday behaviour, weekday/Sunday state selection, the nine-week pagination window, New Year API availability boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. The browser preloads only the calendar years required for four weeks before through four weeks after the current week. The API loader does not request a future calendar year that the upstream RPC rejects; fixed and manual special dates can still resolve across the full nine-week window.
+The current component includes regression coverage for work and coffee bucket boundaries, strict work-analytics and public-availability payload validation, duplicate/incomplete data, special-date validation and precedence, active/free/upcoming Saturday behaviour, weekday/Sunday state selection, the nine-week pagination window, New Year API boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. Work analytics are requested only for supported years, while public availability can also cover the future calendar year reached by the nine-week browser.
 
 ```bash
 npm run test
@@ -133,8 +135,8 @@ For integration into another Next.js application, use a source-level transplant 
 For a Home-page integration:
 
 1. Move `components/weekly-penguin-timeline.tsx` and `components/penguin-sprite.tsx`.
-2. Move the timeline support modules: `lib/timeline.ts`, `lib/date-utils.ts`, `lib/work-data.ts`, `lib/special-date-rules.ts`, `lib/penguin-assets.ts`, `content/special-dates.ts`, and the relevant timeline types.
-3. Reuse an existing public Supabase client and `get_public_work_analytics(year)` adapter when the receiving application already has them, rather than introducing a second API connection. Bring the stricter payload validation from this repository with the component.
+2. Move the timeline support modules: `lib/timeline.ts`, `lib/date-utils.ts`, `lib/work-data.ts`, `lib/availability-data.ts`, `lib/special-date-rules.ts`, `lib/penguin-assets.ts`, `content/special-dates.ts`, and the relevant timeline types.
+3. Reuse an existing public Supabase client plus the `get_public_work_analytics(year)` and `list_public_availability(year)` adapters when the receiving application already has them, rather than introducing a second API connection. Bring the strict response validation from this repository with the component.
 4. Copy the approved penguin PNG masters and the asset-generation script. Merge penguin asset generation into any existing `predev`/`prebuild` workflow rather than replacing other build preparation tasks.
 5. Port only the Weekly timeline CSS and map the PoC colour variables to the receiving application's design tokens. For `academic-website`, map them to its existing Oxford variables.
 6. Build the nine-week window on the host page and pass the resulting `weeks` into `WeeklyPenguinTimeline`.
