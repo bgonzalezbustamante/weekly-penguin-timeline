@@ -19,9 +19,9 @@ This repository is intentionally separate from `academic-website`. Development a
 - Uses a praying penguin on Sundays.
 - Supports toggleable fixed Catholic celebrations that reuse the Sunday illustration with celebration-specific labels.
 - Supports manual overrides for Sunday-style holidays, winter holiday, summer holiday, trip, and sick dates.
-- On non-future Saturdays, recorded work or coffee always uses the normal activity state, even during Teaching season.
-- Future Saturdays use `teaching.png` when `teaching_season_active` is true and `canonical-couple.png` otherwise.
-- Non-future zero-work/zero-coffee Saturdays use `canonical-couple.png`; manual, Catholic and public-availability overrides retain priority over every Saturday rule.
+- On Saturdays, recorded work or coffee always uses the normal activity state, even during Teaching season.
+- When there is no recorded Saturday activity and `teaching_season_active` is true, use `teaching.png` — including the current Saturday and future Saturdays.
+- When Teaching season is inactive, zero-work/zero-coffee and future Saturdays use `canonical-couple.png`; manual, Catholic and public-availability overrides retain priority over every Saturday rule.
 - Treats future dates as provisional rather than falsely displaying zero activity: Monday–Friday use the dedicated working-day scene, Saturday uses Teaching when the season flag is active or the canonical couple otherwise, and Sunday uses the Sunday scene; future illustrations remain visually provisional.
 - Browses a rolling seven-day window across roughly three months before and three months after the current date: Previous day/Next day shift the view by one day, Current day makes today the first displayed date, nine compact week buttons provide direct weekly jumps, and First/Last jump to the range boundaries.
 - Marks the current day as provisional with “so far”.
@@ -114,7 +114,7 @@ Manual exact dates and inclusive ranges remain supported. A labelled `sunday` ov
 }
 ```
 
-Precedence is: manual special date → enabled fixed Catholic date → public availability → Saturday/Sunday/future-day rule → normal activity state. Inside the Saturday rule, recorded non-future activity takes priority over Teaching season; future Saturdays use `teaching.png` when the season flag is active and `canonical-couple.png` otherwise; non-future zero-work/zero-coffee Saturdays also use the couple. Overlapping public availability ranges are allowed; when more than one applies to a day, generic `unavailable` takes priority over `trip`, followed by Winter/Summer holiday states. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and ambiguous manual overlaps fail explicitly. Public `unavailable` remains labelled `Unavailable` in the UI; private sickness reasons and notes are never consumed by this repository.
+Precedence is: manual special date → enabled fixed Catholic date → public availability → Saturday/Sunday/future-day rule → normal activity state. Inside the Saturday rule, recorded activity takes priority first; when no activity is recorded, an active Teaching season selects `teaching.png`; otherwise the canonical couple is used. Overlapping public availability ranges are allowed; when more than one applies to a day, generic `unavailable` takes priority over `trip`, followed by Winter/Summer holiday states. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and ambiguous manual overlaps fail explicitly. Public `unavailable` remains labelled `Unavailable` in the UI; private sickness reasons and notes are never consumed by this repository.
 
 The local fixed Catholic-date set is transitional. Once `bgonzalezbustamante/catholic-calendar` is ready for consumption, the intended direction is to use it as the Catholic calendar source and then reassess whether manual overrides and `content/special-dates.ts` can be deprecated.
 
