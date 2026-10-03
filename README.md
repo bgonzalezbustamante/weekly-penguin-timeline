@@ -9,10 +9,12 @@ This repository is intentionally separate from `academic-website`. Development a
 ## What the PoC does
 
 - Reads `get_public_work_analytics(year)` from the Research Dashboard Academic API.
-- Reads the privacy-safe `list_public_availability(year)` resource for Winter/Summer holidays, trips and generic unavailable periods.
+- Reads the privacy-safe `list_public_availability(year)` resource for Winter/Summer holidays and generic unavailable periods.
+- Reads `list_public_conference_presentations()` for actual conference dates, personal attendance and whether attendance involves a trip.
 - Reads `get_public_teaching_settings()`, which exposes only the owner-level `teaching_season_active` boolean.
 - Uses live daily `net_minutes` and `coffee_count`; there is no built-in activity-data fallback.
-- Maps public availability to the existing timeline states without exposing private Planning records or sickness reasons/notes.
+- Maps public availability and personally attended conferences to timeline states without exposing private Planning records or sickness reasons/notes.
+- Uses the Conference state on the actual conference dates. When `involves_trip` is true, only the day before and day after use the Trip state; if a conference overlaps another conference's travel day, Conference wins.
 - Resolves six working-time states: `0h`, `<4h`, `4–6h`, `6–8h`, `8–10h`, and `10h+`.
 - Resolves six coffee states: `0`, `<4`, `4–6`, `6–8`, `8–10`, and `10+`.
 - Produces 36 normal combined activity states.
@@ -34,22 +36,23 @@ The proof-of-concept separates:
 
 1. `lib/work-analytics.ts` and `lib/work-data.ts` — work-analytics RPC adapter and strict runtime validation.
 2. `lib/availability.ts` and `lib/availability-data.ts` — public-availability RPC adapter and strict runtime validation.
-3. `lib/teaching-settings.ts` and `lib/teaching-settings-data.ts` — Teaching-season RPC adapter and strict singleton-boolean validation.
-4. `lib/date-utils.ts` and `lib/special-date-rules.ts` — calendar-date and override-rule validation.
-5. `lib/catholic-calendar.ts` — adapter from the Catholic Calendar package to the timeline’s selected Sunday-style celebration states.
-6. `lib/timeline.ts` — date, bucket and override resolution.
-7. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
-8. `lib/penguin-assets.ts` — deterministic mapping from resolved state to approved image asset.
-9. `public/penguins/states/` — 36 validated activity PNG masters, five validated special-state PNG masters, `working-day.png`, `canonical-couple.png`, and `teaching.png` contextual masters.
-10. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
-11. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
-12. `components/weekly-penguin-timeline.tsx` — reusable rolling seven-day presentation with a ±3-month browser, daily stepping and compact date-start buttons.
-13. `components/penguin-state-tester.tsx` — interactive state inspector.
-14. `components/penguin-state-gallery.tsx` — visual QA matrix for the 36 normal states plus special and contextual states.
-15. `content/special-dates.ts` — manual/local presentation overrides, recurring Christmas Eve and public-availability mapping; Catholic observance dates themselves come from the package.
-16. `tests/` — API-contract, date-rule, boundary, timezone and asset-resolution regression tests.
-17. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
-18. `app/page.tsx` — demonstration page only.
+3. `lib/conferences.ts` and `lib/conference-data.ts` — public-conference RPC adapter and strict validation of attendance/trip metadata.
+4. `lib/teaching-settings.ts` and `lib/teaching-settings-data.ts` — Teaching-season RPC adapter and strict singleton-boolean validation.
+5. `lib/date-utils.ts` and `lib/special-date-rules.ts` — calendar-date and override-rule validation.
+6. `lib/catholic-calendar.ts` — adapter from the Catholic Calendar package to the timeline’s selected Sunday-style celebration states.
+7. `lib/timeline.ts` — date, bucket and override resolution.
+8. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
+9. `lib/penguin-assets.ts` — deterministic mapping from resolved state to approved image asset.
+10. `public/penguins/states/` — 36 validated activity PNG masters, six validated special-state PNG masters including `conference.png`, plus `working-day.png`, `canonical-couple.png`, and `teaching.png` contextual masters.
+11. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
+12. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
+13. `components/weekly-penguin-timeline.tsx` — reusable rolling seven-day presentation with a ±3-month browser, daily stepping and compact date-start buttons.
+14. `components/penguin-state-tester.tsx` — interactive state inspector.
+15. `components/penguin-state-gallery.tsx` — visual QA matrix for the 36 normal states plus special and contextual states.
+16. `content/special-dates.ts` — manual/local presentation overrides, recurring Christmas Eve and public-availability mapping; Catholic observance dates themselves come from the package.
+17. `tests/` — API-contract, date-rule, boundary, timezone and asset-resolution regression tests.
+18. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
+19. `app/page.tsx` — demonstration page only.
 
 That separation is deliberate: the canonical mascot remains the immutable visual ground truth, while each approved state is a complete derived image rather than a runtime SVG composition. The validated PNG files remain the source masters. Development and production builds generate ignored WebP derivatives for runtime delivery, so optimisation never overwrites the approved images. State resolution remains independent of presentation, allowing the timeline to move into another Next.js application without retaining the PoC shell.
 
@@ -70,11 +73,11 @@ NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
 
-The publishable key is used only with curated anonymous-safe RPCs. Work analytics are validated for the requested year, annual aggregates, complete daily coverage, unique dates and non-negative integer daily metrics. Public availability is validated against the controlled `winter_holiday`, `summer_holiday`, `trip` and `unavailable` vocabulary, exact response fields, real in-year date ranges and the required generic `Unavailable` privacy label. Repeated identical public projections are valid because distinct private source records can map to the same anonymous tuple; the Timeline coalesces those identical projected states for rendering. When distinct trips overlap, the Timeline combines their public labels only on the shared dates, separated by ` · `, while retaining the individual labels before and after the overlap. Public Teaching settings must contain exactly one row with exactly one boolean field, `teaching_season_active`. If any required Academic API resource cannot be loaded or violates its contract, the timeline fails closed rather than silently guessing Teaching season or omitting availability.
+The publishable key is used only with curated anonymous-safe RPCs. Work analytics are validated for the requested year, annual aggregates, complete daily coverage, unique dates and non-negative integer daily metrics. Public availability is validated against the controlled `winter_holiday`, `summer_holiday`, `trip` and `unavailable` vocabulary, exact response fields, real in-year date ranges and the required generic `Unavailable` privacy label. Trip rows from that projection are not used for conference rendering: the Timeline instead validates `list_public_conference_presentations()` and uses its actual `start_date`/`end_date`, `personal_attendance`, and `involves_trip` fields. Personally attended conference dates render as Conference; when `involves_trip` is true, the day before and day after render as Trip. Multiple conference labels are combined with ` · ` on shared conference dates, and Conference takes priority over another conference's Trip day. Public Teaching settings must contain exactly one row with exactly one boolean field, `teaching_season_active`. If any required Academic API resource cannot be loaded or violates its contract, the timeline fails closed rather than silently guessing Teaching season or omitting availability.
 
 ## Penguin asset pipeline
 
-The 45 PNG masters are validated before development and production builds: one canonical baseline, 36 normal activity states, five special states, one upcoming working-day state, one Saturday couple state, and one Teaching state. Validation checks filenames, PNG structure, minimum dimensions and file integrity; transparency is reported as an additional diagnostic.
+The 46 PNG masters are validated before development and production builds: one canonical baseline, 36 normal activity states, six special states including Conference, one upcoming working-day state, one Saturday couple state, and one Teaching state. Validation checks filenames, PNG structure, minimum dimensions and file integrity; transparency is reported as an additional diagnostic.
 
 `npm run dev` and `npm run build` automatically create WebP runtime derivatives when they are missing or older than their PNG source. Generated WebP files are ignored by Git and the PNG masters are never modified.
 
@@ -111,7 +114,7 @@ Christmas Eve is not a discrete observance in the Catholic Calendar package, so 
 }
 ```
 
-Precedence is: manual/local special date → selected package-backed Catholic celebration → public availability → Saturday/Sunday/future-day rule → normal activity state. Inside the Saturday rule, recorded activity takes priority first; when no activity is recorded, an active Teaching season selects `teaching.png`; otherwise the canonical couple is used. Overlapping public availability ranges are allowed. Repeated identical projected tuples are coalesced only at the rendering layer; distinct source records are not treated as data errors. Distinct overlapping trips keep one Trip state and combine their unique labels on each shared date (for example, `UDP Keynote · ECPR`). When different availability types overlap, generic `unavailable` takes priority over `trip`, followed by Winter/Summer holiday states. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and ambiguous manual overlaps fail explicitly. Public `unavailable` remains labelled `Unavailable` in the UI; private sickness reasons and notes are never consumed by this repository.
+Precedence is: manual/local special date → selected package-backed Catholic celebration → generic unavailable → Conference → Trip → Winter/Summer holiday → Saturday/Sunday/future-day rule → normal activity state. Inside the Saturday rule, recorded activity takes priority first; when no activity is recorded, an active Teaching season selects `teaching.png`; otherwise the canonical couple is used. Overlapping source records are allowed. Multiple presentations at the same attended conference coalesce visually without being treated as duplicate data. Distinct overlapping conferences combine their unique labels on shared conference dates. Travel labels combine when multiple travel days coincide, but any actual conference date wins over a Trip state. Generic `unavailable` remains above Conference, while Winter/Summer holidays remain below Trip. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and ambiguous manual overlaps fail explicitly. Public `unavailable` remains labelled `Unavailable` in the UI; private sickness reasons and notes are never consumed by this repository.
 
 ## Activity bands
 
@@ -119,7 +122,7 @@ Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 
 
 ## Component hardening
 
-The current component includes regression coverage for work and coffee bucket boundaries, strict work-analytics, public-availability and Teaching-settings validation, Catholic Calendar package selection and transfers, duplicate/incomplete data, special-date validation and precedence, Teaching/free/active/upcoming Saturday behaviour, weekday/Sunday state selection, the ±3-month rolling seven-day browser, New Year API boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. Work analytics are requested only for supported years, while public availability can also cover a future calendar year reached by the three-month browser.
+The current component includes regression coverage for work and coffee bucket boundaries, strict work-analytics, public-availability, public-conference and Teaching-settings validation, Catholic Calendar package selection and transfers, duplicate/incomplete data, special-date validation and precedence, Teaching/free/active/upcoming Saturday behaviour, weekday/Sunday state selection, the ±3-month rolling seven-day browser, New Year API boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. Work analytics are requested only for supported years, while public availability can also cover a future calendar year reached by the three-month browser.
 
 ```bash
 npm run test
@@ -135,8 +138,8 @@ For integration into another Next.js application, use a source-level transplant 
 For a Home-page integration:
 
 1. Move `components/weekly-penguin-timeline.tsx` and `components/penguin-sprite.tsx`.
-2. Move the timeline support modules: `lib/timeline.ts`, `lib/date-utils.ts`, `lib/work-data.ts`, `lib/availability-data.ts`, `lib/teaching-settings-data.ts`, `lib/special-date-rules.ts`, `lib/catholic-calendar.ts`, `lib/penguin-assets.ts`, `content/special-dates.ts`, and the relevant timeline types; install the pinned Catholic Calendar package alongside them.
-3. Reuse an existing public Supabase client plus the `get_public_work_analytics(year)`, `list_public_availability(year)`, and `get_public_teaching_settings()` adapters when the receiving application already has them. Bring the strict response validation from this repository with the component.
+2. Move the timeline support modules: `lib/timeline.ts`, `lib/date-utils.ts`, `lib/work-data.ts`, `lib/availability-data.ts`, `lib/conference-data.ts`, `lib/teaching-settings-data.ts`, `lib/special-date-rules.ts`, `lib/catholic-calendar.ts`, `lib/penguin-assets.ts`, `content/special-dates.ts`, and the relevant timeline types; install the pinned Catholic Calendar package alongside them.
+3. Reuse an existing public Supabase client plus the `get_public_work_analytics(year)`, `list_public_availability(year)`, `list_public_conference_presentations()`, and `get_public_teaching_settings()` adapters when the receiving application already has them. Bring the strict response validation from this repository with the component.
 4. Copy the approved penguin PNG masters and the asset-generation script. Merge penguin asset generation into any existing `predev`/`prebuild` workflow rather than replacing other build preparation tasks.
 5. Port only the Weekly timeline CSS and map the PoC colour variables to the receiving application's design tokens. For `academic-website`, map them to its existing Oxford variables.
 6. Build the ±3-month source-week range on the host page and pass the resulting `weeks` into `WeeklyPenguinTimeline`; the component derives the rolling seven-day window and daily navigation client-side.
