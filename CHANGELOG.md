@@ -28,6 +28,7 @@
 - Future Saturdays retain the existing provisional/dimmed presentation.
 - Expanded the browser from four weeks either side to a dynamic ±3-month date window while retaining nine compact week jump buttons and no horizontal pagination scroll.
 - Replaced Older/Newer week stepping with Previous day/Next day controls that move the rolling seven-day view by exactly one day.
+- Added a small Current day shortcut above Previous day, using the same lightweight control style as First/Last; it makes today the first date in the rolling seven-day view.
 - Added small First/Last shortcuts below the paginator for direct jumps to the beginning or end of the available range.
 - Reordered the seven contextual gallery states to Sunday, Teaching Saturdays, Free Saturdays, Trip, Winter holiday, Summer holiday and Unavailable, keeping them in one horizontal row.
 
@@ -54,6 +55,7 @@
 - Added regression coverage confirming that overlapping public availability ranges are accepted.
 - Bumped application and lockfile metadata to `0.1.0-beta.1`.
 - Marked Frozen Ridge as in development in the README and reader-facing release notes.
+- Expanded the in-app Release notes section to all recorded versions with one release per page and compact Previous/numbered/Next pagination.
 - Documented the intended future replacement of the local fixed Catholic-date layer with `bgonzalezbustamante/catholic-calendar`, followed by reassessment of manual overrides and `content/special-dates.ts`.
 
 ### Release status
