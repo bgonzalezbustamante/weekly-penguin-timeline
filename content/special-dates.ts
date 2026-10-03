@@ -1,3 +1,4 @@
+import { catholicCalendarToSpecialDates } from '@/lib/catholic-calendar'
 import { assertValidSpecialDateRules } from '@/lib/special-date-rules'
 import type {
   PublicAvailabilityItem,
@@ -6,33 +7,12 @@ import type {
   SpecialDayType,
 } from '@/types/timeline'
 
-export const ENABLE_CATHOLIC_FIXED_DATES = true
-
 /**
- * Transitional local source.
- * Once bgonzalezbustamante/catholic-calendar is ready for consumption,
- * replace this fixed-date layer with that package/API and reassess whether
- * manual overrides and this module are still needed.
- */
-export const CATHOLIC_FIXED_DATES = [
-  { monthDay: '08-15', label: 'Assumption' },
-  { monthDay: '11-01', label: 'All Saints' },
-  { monthDay: '11-02', label: 'All Souls' },
-  { monthDay: '12-08', label: 'Immaculate' },
-  { monthDay: '12-24', label: 'Christmas Eve' },
-  { monthDay: '12-25', label: 'Christmas Day' },
-] as const
-
-/**
- * Manual presentation overrides.
- * sunday
- * winter-holiday
- * summer-holiday
- * trip
- * sick
- * unavailable
- * Manual entries take precedence over enabled built-in Catholic dates,
- * which in turn take precedence over public availability.
+ * Local/manual presentation overrides only.
+ *
+ * Catholic observance dates are resolved by
+ * @bgonzalezbustamante/catholic-calendar. Keep this module for timeline-only
+ * exceptions that are not part of the package's selected observance model.
  */
 export const specialDates: SpecialDate[] = [
   {
@@ -86,28 +66,13 @@ export function availabilityToSpecialDates(
 
 export function getConfiguredSpecialDates(
   years: number[],
-  enableCatholicFixedDates = ENABLE_CATHOLIC_FIXED_DATES,
   publicAvailability: PublicAvailabilityItem[] = []
 ): SpecialDate[] {
   assertValidSpecialDateRules(specialDates, { allowOverlaps: false })
 
+  const catholicDates = catholicCalendarToSpecialDates(years)
   const availabilityDates =
     availabilityToSpecialDates(publicAvailability)
-
-  if (!enableCatholicFixedDates) {
-    return [...specialDates, ...availabilityDates]
-  }
-
-  const catholicDates: SpecialDate[] = Array.from(new Set(years)).flatMap(
-    (year) =>
-      CATHOLIC_FIXED_DATES.map(({ monthDay, label }) => ({
-        date: `${year}-${monthDay}`,
-        type: 'sunday' as const,
-        label,
-      }))
-  )
-
-  assertValidSpecialDateRules(catholicDates, { allowOverlaps: false })
 
   return [...specialDates, ...catholicDates, ...availabilityDates]
 }
