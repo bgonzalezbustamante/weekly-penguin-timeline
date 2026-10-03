@@ -171,7 +171,7 @@ describe('weekly timeline resolution', () => {
     })
   })
 
-  it('uses the Saturday couple mode for past Saturdays too', () => {
+  it('uses normal activity states for non-free past Saturdays', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-04T12:00:00Z'),
       timeZone: 'UTC',
@@ -185,10 +185,32 @@ describe('weekly timeline resolution', () => {
     })
 
     expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
-      mode: 'saturday',
+      mode: 'activity',
       isFuture: false,
       workBucket: '8-10',
       coffeeBucket: '4-6',
+      specialLabel: null,
+    })
+  })
+
+  it('uses the canonical couple mode for zero-work zero-coffee Saturdays', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-04T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [
+        {
+          date: '2026-10-03',
+          net_minutes: 0,
+          coffee_count: 0,
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'saturday',
+      isFuture: false,
+      workBucket: 'zero',
+      coffeeBucket: 'zero',
       specialLabel: null,
     })
   })
