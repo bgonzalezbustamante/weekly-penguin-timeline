@@ -31,6 +31,11 @@ export default function WeeklyPenguinTimeline({
   const allDays = weeks.flatMap((week) => week.days)
   const maxStartIndex = Math.max(0, allDays.length - 7)
   const currentStartIndex = Math.min(currentWeekIndex * 7, maxStartIndex)
+  const todayIndex = allDays.findIndex((day) => day.isToday)
+  const currentDayStartIndex =
+    todayIndex >= 0
+      ? Math.min(todayIndex, maxStartIndex)
+      : currentStartIndex
   const [selectedStartIndex, setSelectedStartIndex] =
     useState(currentStartIndex)
   const selectedDays = allDays.slice(
@@ -76,18 +81,28 @@ export default function WeeklyPenguinTimeline({
 
       <div className="week-pagination-scroll">
         <nav className="week-pagination" aria-label="Weekly timeline pagination">
-          <button
-            className="week-nav-button"
-            type="button"
-            onClick={() =>
-              setSelectedStartIndex((index) => Math.max(0, index - 1))
-            }
-            disabled={selectedStartIndex === 0}
-            aria-label="Move seven-day window back one day"
-          >
-            <span aria-hidden="true">←</span>
-            Previous day
-          </button>
+          <div className="week-nav-stack">
+            <button
+              className="week-edge-button week-current-day-button"
+              type="button"
+              onClick={() => setSelectedStartIndex(currentDayStartIndex)}
+              disabled={selectedStartIndex === currentDayStartIndex}
+            >
+              Current day
+            </button>
+            <button
+              className="week-nav-button"
+              type="button"
+              onClick={() =>
+                setSelectedStartIndex((index) => Math.max(0, index - 1))
+              }
+              disabled={selectedStartIndex === 0}
+              aria-label="Move seven-day window back one day"
+            >
+              <span aria-hidden="true">←</span>
+              Previous day
+            </button>
+          </div>
 
           <div className="week-pages">
             {visibleWeeks.map((week, visibleIndex) => {
