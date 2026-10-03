@@ -163,7 +163,7 @@ function getMode(
       return 'activity'
     }
 
-    if (isFuture && teachingSeasonActive) return 'teaching'
+    if (teachingSeasonActive) return 'teaching'
 
     return 'saturday'
   }
