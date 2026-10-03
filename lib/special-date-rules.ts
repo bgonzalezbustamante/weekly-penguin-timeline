@@ -6,6 +6,7 @@ const SPECIAL_DAY_TYPES = new Set<SpecialDayType>([
   'winter-holiday',
   'summer-holiday',
   'trip',
+  'conference',
   'sick',
   'unavailable',
 ])
