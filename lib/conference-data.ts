@@ -54,6 +54,9 @@ function assertNullableHttpUrl(value: unknown, label: string) {
   assertNullableString(value, label)
 
   if (value === null) return
+  if (typeof value !== 'string') {
+    throw new Error(`${label} must be a valid HTTP(S) URL or null.`)
+  }
 
   let parsed: URL
 
