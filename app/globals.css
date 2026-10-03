@@ -276,11 +276,46 @@ h1 {
   cursor: not-allowed;
 }
 
-.week-pagination-edges {
+.week-pagination-secondary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 0.32rem;
+  gap: 1rem;
+  margin-top: 0.4rem;
+}
+
+.week-pagination-secondary-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.week-jump-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28rem;
+  border: 1px solid var(--stone);
+  border-radius: 0.4rem;
+  background: var(--paper);
+  padding: 0.26rem 0.48rem;
+  color: var(--blue);
+  font-family: var(--font-roboto), Arial, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.week-jump-button:hover:not(:disabled),
+.week-jump-button:focus-visible {
+  border-color: var(--aqua);
+  outline: none;
+}
+
+.week-jump-button:disabled {
+  opacity: 0.36;
+  cursor: not-allowed;
 }
 
 .week-edge-button {
