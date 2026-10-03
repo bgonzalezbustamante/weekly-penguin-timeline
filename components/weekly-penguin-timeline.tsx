@@ -121,7 +121,7 @@ export default function WeeklyPenguinTimeline({
         <nav className="week-pagination" aria-label="Weekly timeline pagination">
           <div className="week-nav-stack">
             <button
-              className="week-edge-button week-current-day-button"
+              className="week-jump-button week-current-day-button"
               type="button"
               onClick={() => selectStartIndex(currentDayStartIndex)}
               disabled={selectedStartIndex === currentDayStartIndex}
@@ -176,7 +176,7 @@ export default function WeeklyPenguinTimeline({
 
           <div className="week-nav-stack">
             <button
-              className="week-edge-button week-current-week-button"
+              className="week-jump-button week-current-week-button"
               type="button"
               onClick={selectCurrentWeek}
               disabled={
@@ -204,15 +204,16 @@ export default function WeeklyPenguinTimeline({
           className="week-pagination-secondary"
           aria-label="Weekly timeline shortcuts"
         >
+          <button
+            className="week-jump-button week-range-first"
+            type="button"
+            onClick={() => selectStartIndex(0)}
+            disabled={selectedStartIndex === 0}
+          >
+            First
+          </button>
+
           <div className="week-pagination-secondary-group">
-            <button
-              className="week-edge-button"
-              type="button"
-              onClick={() => selectStartIndex(0)}
-              disabled={selectedStartIndex === 0}
-            >
-              First
-            </button>
             <button
               className="week-jump-button"
               type="button"
@@ -223,9 +224,6 @@ export default function WeeklyPenguinTimeline({
               <span aria-hidden="true">←</span>
               Previous week
             </button>
-          </div>
-
-          <div className="week-pagination-secondary-group">
             <button
               className="week-jump-button"
               type="button"
@@ -236,15 +234,16 @@ export default function WeeklyPenguinTimeline({
               Next week
               <span aria-hidden="true">→</span>
             </button>
-            <button
-              className="week-edge-button"
-              type="button"
-              onClick={() => selectStartIndex(maxStartIndex)}
-              disabled={selectedStartIndex === maxStartIndex}
-            >
-              Last
-            </button>
           </div>
+
+          <button
+            className="week-jump-button week-range-last"
+            type="button"
+            onClick={() => selectStartIndex(maxStartIndex)}
+            disabled={selectedStartIndex === maxStartIndex}
+          >
+            Last
+          </button>
         </div>
       </div>
 
