@@ -165,25 +165,21 @@ h1 {
 }
 
 .week-pagination-scroll {
-  overflow-x: auto;
   margin: 0 0 0.7rem;
-  padding: 0 0 0.35rem;
-  scrollbar-width: thin;
 }
 
 .week-pagination {
-  width: max-content;
-  min-width: 100%;
+  width: 100%;
   display: grid;
-  grid-template-columns: auto max-content auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 0.55rem;
   align-items: stretch;
 }
 
 .week-pages {
+  min-width: 0;
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(72px, 84px);
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   gap: 0.4rem;
 }
 
@@ -209,6 +205,7 @@ h1 {
 }
 
 .week-page-button {
+  min-width: 0;
   min-height: 52px;
   display: grid;
   place-items: center;
