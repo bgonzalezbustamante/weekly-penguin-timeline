@@ -23,7 +23,7 @@ This repository is intentionally separate from `academic-website`. Development a
 - When there is no recorded Saturday activity and `teaching_season_active` is true, use `teaching.png` — including the current Saturday and future Saturdays.
 - When Teaching season is inactive, zero-work/zero-coffee and future Saturdays use `canonical-couple.png`; manual, Catholic and public-availability overrides retain priority over every Saturday rule.
 - Treats future dates as provisional rather than falsely displaying zero activity: Monday–Friday use the dedicated working-day scene, Saturday uses Teaching when the season flag is active or the canonical couple otherwise, and Sunday uses the Sunday scene; future illustrations remain visually provisional.
-- Browses a rolling seven-day window across roughly three months before and three months after the current date: Previous day/Next day shift the view by one day, Current day makes today the first displayed date, nine compact week buttons provide direct weekly jumps, and First/Last jump to the range boundaries.
+- Browses a rolling seven-day window across roughly three months before and three months after the current date: Previous day/Next day shift the view by one day, Current day makes today the first displayed date, nine compact date buttons provide direct seven-day-window starts with the selected date highlighted in Oxford blue, and First/Last jump to the range boundaries.
 - Marks the current day as provisional with “so far”.
 - Uses the Academic Website Oxford palette and typography hierarchy.
 - Includes an interactive state tester for inspecting any work/coffee combination.
@@ -42,7 +42,7 @@ The proof-of-concept separates:
 8. `public/penguins/states/` — 36 validated activity PNG masters, five validated special-state PNG masters, `working-day.png`, `canonical-couple.png`, and `teaching.png` contextual masters.
 9. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
 10. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
-11. `components/weekly-penguin-timeline.tsx` — reusable rolling seven-day presentation with a ±3-month browser, daily stepping and compact weekly jump buttons.
+11. `components/weekly-penguin-timeline.tsx` — reusable rolling seven-day presentation with a ±3-month browser, daily stepping and compact date-start buttons.
 12. `components/penguin-state-tester.tsx` — interactive state inspector.
 13. `components/penguin-state-gallery.tsx` — visual QA matrix for the 36 normal states plus special and contextual states.
 14. `content/special-dates.ts` — manual overrides, public-availability mapping and toggleable fixed Catholic celebrations.
