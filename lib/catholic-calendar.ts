@@ -7,16 +7,25 @@ import {
 import { assertValidSpecialDateRules } from '@/lib/special-date-rules'
 import type { SpecialDate } from '@/types/timeline'
 
-export const TIMELINE_CATHOLIC_OBSERVANCE_IDS = [
-  'assumption',
-  'all-saints',
-  'all-souls',
-  'immaculate-conception',
-  'christmas',
+export const TIMELINE_CATHOLIC_OBSERVANCES = [
+  { id: 'palm-sunday', label: 'Palm Sunday' },
+  { id: 'holy-thursday', label: 'Holy Thursday' },
+  { id: 'good-friday', label: 'Good Friday' },
+  { id: 'holy-saturday', label: 'Holy Saturday' },
+  { id: 'easter-sunday', label: 'Easter Sunday' },
+  { id: 'divine-mercy-sunday', label: 'Divine Mercy' },
+  { id: 'ascension', label: 'Ascension' },
+  { id: 'pentecost', label: 'Pentecost' },
+  { id: 'corpus-christi', label: 'Corpus Christi' },
+  { id: 'assumption', label: 'Assumption' },
+  { id: 'all-saints', label: 'All Saints' },
+  { id: 'all-souls', label: 'All Souls' },
+  { id: 'immaculate-conception', label: 'Immaculate' },
+  { id: 'christmas', label: 'Christmas' },
 ] as const
 
-const timelineObservanceIds = new Set<string>(
-  TIMELINE_CATHOLIC_OBSERVANCE_IDS
+const timelineLabelsByObservanceId = new Map<string, string>(
+  TIMELINE_CATHOLIC_OBSERVANCES.map(({ id, label }) => [id, label])
 )
 
 export function catholicCalendarToSpecialDates(
@@ -42,13 +51,13 @@ export function catholicCalendarToSpecialDates(
     buildYearObservances(year)
       .filter(
         (observance) =>
-          timelineObservanceIds.has(observance.id) &&
+          timelineLabelsByObservanceId.has(observance.id) &&
           observance.observedDate !== null
       )
       .map((observance) => ({
         date: observance.observedDate!,
         type: 'sunday' as const,
-        label: observance.name,
+        label: timelineLabelsByObservanceId.get(observance.id)!,
       }))
   )
 
