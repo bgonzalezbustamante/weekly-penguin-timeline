@@ -28,15 +28,16 @@ export const releases: ReleaseNote[] = [
           'Added deterministic Saturday asset resolution while keeping ordinary activity-state resolution unchanged outside the Saturday rule.',
           'Added the canonical couple image to the visual QA gallery as Free Saturdays.',
           'Added teaching.png as the Teaching Saturdays contextual state and included it in visual QA.',
+          'Reordered the seven contextual QA states into one row: Sunday, Teaching Saturdays, Free Saturdays, Trip, Winter holiday, Summer holiday and Unavailable.',
         ],
       },
       {
         title: 'Timeline behaviour',
         items: [
-          'When teaching_season_active is true, Saturdays use the dedicated Teaching illustration after higher-priority manual, Catholic and availability overrides.',
-          'Outside Teaching season, Saturdays with recorded work or coffee use the normal activity matrix, while zero-work zero-coffee Saturdays use the canonical couple illustration.',
-          'Outside Teaching season, upcoming Saturdays also use the canonical couple illustration.',
-          'Manual special-date overrides continue to take priority, and future Saturdays retain the existing provisional dimming.',
+          'Recorded work or coffee on a non-future Saturday always uses the normal activity matrix, even during Teaching season.',
+          'Future Saturdays use the Teaching illustration when teaching_season_active is true and the canonical couple otherwise; non-future zero-work zero-coffee Saturdays also use the couple.',
+          'Manual, Catholic and public-availability states continue to take priority, and future Saturdays retain the existing provisional dimming.',
+          'Expanded weekly navigation to cover roughly three months before and three months after the current date.',
         ],
       },
       {
