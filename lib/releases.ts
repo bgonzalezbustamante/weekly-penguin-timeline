@@ -47,7 +47,7 @@ export const releases: ReleaseNote[] = [
         items: [
           'Added strict consumption of list_public_availability(year) for Winter/Summer holidays, trips and generic unavailable periods.',
           'Added strict consumption of get_public_teaching_settings(), exposing only the Teaching-season boolean used by the Saturday state resolver.',
-          'Source precedence is manual/local override, package-backed Catholic celebration, then public availability; overlapping ranges remain supported, and repeated identical anonymous projections are coalesced only for rendering rather than treated as invalid source duplication.',
+          'Source precedence is manual/local override, package-backed Catholic celebration, then public availability; repeated identical anonymous projections are coalesced for rendering, while distinct overlapping trips combine their unique labels only on shared dates.',
           'Unavailable periods remain labelled Unavailable and never consume private sickness reasons or Planning notes; the existing unavailable/sick artwork is reused for the visual state.',
         ],
       },
