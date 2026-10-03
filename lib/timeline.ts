@@ -95,7 +95,8 @@ function getMode(
   isFuture: boolean,
   special: SpecialDate | null,
   workBucket: WorkBucket,
-  coffeeBucket: CoffeeBucket
+  coffeeBucket: CoffeeBucket,
+  teachingSeasonActive: boolean
 ): PenguinMode {
   if (special) return special.type
 
@@ -103,6 +104,8 @@ function getMode(
 
   if (weekday === 0) return 'sunday'
   if (weekday === 6) {
+    if (teachingSeasonActive) return 'teaching'
+
     if (isFuture || (workBucket === 'zero' && coffeeBucket === 'zero')) {
       return 'saturday'
     }
@@ -119,12 +122,14 @@ export function buildWeeklyTimeline({
   timeZone = 'Europe/Amsterdam',
   days,
   specialDates = [],
+  teachingSeasonActive = false,
   weekOffset = 0,
 }: {
   now?: Date
   timeZone?: string
   days: PublicWorkDay[]
   specialDates?: SpecialDate[]
+  teachingSeasonActive?: boolean
   weekOffset?: number
 }): TimelineDay[] {
   assertValidPublicWorkDays(days)
@@ -158,7 +163,8 @@ export function buildWeeklyTimeline({
       isFuture,
       special,
       workBucket,
-      coffeeBucket
+      coffeeBucket,
+      teachingSeasonActive
     )
 
     return {
@@ -253,6 +259,7 @@ export function buildTimelineWeeks({
   timeZone = 'Europe/Amsterdam',
   days,
   specialDates = [],
+  teachingSeasonActive = false,
   pastWeeks = 4,
   futureWeeks = 4,
 }: {
@@ -260,6 +267,7 @@ export function buildTimelineWeeks({
   timeZone?: string
   days: PublicWorkDay[]
   specialDates?: SpecialDate[]
+  teachingSeasonActive?: boolean
   pastWeeks?: number
   futureWeeks?: number
 }): TimelineWeek[] {
@@ -276,6 +284,7 @@ export function buildTimelineWeeks({
       timeZone,
       days,
       specialDates,
+      teachingSeasonActive,
       weekOffset: offset,
     })
 
