@@ -48,6 +48,10 @@ export type PublicAvailabilityItem = {
   label: string
 }
 
+export type PublicTeachingSettings = {
+  teaching_season_active: boolean
+}
+
 export type PublicWorkDay = {
   date: string
   net_minutes: number
@@ -65,6 +69,7 @@ export type PenguinMode =
   | 'activity'
   | 'working-day'
   | 'saturday'
+  | 'teaching'
   | 'sunday'
   | 'winter-holiday'
   | 'summer-holiday'
