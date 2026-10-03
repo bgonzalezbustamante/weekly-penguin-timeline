@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.1.0-beta.1 "Frozen Ridge" (in development)
+## v0.1.0-beta.1 "Frozen Ridge" — 3 October 2026
 
 ### Summary
 
@@ -61,14 +61,15 @@
 - Added precedence tests for manual overrides → fixed Catholic dates → public availability and coverage for the generic unavailable state.
 - Added regression coverage confirming that overlapping public availability ranges are accepted.
 - Bumped application and lockfile metadata to `0.1.0-beta.1`.
-- Marked Frozen Ridge as in development in the README and reader-facing release notes.
+- Marked Frozen Ridge as a dated beta pre-release in the README and reader-facing release notes.
 - Expanded the in-app Release notes section to all recorded versions with one release per page and compact Previous/numbered/Next pagination.
 - Documented the intended future replacement of the local fixed Catholic-date layer with `bgonzalezbustamante/catholic-calendar`, followed by reassessment of manual overrides and `content/special-dates.ts`.
 
 ### Release status
 
-- Frozen Ridge beta.1 is in development.
-- Release date: TBC.
+- Frozen Ridge beta.1 is ready for publication as a GitHub pre-release.
+- Release date: 3 October 2026.
+- Final verification: GitHub Actions CI and the Netlify deploy preview passed before merge.
 
 ## v0.1.0-alpha.1 "Bold Cipher" — 2 October 2026
 
