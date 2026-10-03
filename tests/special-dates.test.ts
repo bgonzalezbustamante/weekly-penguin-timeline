@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  availabilityToSpecialDates,
   CATHOLIC_FIXED_DATES,
   getConfiguredSpecialDates,
   specialDates,
@@ -46,6 +47,98 @@ describe('fixed Catholic celebrations', () => {
 
   it('returns only manual overrides when fixed celebrations are disabled', () => {
     expect(getConfiguredSpecialDates([2027], false)).toEqual(specialDates)
+  })
+
+  it('maps public availability onto privacy-safe timeline states', () => {
+    expect(
+      availabilityToSpecialDates([
+        {
+          type: 'winter_holiday',
+          start_date: '2027-01-02',
+          end_date: '2027-01-05',
+          label: 'Winter holiday',
+        },
+        {
+          type: 'summer_holiday',
+          start_date: '2027-07-10',
+          end_date: '2027-07-20',
+          label: 'Summer holiday',
+        },
+        {
+          type: 'trip',
+          start_date: '2027-08-10',
+          end_date: '2027-08-14',
+          label: 'Trip',
+        },
+        {
+          type: 'unavailable',
+          start_date: '2027-10-01',
+          end_date: '2027-10-02',
+          label: 'Unavailable',
+        },
+      ])
+    ).toEqual([
+      {
+        from: '2027-10-01',
+        to: '2027-10-02',
+        type: 'unavailable',
+        label: 'Unavailable',
+      },
+      {
+        from: '2027-08-10',
+        to: '2027-08-14',
+        type: 'trip',
+        label: 'Trip',
+      },
+      {
+        from: '2027-01-02',
+        to: '2027-01-05',
+        type: 'winter-holiday',
+        label: 'Winter holiday',
+      },
+      {
+        from: '2027-07-10',
+        to: '2027-07-20',
+        type: 'summer-holiday',
+        label: 'Summer holiday',
+      },
+    ])
+  })
+
+  it('places public availability after manual overrides and before Catholic dates', () => {
+    const availability = [
+      {
+        type: 'trip' as const,
+        start_date: '2026-12-24',
+        end_date: '2026-12-25',
+        label: 'Trip',
+      },
+    ]
+    const configured = getConfiguredSpecialDates([2026], true, availability)
+
+    expect(configured[0]).toEqual(specialDates[0])
+    expect(configured[1]).toEqual({
+      from: '2026-12-24',
+      to: '2026-12-25',
+      type: 'trip',
+      label: 'Trip',
+    })
+
+    const christmas = buildWeeklyTimeline({
+      now: new Date('2026-12-25T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+      specialDates: configured,
+    })
+
+    expect(christmas.find((day) => day.date === '2026-12-24')).toMatchObject({
+      mode: 'sunday',
+      specialLabel: 'Christmas Eve',
+    })
+    expect(christmas.find((day) => day.date === '2026-12-25')).toMatchObject({
+      mode: 'trip',
+      specialLabel: 'Trip',
+    })
   })
 
   it('keeps manual overrides before built-in dates for resolver precedence', () => {
