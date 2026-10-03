@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   availabilityToSpecialDates,
+  conferencePresentationsToSpecialDates,
   getConfiguredSpecialDates,
   recurringSpecialDates,
   specialDates,
@@ -12,6 +13,27 @@ import {
 } from '@/lib/catholic-calendar'
 import { assertValidSpecialDateRules } from '@/lib/special-date-rules'
 import { buildWeeklyTimeline } from '@/lib/timeline'
+import type { PublicConferencePresentation } from '@/types/timeline'
+
+function conference(
+  overrides: Partial<PublicConferencePresentation> = {}
+): PublicConferencePresentation {
+  return {
+    event_name: 'UDP Keynote',
+    event_short_name: 'UDP Keynote',
+    location: 'Santiago',
+    presentation_date: '2026-08-07',
+    start_date: '2026-08-07',
+    end_date: '2026-08-07',
+    personal_attendance: true,
+    involves_trip: true,
+    presentation_title: 'A keynote',
+    authors: ['B. González-Bustamante'],
+    presentation_type: 'Keynote',
+    url: null,
+    ...overrides,
+  }
+}
 
 describe('Catholic Calendar integration', () => {
   it('keeps the timeline Catholic scope explicit with repo-specific labels', () => {
@@ -179,25 +201,24 @@ describe('Catholic Calendar integration', () => {
     )
   })
 
-  it('coalesces identical public projections into one rendered state', () => {
+  it('uses conference dates from the conference API and trip only for travel days', () => {
     expect(
-      availabilityToSpecialDates([
-        {
-          type: 'trip',
-          start_date: '2026-08-06',
-          end_date: '2026-08-08',
-          label: 'UDP Keynote',
-        },
-        {
-          type: 'trip',
-          start_date: '2026-08-06',
-          end_date: '2026-08-08',
-          label: 'UDP Keynote',
-        },
-      ])
+      conferencePresentationsToSpecialDates([conference()])
     ).toEqual([
       {
         from: '2026-08-06',
+        to: '2026-08-06',
+        type: 'trip',
+        label: 'UDP Keynote',
+      },
+      {
+        from: '2026-08-07',
+        to: '2026-08-07',
+        type: 'conference',
+        label: 'UDP Keynote',
+      },
+      {
+        from: '2026-08-08',
         to: '2026-08-08',
         type: 'trip',
         label: 'UDP Keynote',
@@ -205,83 +226,146 @@ describe('Catholic Calendar integration', () => {
     ])
   })
 
-  it('combines labels only on dates where distinct trips overlap', () => {
+  it('supports multi-day conferences with one travel day on each side', () => {
     expect(
-      availabilityToSpecialDates([
-        {
-          type: 'trip',
-          start_date: '2026-08-06',
-          end_date: '2026-08-08',
-          label: 'UDP Keynote',
-        },
-        {
-          type: 'trip',
-          start_date: '2026-08-08',
-          end_date: '2026-08-12',
-          label: 'ECPR',
-        },
+      conferencePresentationsToSpecialDates([
+        conference({
+          end_date: '2026-08-09',
+        }),
       ])
     ).toEqual([
       {
         from: '2026-08-06',
-        to: '2026-08-07',
+        to: '2026-08-06',
         type: 'trip',
+        label: 'UDP Keynote',
+      },
+      {
+        from: '2026-08-07',
+        to: '2026-08-09',
+        type: 'conference',
+        label: 'UDP Keynote',
+      },
+      {
+        from: '2026-08-10',
+        to: '2026-08-10',
+        type: 'trip',
+        label: 'UDP Keynote',
+      },
+    ])
+  })
+
+  it('does not add travel days when involves_trip is false', () => {
+    expect(
+      conferencePresentationsToSpecialDates([
+        conference({
+          involves_trip: false,
+        }),
+      ])
+    ).toEqual([
+      {
+        from: '2026-08-07',
+        to: '2026-08-07',
+        type: 'conference',
+        label: 'UDP Keynote',
+      },
+    ])
+  })
+
+  it('ignores conferences not personally attended', () => {
+    expect(
+      conferencePresentationsToSpecialDates([
+        conference({
+          personal_attendance: false,
+          involves_trip: false,
+        }),
+      ])
+    ).toEqual([])
+  })
+
+  it('coalesces repeated presentation records visually without treating them as invalid', () => {
+    expect(
+      conferencePresentationsToSpecialDates([
+        conference(),
+        conference({
+          presentation_title: 'A second presentation',
+        }),
+      ])
+    ).toEqual([
+      {
+        from: '2026-08-06',
+        to: '2026-08-06',
+        type: 'trip',
+        label: 'UDP Keynote',
+      },
+      {
+        from: '2026-08-07',
+        to: '2026-08-07',
+        type: 'conference',
         label: 'UDP Keynote',
       },
       {
         from: '2026-08-08',
         to: '2026-08-08',
         type: 'trip',
-        label: 'UDP Keynote · ECPR',
+        label: 'UDP Keynote',
+      },
+    ])
+  })
+
+  it('combines labels for overlapping conferences and lets conference beat trip', () => {
+    expect(
+      conferencePresentationsToSpecialDates([
+        conference({
+          event_name: 'Conference A',
+          event_short_name: 'Conference A',
+          presentation_date: '2026-08-07',
+          start_date: '2026-08-07',
+          end_date: '2026-08-08',
+        }),
+        conference({
+          event_name: 'Conference B',
+          event_short_name: 'Conference B',
+          presentation_date: '2026-08-08',
+          start_date: '2026-08-08',
+          end_date: '2026-08-09',
+        }),
+      ])
+    ).toEqual([
+      {
+        from: '2026-08-06',
+        to: '2026-08-06',
+        type: 'trip',
+        label: 'Conference A',
+      },
+      {
+        from: '2026-08-07',
+        to: '2026-08-07',
+        type: 'conference',
+        label: 'Conference A',
+      },
+      {
+        from: '2026-08-08',
+        to: '2026-08-08',
+        type: 'conference',
+        label: 'Conference A · Conference B',
       },
       {
         from: '2026-08-09',
-        to: '2026-08-12',
-        type: 'trip',
-        label: 'ECPR',
+        to: '2026-08-09',
+        type: 'conference',
+        label: 'Conference B',
       },
-    ])
-  })
-
-  it('combines every distinct trip label on a shared date without repeating labels', () => {
-    expect(
-      availabilityToSpecialDates([
-        {
-          type: 'trip',
-          start_date: '2026-08-08',
-          end_date: '2026-08-08',
-          label: 'UDP Keynote',
-        },
-        {
-          type: 'trip',
-          start_date: '2026-08-08',
-          end_date: '2026-08-08',
-          label: 'ECPR',
-        },
-        {
-          type: 'trip',
-          start_date: '2026-08-08',
-          end_date: '2026-08-08',
-          label: 'Methods Workshop',
-        },
-        {
-          type: 'trip',
-          start_date: '2026-08-08',
-          end_date: '2026-08-08',
-          label: 'ECPR',
-        },
-      ])
-    ).toEqual([
       {
-        from: '2026-08-08',
-        to: '2026-08-08',
+        from: '2026-08-10',
+        to: '2026-08-10',
         type: 'trip',
-        label: 'ECPR · Methods Workshop · UDP Keynote',
+        label: 'Conference B',
       },
     ])
   })
 
-  it('maps public availability onto privacy-safe timeline states', () => {
+  it('uses availability only for non-conference availability states', () => {
     expect(
       availabilityToSpecialDates([
         {
@@ -300,7 +384,7 @@ describe('Catholic Calendar integration', () => {
           type: 'trip',
           start_date: '2027-08-10',
           end_date: '2027-08-14',
-          label: 'Trip',
+          label: 'Ignored trip projection',
         },
         {
           type: 'unavailable',
@@ -317,12 +401,6 @@ describe('Catholic Calendar integration', () => {
         label: 'Unavailable',
       },
       {
-        from: '2027-08-10',
-        to: '2027-08-14',
-        type: 'trip',
-        label: 'Trip',
-      },
-      {
         from: '2027-01-02',
         to: '2027-01-05',
         type: 'winter-holiday',
@@ -337,28 +415,21 @@ describe('Catholic Calendar integration', () => {
     ])
   })
 
-  it('keeps local and package Catholic dates ahead of public availability', () => {
-    const availability = [
-      {
-        type: 'trip' as const,
-        start_date: '2027-12-24',
-        end_date: '2027-12-25',
-        label: 'Trip',
-      },
-    ]
-    const configured = getConfiguredSpecialDates([2027], availability)
-
-    expect(configured[0]).toEqual({
-      date: '2027-12-24',
-      type: 'sunday',
-      label: 'Christmas Eve',
-    })
-    expect(configured.at(-1)).toEqual({
-      from: '2027-12-24',
-      to: '2027-12-25',
-      type: 'trip',
-      label: 'Trip',
-    })
+  it('keeps local and package Catholic dates ahead of conferences', () => {
+    const configured = getConfiguredSpecialDates(
+      [2027],
+      [],
+      [
+        conference({
+          event_name: 'Christmas Conference',
+          event_short_name: 'Christmas Conference',
+          presentation_date: '2027-12-24',
+          start_date: '2027-12-24',
+          end_date: '2027-12-25',
+          involves_trip: false,
+        }),
+      ]
+    )
 
     const christmas = buildWeeklyTimeline({
       now: new Date('2027-12-25T12:00:00Z'),
