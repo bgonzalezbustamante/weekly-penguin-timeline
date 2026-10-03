@@ -41,8 +41,8 @@ export default function WeeklyPenguinTimeline({
           <h2 id="weekly-timeline-title">Weekly timeline</h2>
           <p className="section-intro section-intro-wide">
             Daily net working time and coffee counts translated into one
-            penguin state per day. Browse four weeks before and four weeks
-            after the current week.
+            penguin state per day. Browse roughly three months before and
+            three months after the current date.
           </p>
         </div>
       </div>
