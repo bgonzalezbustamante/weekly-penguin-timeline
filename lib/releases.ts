@@ -37,7 +37,7 @@ export const releases: ReleaseNote[] = [
           'Recorded work or coffee on a Saturday always uses the normal activity matrix first, even during Teaching season.',
           'With no recorded Saturday activity, teaching_season_active selects the Teaching illustration — including today and future Saturdays — while an inactive Teaching season falls back to the canonical couple.',
           'Manual, Catholic and public-availability states continue to take priority, and future Saturdays retain the existing provisional dimming.',
-          'Expanded navigation to roughly three months before and after the current date, keeping the central daily paginator intact while using matching outlined Current day/Current week shortcuts and a lower row with centred Previous week/Next week controls between First and Last range boundaries.',
+          'Expanded navigation to roughly three months before and after the current date, keeping the central daily paginator intact while using matching outlined shortcuts; the lower row groups First + Previous week on the left and Next week + Last on the right, and weekly jumps recenter the newly selected Oxford-blue date whenever range boundaries permit.',
         ],
       },
       {
