@@ -105,6 +105,26 @@ describe('weekly timeline resolution', () => {
     })
   })
 
+  it('uses the generic unavailable label without exposing a sickness label', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-02T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+      specialDates: [
+        {
+          date: '2026-10-02',
+          type: 'unavailable',
+          label: 'Unavailable',
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-02')).toMatchObject({
+      mode: 'unavailable',
+      specialLabel: 'Unavailable',
+    })
+  })
+
   it('gives explicit overrides priority over the weekly Sunday rule', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-04T12:00:00Z'),
