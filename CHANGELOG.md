@@ -5,7 +5,7 @@
 ### Summary
 
 - Opened the first beta development line after the tagged Bold Cipher alpha.
-- Added the canonical couple illustration as the automatic Saturday state.
+- Added the canonical couple illustration for free and upcoming Saturdays while retaining normal activity states on active Saturdays.
 - Preserved special-date overrides as the highest-priority calendar rule.
 
 ### Code changes
@@ -18,14 +18,17 @@
 
 `timeline behaviour`
 
-- Added a dedicated `saturday` penguin mode.
-- Saturdays now use the canonical couple illustration whether they are past or future.
+- Added a dedicated `saturday` penguin mode for zero-work/zero-coffee and upcoming Saturdays.
+- Saturdays with recorded work or coffee continue to use the normal activity matrix.
+- Zero-work/zero-coffee Saturdays use the canonical couple illustration.
+- Upcoming Saturdays use the canonical couple illustration regardless of work-data availability.
 - Manual and generated special-date overrides continue to take priority over the Saturday rule.
 - Future Saturdays retain the existing provisional/dimmed presentation.
+- Added the canonical couple illustration to the end of the visual QA gallery as `Free Saturdays`.
 
 `testing and release metadata`
 
-- Added regression coverage for future and past Saturday mode resolution and the Saturday couple asset.
+- Added regression coverage for active, free and upcoming Saturday mode resolution and the Saturday couple asset.
 - Bumped application and lockfile metadata to `0.1.0-beta.1`.
 - Marked Frozen Ridge as in development in the README and reader-facing release notes.
 
