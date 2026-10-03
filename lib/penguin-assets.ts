@@ -44,6 +44,10 @@ export function resolvePenguinAsset({
     return '/penguins/states/webp/canonical-couple.webp'
   }
 
+  if (mode === 'teaching') {
+    return '/penguins/states/webp/teaching.webp'
+  }
+
   if (mode === 'working-day') {
     return '/penguins/states/webp/working-day.webp'
   }
