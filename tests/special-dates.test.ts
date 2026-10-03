@@ -105,7 +105,7 @@ describe('fixed Catholic celebrations', () => {
     ])
   })
 
-  it('places public availability after manual overrides and before Catholic dates', () => {
+  it('places fixed Catholic dates after manual overrides and before public availability', () => {
     const availability = [
       {
         type: 'trip' as const,
@@ -118,6 +118,11 @@ describe('fixed Catholic celebrations', () => {
 
     expect(configured[0]).toEqual(specialDates[0])
     expect(configured[1]).toEqual({
+      date: '2026-08-15',
+      type: 'sunday',
+      label: 'Assumption',
+    })
+    expect(configured.at(-1)).toEqual({
       from: '2026-12-24',
       to: '2026-12-25',
       type: 'trip',
@@ -136,8 +141,8 @@ describe('fixed Catholic celebrations', () => {
       specialLabel: 'Christmas Eve',
     })
     expect(christmas.find((day) => day.date === '2026-12-25')).toMatchObject({
-      mode: 'trip',
-      specialLabel: 'Trip',
+      mode: 'sunday',
+      specialLabel: 'Christmas Day',
     })
   })
 
