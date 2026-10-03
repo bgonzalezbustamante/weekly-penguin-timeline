@@ -235,10 +235,49 @@ describe('weekly timeline resolution', () => {
     })
   })
 
+  it('uses the teaching state on Saturdays while teaching season is active', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-04T12:00:00Z'),
+      timeZone: 'UTC',
+      teachingSeasonActive: true,
+      days: [
+        {
+          date: '2026-10-03',
+          net_minutes: 480,
+          coffee_count: 4,
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'teaching',
+      isFuture: false,
+      workBucket: '8-10',
+      coffeeBucket: '4-6',
+      specialLabel: null,
+    })
+  })
+
+  it('uses the teaching state for upcoming Saturdays while teaching season is active', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-01T12:00:00Z'),
+      timeZone: 'UTC',
+      teachingSeasonActive: true,
+      days: [],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'teaching',
+      isFuture: true,
+      specialLabel: null,
+    })
+  })
+
   it('keeps future special dates ahead of weekday and weekend defaults', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-01T12:00:00Z'),
       timeZone: 'UTC',
+      teachingSeasonActive: true,
       days: [],
       specialDates: [
         {
