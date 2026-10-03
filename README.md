@@ -23,7 +23,7 @@ This repository is intentionally separate from `academic-website`. Development a
 - Future Saturdays use `teaching.png` when `teaching_season_active` is true and `canonical-couple.png` otherwise.
 - Non-future zero-work/zero-coffee Saturdays use `canonical-couple.png`; manual, Catholic and public-availability overrides retain priority over every Saturday rule.
 - Treats future dates as provisional rather than falsely displaying zero activity: Monday–Friday use the dedicated working-day scene, Saturday uses Teaching when the season flag is active or the canonical couple otherwise, and Sunday uses the Sunday scene; future illustrations remain visually provisional.
-- Browses a rolling seven-day window across roughly three months before and three months after the current date: Previous day/Next day shift the view by one day, nine compact week buttons provide direct weekly jumps, and First/Last jump to the range boundaries.
+- Browses a rolling seven-day window across roughly three months before and three months after the current date: Previous day/Next day shift the view by one day, Current day makes today the first displayed date, nine compact week buttons provide direct weekly jumps, and First/Last jump to the range boundaries.
 - Marks the current day as provisional with “so far”.
 - Uses the Academic Website Oxford palette and typography hierarchy.
 - Includes an interactive state tester for inspecting any work/coffee combination.
@@ -150,7 +150,7 @@ The standalone hero, state tester, visual QA matrix, release notes, and footer a
 
 ## Release documentation
 
-`CHANGELOG.md` contains the technical record. `lib/releases.ts` contains the shorter reader-facing release notes shown on the demonstration page. Both are kept aligned for public releases.
+`CHANGELOG.md` contains the technical record. `lib/releases.ts` contains the shorter reader-facing release notes shown on the demonstration page. The Release notes component exposes every recorded version, newest first, with one release per pagination page. Both sources are kept aligned for public releases.
 
 ## Licensing
 
