@@ -33,6 +33,16 @@ describe('penguin asset resolution', () => {
     ).toBe('/penguins/states/webp/sunday.webp')
   })
 
+  it('uses the existing unavailable artwork for generic public unavailable periods', () => {
+    expect(
+      resolvePenguinAsset({
+        mode: 'unavailable',
+        workBucket: 'zero',
+        coffeeBucket: 'zero',
+      })
+    ).toBe('/penguins/states/webp/sick.webp')
+  })
+
   it('uses the approved working-day asset for future weekdays', () => {
     expect(
       resolvePenguinAsset({
