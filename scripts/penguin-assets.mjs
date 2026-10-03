@@ -43,11 +43,11 @@ const NORMAL_STATE_FILES = WORK_BUCKETS.flatMap((workBucket) =>
 )
 
 const SPECIAL_STATE_FILES = SPECIAL_STATES.map((state) => `${state}.png`)
-const UPCOMING_STATE_FILES = ['working-day.png']
+const CONTEXT_STATE_FILES = ['working-day.png', 'canonical-couple.png']
 const REQUIRED_STATE_FILES = [
   ...NORMAL_STATE_FILES,
   ...SPECIAL_STATE_FILES,
-  ...UPCOMING_STATE_FILES,
+  ...CONTEXT_STATE_FILES,
 ]
 
 const shouldGenerate = process.argv.includes('--generate')
@@ -254,7 +254,7 @@ async function main() {
   } = await validateAssetSet()
 
   console.log(
-    `Validated ${validated.length} PNG masters: 36 activity states, 5 special states, 1 upcoming working-day state and 1 canonical baseline.`
+    `Validated ${validated.length} PNG masters: 36 activity states, 5 special states, 1 upcoming working-day state, 1 Saturday couple state and 1 canonical baseline.`
   )
   console.log(
     `Detected transparency in ${transparentCount}/${validated.length} PNG masters.`
