@@ -39,6 +39,7 @@ const SPECIAL_LABELS: Record<SpecialDayType, string> = {
   'summer-holiday': 'Summer holiday',
   trip: 'Trip',
   sick: 'Sick',
+  unavailable: 'Unavailable',
 }
 
 export function resolveWorkBucket(minutes: number): WorkBucket {
