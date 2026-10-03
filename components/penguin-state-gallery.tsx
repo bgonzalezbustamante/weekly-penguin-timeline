@@ -36,6 +36,7 @@ const SPECIAL_STATES: Array<{
   { mode: 'summer-holiday', label: 'Summer holiday' },
   { mode: 'trip', label: 'Trip' },
   { mode: 'unavailable', label: 'Unavailable' },
+  { mode: 'teaching', label: 'Teaching Saturdays' },
   { mode: 'saturday', label: 'Free Saturdays' },
 ]
 
@@ -48,8 +49,8 @@ export default function PenguinStateGallery() {
           <h2 id="state-gallery-title">Penguin state matrix</h2>
           <p className="section-intro section-intro-wide">
             The complete approved 6 × 6 activity matrix, followed by the five
-            special-state assets and the Free Saturdays couple state. This view
-            makes progression and visual drift easy to inspect.
+            special-state assets plus Teaching Saturdays and Free Saturdays.
+            This view makes progression and visual drift easy to inspect.
           </p>
         </div>
       </div>
@@ -102,7 +103,7 @@ export default function PenguinStateGallery() {
         </div>
       </div>
 
-      <div className="special-gallery" aria-label="Special and Saturday penguin states">
+      <div className="special-gallery" aria-label="Special and contextual penguin states">
         {SPECIAL_STATES.map((state) => (
           <div className="special-gallery-item" key={state.mode}>
             <article className="special-gallery-card">
