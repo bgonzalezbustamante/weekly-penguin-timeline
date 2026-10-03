@@ -22,8 +22,8 @@
 
 - Added dedicated `teaching` and `saturday` modes for contextual Saturday rendering.
 - Non-future Saturdays with recorded work or coffee always use the normal activity matrix, even while Teaching season is active.
-- Future Saturdays use the Teaching illustration when `teaching_season_active` is true and the canonical couple otherwise.
-- Non-future zero-work/zero-coffee Saturdays use the canonical couple illustration.
+- Saturdays with recorded work or coffee use the normal activity matrix first.
+- Saturdays without recorded activity use the Teaching illustration whenever `teaching_season_active` is true, including the current Saturday and future Saturdays; otherwise they use the canonical couple.
 - Manual, Catholic and public-availability states continue to take priority over Saturday defaults.
 - Future Saturdays retain the existing provisional/dimmed presentation.
 - Expanded the browser from four weeks either side to a dynamic ±3-month date window while retaining nine compact week jump buttons and no horizontal pagination scroll.
@@ -39,7 +39,7 @@
 - Added strict runtime validation for the public availability contract: exact fields, controlled type vocabulary, real in-year ranges, start/end ordering, duplicate-range rejection and the mandatory generic `Unavailable` label.
 - Mapped `winter_holiday` → `winter-holiday`, `summer_holiday` → `summer-holiday`, `trip` → `trip`, and `unavailable` → a generic unavailable timeline mode.
 - Source precedence is manual override → fixed Catholic celebration → public availability → calendar defaults → normal activity. Overlapping public availability ranges are allowed; when more than one applies to a day, `unavailable` takes priority over `trip`, followed by holiday states.
-- Within the Saturday calendar-default rule, recorded non-future activity wins first; future Saturdays use `teaching.png` when Teaching season is active and the canonical couple otherwise; non-future zero-work/zero-coffee Saturdays use the couple.
+- Within the Saturday calendar-default rule, recorded activity wins first; with no recorded activity, an active Teaching season selects `teaching.png`, otherwise the canonical couple is used.
 - The public `unavailable` state keeps the user-facing label `Unavailable` and does not consume sickness reasons, notes or other private Planning fields.
 - The existing sick-state artwork is reused for the generic unavailable mode; manual `sick` overrides remain supported separately.
 - Work analytics and public availability are loaded together and the timeline fails closed if either required RPC is unavailable or violates its contract.
@@ -47,7 +47,7 @@
 
 `testing and release metadata`
 
-- Added regression coverage for Teaching-season, active, free and upcoming Saturday precedence and the Saturday assets.
+- Added regression coverage for Teaching-season, active, free and upcoming Saturday precedence, including the current zero-activity Saturday, and the Saturday assets.
 - Added regression coverage for the exact ±3-month-to-week pagination calculation and invalid month-window inputs.
 - Added Teaching-settings contract tests for singleton shape, exact fields and boolean typing.
 - Added public-availability validator tests for controlled types, exact fields, malformed/reversed/cross-year ranges, privacy labels and duplicates.
