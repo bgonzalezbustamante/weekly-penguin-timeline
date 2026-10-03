@@ -111,7 +111,9 @@ Manual exact dates and inclusive ranges remain supported. A labelled `sunday` ov
 }
 ```
 
-Precedence is: manual special date → public availability → enabled fixed Catholic date → Saturday/Sunday/future-day rule → normal activity state. Within overlapping public availability ranges, generic `unavailable` takes priority over `trip`, followed by Winter/Summer holiday states. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and ambiguous manual overlaps fail explicitly. Public `unavailable` remains labelled `Unavailable` in the UI; private sickness reasons and notes are never consumed by this repository.
+Precedence is: manual special date → enabled fixed Catholic date → public availability → Saturday/Sunday/future-day rule → normal activity state. Overlapping public availability ranges are allowed; when more than one applies to a day, generic `unavailable` takes priority over `trip`, followed by Winter/Summer holiday states. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and ambiguous manual overlaps fail explicitly. Public `unavailable` remains labelled `Unavailable` in the UI; private sickness reasons and notes are never consumed by this repository.
+
+The local fixed Catholic-date set is transitional. Once `bgonzalezbustamante/catholic-calendar` is ready for consumption, the intended direction is to use it as the Catholic calendar source and then reassess whether manual overrides and `content/special-dates.ts` can be deprecated.
 
 ## Activity bands
 
