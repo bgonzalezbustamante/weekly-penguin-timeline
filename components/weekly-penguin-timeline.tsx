@@ -201,7 +201,7 @@ export default function WeeklyPenguinTimeline({
                 >
                   <span>{compactDate(startDay.date)}</span>
                   <small>
-                    {relativeDayLabel(startIndex, currentDayStartIndex)}
+                    {relativeDayLabel(startIndex, currentDayIndex)}
                   </small>
                 </button>
               )
