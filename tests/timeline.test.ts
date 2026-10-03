@@ -334,7 +334,7 @@ describe('weekly timeline resolution', () => {
     })
   })
 
-  it('uses the Teaching state for zero-work zero-coffee Saturdays during Teaching season', () => {
+  it('does not project the current Teaching-season flag onto past Saturdays', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-04T12:00:00Z'),
       timeZone: 'UTC',
@@ -349,7 +349,8 @@ describe('weekly timeline resolution', () => {
     })
 
     expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
-      mode: 'teaching',
+      mode: 'saturday',
+      isToday: false,
       isFuture: false,
       workBucket: 'zero',
       coffeeBucket: 'zero',
