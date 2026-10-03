@@ -20,6 +20,7 @@ export type SpecialDayType =
   | 'summer-holiday'
   | 'trip'
   | 'sick'
+  | 'unavailable'
 
 export type SpecialDate =
   | {
@@ -33,6 +34,19 @@ export type SpecialDate =
       type: SpecialDayType
       label?: string
     }
+
+export type PublicAvailabilityType =
+  | 'winter_holiday'
+  | 'summer_holiday'
+  | 'trip'
+  | 'unavailable'
+
+export type PublicAvailabilityItem = {
+  type: PublicAvailabilityType
+  start_date: string
+  end_date: string
+  label: string
+}
 
 export type PublicWorkDay = {
   date: string
@@ -56,6 +70,7 @@ export type PenguinMode =
   | 'summer-holiday'
   | 'trip'
   | 'sick'
+  | 'unavailable'
   | 'upcoming'
 
 export type TimelineDay = {
