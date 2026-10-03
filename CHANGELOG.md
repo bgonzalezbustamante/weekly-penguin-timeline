@@ -44,7 +44,7 @@
 
 - Added a `list_public_availability(year)` adapter alongside the existing work-analytics RPC.
 - Added `get_public_teaching_settings()` consumption with strict validation of exactly one row containing only the `teaching_season_active` boolean.
-- Added strict runtime validation for the public availability contract: exact fields, controlled type vocabulary, real in-year ranges, start/end ordering, duplicate-range rejection and the mandatory generic `Unavailable` label.
+- Added strict runtime validation for the public availability contract: exact fields, controlled type vocabulary, real in-year ranges, start/end ordering and the mandatory generic `Unavailable` label.
 - Mapped `winter_holiday` → `winter-holiday`, `summer_holiday` → `summer-holiday`, `trip` → `trip`, and `unavailable` → a generic unavailable timeline mode.
 - Source precedence is manual/local override → package-backed Catholic celebration → public availability → calendar defaults → normal activity. Overlapping public availability ranges are allowed; when more than one applies to a day, `unavailable` takes priority over `trip`, followed by holiday states.
 - Within the Saturday calendar-default rule, recorded activity wins first; with no recorded activity, an active Teaching season selects `teaching.png`, otherwise the canonical couple is used.
@@ -64,6 +64,7 @@
 - Expanded the package-backed subset to Palm Sunday, Holy Thursday, Good Friday, Holy Saturday, Easter Sunday, Divine Mercy Sunday, Ascension, Pentecost, Corpus Christi, Assumption, All Saints, All Souls, Immaculate Conception and Christmas.
 - Added Timeline-specific display labels for package observances, including `Assumption`, `Immaculate`, `Palm Sunday`, `Good Friday`, `Divine Mercy`, `Ascension` and `Pentecost`, without modifying package metadata.
 - Added regression coverage confirming that overlapping public availability ranges are accepted.
+- Corrected availability multiplicity handling: identical anonymous projections may represent distinct source records, so they are accepted by validation and coalesced only into one rendered Timeline state.
 - Bumped application and lockfile metadata to `0.1.0-beta.1`.
 - Kept Frozen Ridge in development pending Catholic Calendar integration and another local/release verification pass.
 - Expanded the in-app Release notes section to all recorded versions with one release per page and compact Previous/numbered/Next pagination.
