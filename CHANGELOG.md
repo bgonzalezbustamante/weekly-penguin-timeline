@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.1.0-beta.1 "Frozen Ridge" — 3 October 2026
+## v0.1.0-beta.1 "Frozen Ridge" (in development)
 
 ### Summary
 
@@ -8,6 +8,7 @@
 - Added the canonical couple illustration for free and upcoming Saturdays while retaining normal activity states on active Saturdays.
 - Integrated the Academic API privacy-safe availability layer for Winter/Summer holidays, trips and generic unavailable periods.
 - Preserved manual special-date overrides as the highest-priority calendar rule.
+- Integrated `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1` as the authoritative source for the timeline’s selected Catholic observance dates and names.
 
 ### Code changes
 
@@ -45,7 +46,7 @@
 - Added `get_public_teaching_settings()` consumption with strict validation of exactly one row containing only the `teaching_season_active` boolean.
 - Added strict runtime validation for the public availability contract: exact fields, controlled type vocabulary, real in-year ranges, start/end ordering, duplicate-range rejection and the mandatory generic `Unavailable` label.
 - Mapped `winter_holiday` → `winter-holiday`, `summer_holiday` → `summer-holiday`, `trip` → `trip`, and `unavailable` → a generic unavailable timeline mode.
-- Source precedence is manual override → fixed Catholic celebration → public availability → calendar defaults → normal activity. Overlapping public availability ranges are allowed; when more than one applies to a day, `unavailable` takes priority over `trip`, followed by holiday states.
+- Source precedence is manual/local override → package-backed Catholic celebration → public availability → calendar defaults → normal activity. Overlapping public availability ranges are allowed; when more than one applies to a day, `unavailable` takes priority over `trip`, followed by holiday states.
 - Within the Saturday calendar-default rule, recorded activity wins first; with no recorded activity, an active Teaching season selects `teaching.png`, otherwise the canonical couple is used.
 - The public `unavailable` state keeps the user-facing label `Unavailable` and does not consume sickness reasons, notes or other private Planning fields.
 - The existing sick-state artwork is reused for the generic unavailable mode; manual `sick` overrides remain supported separately.
@@ -58,18 +59,19 @@
 - Added regression coverage for the exact ±3-month-to-week pagination calculation and invalid month-window inputs.
 - Added Teaching-settings contract tests for singleton shape, exact fields and boolean typing.
 - Added public-availability validator tests for controlled types, exact fields, malformed/reversed/cross-year ranges, privacy labels and duplicates.
-- Added precedence tests for manual overrides → fixed Catholic dates → public availability and coverage for the generic unavailable state.
+- Added precedence tests for manual/local overrides → package-backed Catholic dates → public availability and coverage for the generic unavailable state.
+- Replaced the local fixed-date Catholic table with a package adapter that preserves the selected timeline subset, uses observed/transferred dates, and keeps Christmas Eve as the sole local recurring Catholic presentation rule.
 - Added regression coverage confirming that overlapping public availability ranges are accepted.
 - Bumped application and lockfile metadata to `0.1.0-beta.1`.
-- Marked Frozen Ridge as a dated beta pre-release in the README and reader-facing release notes.
+- Kept Frozen Ridge in development pending Catholic Calendar integration and another local/release verification pass.
 - Expanded the in-app Release notes section to all recorded versions with one release per page and compact Previous/numbered/Next pagination.
-- Documented the intended future replacement of the local fixed Catholic-date layer with `bgonzalezbustamante/catholic-calendar`, followed by reassessment of manual overrides and `content/special-dates.ts`.
+- Simplified `content/special-dates.ts` without deprecating it: package-backed Catholic dates moved out, while manual/local presentation overrides, recurring Christmas Eve and Academic API availability mapping remain.
 
 ### Release status
 
-- Frozen Ridge beta.1 is ready for publication as a GitHub pre-release.
-- Release date: 3 October 2026.
-- Final verification: GitHub Actions CI and the Netlify deploy preview passed before merge.
+- Frozen Ridge beta.1 remains in development.
+- Release date: TBC.
+- The pre-Catholic-Calendar baseline passed local asset validation, linting, type-checking, all 96 tests, production build, production dependency audit and reviewed Gitleaks checks before this integration batch.
 
 ## v0.1.0-alpha.1 "Bold Cipher" — 2 October 2026
 
