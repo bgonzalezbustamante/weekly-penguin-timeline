@@ -43,7 +43,17 @@ describe('penguin asset resolution', () => {
     ).toBe('/penguins/states/webp/working-day.webp')
   })
 
-  it('uses the canonical asset for generic upcoming days such as Saturdays', () => {
+  it('uses the canonical couple asset for Saturdays', () => {
+    expect(
+      resolvePenguinAsset({
+        mode: 'saturday',
+        workBucket: '10-plus',
+        coffeeBucket: '10-plus',
+      })
+    ).toBe('/penguins/states/webp/canonical-couple.webp')
+  })
+
+  it('keeps the canonical baseline as the generic upcoming fallback', () => {
     expect(
       resolvePenguinAsset({
         mode: 'upcoming',
