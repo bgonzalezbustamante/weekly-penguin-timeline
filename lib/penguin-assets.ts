@@ -39,6 +39,10 @@ export function resolvePenguinAsset({
   workBucket: WorkBucket
   coffeeBucket: CoffeeBucket
 }) {
+  if (mode === 'saturday') {
+    return '/penguins/states/webp/canonical-couple.webp'
+  }
+
   if (mode === 'working-day') {
     return '/penguins/states/webp/working-day.webp'
   }
