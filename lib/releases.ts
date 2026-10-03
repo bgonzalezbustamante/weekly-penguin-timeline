@@ -14,6 +14,36 @@ export type ReleaseNote = {
 
 export const releases: ReleaseNote[] = [
   {
+    version: 'v0.1.0-beta.1',
+    codename: 'Frozen Ridge',
+    status: 'In development',
+    releasedOn: 'Release date TBC',
+    summary:
+      'Frozen Ridge opens the first beta line, beginning with a dedicated canonical couple state for Saturdays while preserving special-date precedence.',
+    sections: [
+      {
+        title: 'Penguin states',
+        items: [
+          'Added canonical-couple.png as a validated Saturday PNG master with generated WebP runtime output.',
+          'Added deterministic Saturday asset resolution without changing the canonical baseline used by the zero-work zero-coffee activity state.',
+        ],
+      },
+      {
+        title: 'Timeline behaviour',
+        items: [
+          'Saturdays now use the canonical couple illustration whether they are past or future.',
+          'Special-date overrides continue to take priority, and future Saturdays retain the existing provisional dimming.',
+        ],
+      },
+      {
+        title: 'Release line',
+        items: [
+          'Started v0.1.0-beta.1 Frozen Ridge as the active development release after the tagged Bold Cipher alpha.1.',
+        ],
+      },
+    ],
+  },
+  {
     version: 'v0.1.0-alpha.1',
     codename: 'Bold Cipher',
     status: 'Pre-release',
