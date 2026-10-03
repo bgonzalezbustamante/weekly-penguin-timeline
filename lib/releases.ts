@@ -19,7 +19,7 @@ export const releases: ReleaseNote[] = [
     status: 'In development',
     releasedOn: 'Release date TBC',
     summary:
-      'Frozen Ridge opens the first beta line, beginning with a dedicated couple state for free and upcoming Saturdays while preserving normal activity states and special-date precedence.',
+      'Frozen Ridge opens the first beta line with free-Saturday couple states and privacy-safe Academic API availability for holidays, trips and generic unavailable periods.',
     sections: [
       {
         title: 'Penguin states',
@@ -34,7 +34,15 @@ export const releases: ReleaseNote[] = [
         items: [
           'Saturdays with recorded work or coffee use the normal activity matrix, while zero-work zero-coffee Saturdays use the canonical couple illustration.',
           'Upcoming Saturdays also use the canonical couple illustration.',
-          'Special-date overrides continue to take priority, and future Saturdays retain the existing provisional dimming.',
+          'Manual special-date overrides continue to take priority, and future Saturdays retain the existing provisional dimming.',
+        ],
+      },
+      {
+        title: 'Academic API availability',
+        items: [
+          'Added strict consumption of list_public_availability(year) for Winter/Summer holidays, trips and generic unavailable periods.',
+          'Public availability is applied after manual overrides and before fixed Catholic dates, with deterministic overlap priority.',
+          'Unavailable periods remain labelled Unavailable and never consume private sickness reasons or Planning notes; the existing unavailable/sick artwork is reused for the visual state.',
         ],
       },
       {
