@@ -65,6 +65,7 @@
 - Added Timeline-specific display labels for package observances, including `Assumption`, `Immaculate`, `Palm Sunday`, `Good Friday`, `Divine Mercy`, `Ascension` and `Pentecost`, without modifying package metadata.
 - Added regression coverage confirming that overlapping public availability ranges are accepted.
 - Corrected availability multiplicity handling: identical anonymous projections may represent distinct source records, so they are accepted by validation and coalesced only into one rendered Timeline state.
+- Added day-level trip overlap resolution: distinct overlapping trips retain their individual labels outside the overlap and combine unique labels with ` · ` on shared dates.
 - Bumped application and lockfile metadata to `0.1.0-beta.1`.
 - Kept Frozen Ridge in development pending Catholic Calendar integration and another local/release verification pass.
 - Expanded the in-app Release notes section to all recorded versions with one release per page and compact Previous/numbered/Next pagination.
