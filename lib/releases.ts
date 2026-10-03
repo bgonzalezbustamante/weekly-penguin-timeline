@@ -14,6 +14,52 @@ export type ReleaseNote = {
 
 export const releases: ReleaseNote[] = [
   {
+    version: 'v0.1.0-beta.1',
+    codename: 'Frozen Ridge',
+    status: 'Pre-release',
+    releasedOn: '3 October 2026',
+    summary:
+      'Frozen Ridge opens the first beta line with Teaching-aware Saturdays, free-Saturday couple states and privacy-safe Academic API availability.',
+    sections: [
+      {
+        title: 'Penguin states',
+        items: [
+          'Added canonical-couple.png as a validated Saturday PNG master with generated WebP runtime output.',
+          'Added deterministic Saturday asset resolution while keeping ordinary activity-state resolution unchanged outside the Saturday rule.',
+          'Added the canonical couple image to the visual QA gallery as Free Saturdays.',
+          'Added teaching.png as the Teaching Saturdays contextual state and included it in visual QA.',
+          'Reordered the seven contextual QA states into one row: Sunday, Teaching Saturdays, Free Saturdays, Trip, Winter holiday, Summer holiday and Unavailable.',
+        ],
+      },
+      {
+        title: 'Timeline behaviour',
+        items: [
+          'Recorded work or coffee on a Saturday always uses the normal activity matrix first, even during Teaching season.',
+          'With no recorded Saturday activity, teaching_season_active selects the Teaching illustration — including today and future Saturdays — while an inactive Teaching season falls back to the canonical couple.',
+          'Manual, Catholic and public-availability states continue to take priority, and future Saturdays retain the existing provisional dimming.',
+          'Expanded navigation to roughly three months before and after the current date with separate highlighted-day and displayed-week state: first load shows the current Monday–Sunday week with today highlighted, Current day restores that state, daily controls retain one-day rolling navigation, and Previous week/Next week switch to canonical weeks while preserving and centring the highlighted weekday.',
+        ],
+      },
+      {
+        title: 'Academic API availability',
+        items: [
+          'Added strict consumption of list_public_availability(year) for Winter/Summer holidays, trips and generic unavailable periods.',
+          'Added strict consumption of get_public_teaching_settings(), exposing only the Teaching-season boolean used by the Saturday state resolver.',
+          'Source precedence is manual override, fixed Catholic celebration, then public availability; overlapping public ranges remain supported with deterministic visual resolution.',
+          'Unavailable periods remain labelled Unavailable and never consume private sickness reasons or Planning notes; the existing unavailable/sick artwork is reused for the visual state.',
+        ],
+      },
+      {
+        title: 'Release line',
+        items: [
+          'Released v0.1.0-beta.1 Frozen Ridge on 3 October 2026 after the tagged Bold Cipher alpha.1.',
+          'The local Catholic-date layer is transitional: once the catholic-calendar project is ready for consumption, it should replace the local fixed set and trigger a review of manual overrides and special-dates.ts.',
+          'Release notes now expose every recorded version, newest first, with one release per pagination page.',
+        ],
+      },
+    ],
+  },
+  {
     version: 'v0.1.0-alpha.1',
     codename: 'Bold Cipher',
     status: 'Pre-release',

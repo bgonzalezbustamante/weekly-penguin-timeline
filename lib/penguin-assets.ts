@@ -28,6 +28,7 @@ const SPECIAL_ASSETS: Partial<Record<PenguinMode, string>> = {
   'summer-holiday': '/penguins/states/webp/summer-holiday.webp',
   trip: '/penguins/states/webp/trip.webp',
   sick: '/penguins/states/webp/sick.webp',
+  unavailable: '/penguins/states/webp/sick.webp',
 }
 
 export function resolvePenguinAsset({
@@ -39,6 +40,14 @@ export function resolvePenguinAsset({
   workBucket: WorkBucket
   coffeeBucket: CoffeeBucket
 }) {
+  if (mode === 'saturday') {
+    return '/penguins/states/webp/canonical-couple.webp'
+  }
+
+  if (mode === 'teaching') {
+    return '/penguins/states/webp/teaching.webp'
+  }
+
   if (mode === 'working-day') {
     return '/penguins/states/webp/working-day.webp'
   }

@@ -165,24 +165,38 @@ h1 {
 }
 
 .week-pagination-scroll {
-  overflow-x: auto;
   margin: 0 0 0.7rem;
-  padding: 0 0 0.35rem;
-  scrollbar-width: thin;
 }
 
 .week-pagination {
-  min-width: 940px;
+  width: 100%;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 9fr) minmax(0, 1fr);
   gap: 0.55rem;
   align-items: stretch;
 }
 
 .week-pages {
+  min-width: 0;
   display: grid;
-  grid-template-columns: repeat(9, minmax(72px, 1fr));
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   gap: 0.4rem;
+}
+
+.week-nav-stack {
+  min-width: 0;
+  display: grid;
+  gap: 0.4rem;
+  align-content: end;
+}
+
+.week-current-day-button {
+  justify-self: end;
+}
+
+.week-pagination > .week-nav-button,
+.week-pages {
+  align-self: end;
 }
 
 .week-nav-button,
@@ -196,17 +210,21 @@ h1 {
 }
 
 .week-nav-button {
-  min-width: 84px;
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.32rem;
-  padding: 0.48rem 0.6rem;
-  font-size: 0.72rem;
+  gap: 0.28rem;
+  padding: 0.38rem 0.3rem;
+  font-size: 0.7rem;
   font-weight: 700;
+  line-height: 1.2;
 }
 
 .week-page-button {
+  min-width: 0;
   min-height: 52px;
   display: grid;
   place-items: center;
@@ -226,7 +244,7 @@ h1 {
   font-size: 0.6rem;
 }
 
-.week-page-button.is-current-week {
+.week-page-button.is-current-day {
   border-color: rgba(254, 97, 90, 0.42);
 }
 
@@ -251,6 +269,48 @@ h1 {
 
 .week-nav-button:disabled {
   opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.week-pagination-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.4rem;
+}
+
+.week-pagination-secondary-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.week-jump-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28rem;
+  border: 1px solid var(--stone);
+  border-radius: 0.4rem;
+  background: var(--paper);
+  padding: 0.26rem 0.48rem;
+  color: var(--blue);
+  font-family: var(--font-roboto), Arial, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.week-jump-button:hover:not(:disabled),
+.week-jump-button:focus-visible {
+  border-color: var(--aqua);
+  outline: none;
+}
+
+.week-jump-button:disabled {
+  opacity: 0.36;
   cursor: not-allowed;
 }
 
@@ -756,9 +816,11 @@ h1 {
 
 .special-gallery {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(140px, 1fr));
   gap: 0.75rem;
   margin-top: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.45rem;
 }
 
 
@@ -941,15 +1003,68 @@ h1 {
   margin-top: 0.28rem;
 }
 
+.release-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+  font-family: var(--font-roboto), Arial, sans-serif;
+}
+
+.release-page-numbers {
+  display: flex;
+  gap: 0.28rem;
+}
+
+.release-page-nav,
+.release-page-number {
+  border: 1px solid var(--stone);
+  border-radius: 0.4rem;
+  background: var(--paper);
+  color: var(--blue);
+  font-family: inherit;
+  font-size: 0.66rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.release-page-nav {
+  padding: 0.28rem 0.48rem;
+}
+
+.release-page-number {
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.release-page-number.is-selected {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: var(--paper);
+}
+
+.release-page-nav:hover:not(:disabled),
+.release-page-number:hover:not(.is-selected),
+.release-page-nav:focus-visible,
+.release-page-number:focus-visible {
+  border-color: var(--aqua);
+  outline: none;
+}
+
+.release-page-nav:disabled {
+  opacity: 0.36;
+  cursor: not-allowed;
+}
+
 @media (max-width: 760px) {
   .tester-grid,
   .notes-grid,
   .release-sections {
     grid-template-columns: 1fr;
-  }
-
-  .special-gallery {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .tester-preview {

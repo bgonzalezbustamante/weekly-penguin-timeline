@@ -39,6 +39,7 @@ const SPECIAL_LABELS: Record<SpecialDayType, string> = {
   'summer-holiday': 'Summer holiday',
   trip: 'Trip',
   sick: 'Sick',
+  unavailable: 'Unavailable',
 }
 
 export function resolveWorkBucket(minutes: number): WorkBucket {
@@ -80,6 +81,61 @@ function mondayFor(value: string) {
   return addDays(value, offset)
 }
 
+function daysInUtcMonth(year: number, monthIndex: number) {
+  return new Date(Date.UTC(year, monthIndex + 1, 0)).getUTCDate()
+}
+
+function addMonthsClamped(value: string, months: number) {
+  if (!Number.isInteger(months)) {
+    throw new Error('Month offset must be an integer.')
+  }
+
+  const date = parseIsoDateUtc(value)
+  const target = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + months, 1)
+  )
+  const day = Math.min(
+    date.getUTCDate(),
+    daysInUtcMonth(target.getUTCFullYear(), target.getUTCMonth())
+  )
+
+  target.setUTCDate(day)
+  return target.toISOString().slice(0, 10)
+}
+
+export function weekWindowForMonthRange(
+  now = new Date(),
+  timeZone = 'Europe/Amsterdam',
+  pastMonths = 3,
+  futureMonths = 3
+) {
+  if (
+    !Number.isInteger(pastMonths) ||
+    !Number.isInteger(futureMonths) ||
+    pastMonths < 0 ||
+    futureMonths < 0
+  ) {
+    throw new Error('Month window sizes must be non-negative integers.')
+  }
+
+  const today = isoDateInTimeZone(now, timeZone)
+  const currentMonday = mondayFor(today)
+  const firstMonday = mondayFor(addMonthsClamped(today, -pastMonths))
+  const lastMonday = mondayFor(addMonthsClamped(today, futureMonths))
+  const millisecondsPerWeek = 7 * 24 * 60 * 60 * 1000
+
+  return {
+    pastWeeks:
+      (parseIsoDateUtc(currentMonday).getTime() -
+        parseIsoDateUtc(firstMonday).getTime()) /
+      millisecondsPerWeek,
+    futureWeeks:
+      (parseIsoDateUtc(lastMonday).getTime() -
+        parseIsoDateUtc(currentMonday).getTime()) /
+      millisecondsPerWeek,
+  }
+}
+
 function findSpecialDate(date: string, overrides: SpecialDate[]) {
   return (
     overrides.find((entry) => {
@@ -92,19 +148,26 @@ function findSpecialDate(date: string, overrides: SpecialDate[]) {
 function getMode(
   date: string,
   isFuture: boolean,
-  special: SpecialDate | null
+  special: SpecialDate | null,
+  workBucket: WorkBucket,
+  coffeeBucket: CoffeeBucket,
+  teachingSeasonActive: boolean
 ): PenguinMode {
   if (special) return special.type
 
   const weekday = parseIsoDateUtc(date).getUTCDay()
 
-  if (isFuture) {
-    if (weekday >= 1 && weekday <= 5) return 'working-day'
-    if (weekday === 0) return 'sunday'
-    return 'upcoming'
-  }
-
   if (weekday === 0) return 'sunday'
+  if (weekday === 6) {
+    if (!isFuture && (workBucket !== 'zero' || coffeeBucket !== 'zero')) {
+      return 'activity'
+    }
+
+    if (teachingSeasonActive) return 'teaching'
+
+    return 'saturday'
+  }
+  if (isFuture) return 'working-day'
 
   return 'activity'
 }
@@ -114,12 +177,14 @@ export function buildWeeklyTimeline({
   timeZone = 'Europe/Amsterdam',
   days,
   specialDates = [],
+  teachingSeasonActive = false,
   weekOffset = 0,
 }: {
   now?: Date
   timeZone?: string
   days: PublicWorkDay[]
   specialDates?: SpecialDate[]
+  teachingSeasonActive?: boolean
   weekOffset?: number
 }): TimelineDay[] {
   assertValidPublicWorkDays(days)
@@ -148,7 +213,14 @@ export function buildWeeklyTimeline({
       timeZone: 'UTC',
     }).format(parsed)
 
-    const mode = getMode(date, isFuture, special)
+    const mode = getMode(
+      date,
+      isFuture,
+      special,
+      workBucket,
+      coffeeBucket,
+      teachingSeasonActive
+    )
 
     return {
       date,
@@ -242,6 +314,7 @@ export function buildTimelineWeeks({
   timeZone = 'Europe/Amsterdam',
   days,
   specialDates = [],
+  teachingSeasonActive = false,
   pastWeeks = 4,
   futureWeeks = 4,
 }: {
@@ -249,6 +322,7 @@ export function buildTimelineWeeks({
   timeZone?: string
   days: PublicWorkDay[]
   specialDates?: SpecialDate[]
+  teachingSeasonActive?: boolean
   pastWeeks?: number
   futureWeeks?: number
 }): TimelineWeek[] {
@@ -265,6 +339,7 @@ export function buildTimelineWeeks({
       timeZone,
       days,
       specialDates,
+      teachingSeasonActive,
       weekOffset: offset,
     })
 

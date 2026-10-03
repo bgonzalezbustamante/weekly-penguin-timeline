@@ -7,6 +7,7 @@ import {
   formatMinutes,
   resolveCoffeeBucket,
   resolveWorkBucket,
+  weekWindowForMonthRange,
   yearsForCurrentWeek,
   yearsForTimelineWindow,
   yearsForWorkAnalytics,
@@ -105,6 +106,26 @@ describe('weekly timeline resolution', () => {
     })
   })
 
+  it('uses the generic unavailable label without exposing a sickness label', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-02T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+      specialDates: [
+        {
+          date: '2026-10-02',
+          type: 'unavailable',
+          label: 'Unavailable',
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-02')).toMatchObject({
+      mode: 'unavailable',
+      specialLabel: 'Unavailable',
+    })
+  })
+
   it('gives explicit overrides priority over the weekly Sunday rule', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-04T12:00:00Z'),
@@ -160,7 +181,7 @@ describe('weekly timeline resolution', () => {
       specialLabel: null,
     })
     expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
-      mode: 'upcoming',
+      mode: 'saturday',
       isFuture: true,
       specialLabel: null,
     })
@@ -171,10 +192,134 @@ describe('weekly timeline resolution', () => {
     })
   })
 
+  it('uses normal activity states for non-free past Saturdays', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-04T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [
+        {
+          date: '2026-10-03',
+          net_minutes: 480,
+          coffee_count: 4,
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'activity',
+      isFuture: false,
+      workBucket: '8-10',
+      coffeeBucket: '4-6',
+      specialLabel: null,
+    })
+  })
+
+  it('uses the canonical couple mode for zero-work zero-coffee Saturdays', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-04T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [
+        {
+          date: '2026-10-03',
+          net_minutes: 0,
+          coffee_count: 0,
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'saturday',
+      isFuture: false,
+      workBucket: 'zero',
+      coffeeBucket: 'zero',
+      specialLabel: null,
+    })
+  })
+
+  it('keeps recorded Saturday activity ahead of the Teaching-season state', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-04T12:00:00Z'),
+      timeZone: 'UTC',
+      teachingSeasonActive: true,
+      days: [
+        {
+          date: '2026-10-03',
+          net_minutes: 480,
+          coffee_count: 4,
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'activity',
+      isFuture: false,
+      workBucket: '8-10',
+      coffeeBucket: '4-6',
+      specialLabel: null,
+    })
+  })
+
+  it('uses the teaching state for upcoming Saturdays while teaching season is active', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-01T12:00:00Z'),
+      timeZone: 'UTC',
+      teachingSeasonActive: true,
+      days: [],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'teaching',
+      isFuture: true,
+      specialLabel: null,
+    })
+  })
+
+  it('uses the Teaching state for zero-work zero-coffee Saturdays during Teaching season', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-04T12:00:00Z'),
+      timeZone: 'UTC',
+      teachingSeasonActive: true,
+      days: [
+        {
+          date: '2026-10-03',
+          net_minutes: 0,
+          coffee_count: 0,
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'teaching',
+      isFuture: false,
+      workBucket: 'zero',
+      coffeeBucket: 'zero',
+      specialLabel: null,
+    })
+  })
+
+  it('uses the Teaching state on the current Saturday when there is no activity', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-03T12:00:00Z'),
+      timeZone: 'UTC',
+      teachingSeasonActive: true,
+      days: [],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'teaching',
+      isToday: true,
+      isFuture: false,
+      workBucket: 'zero',
+      coffeeBucket: 'zero',
+      specialLabel: null,
+    })
+  })
+
   it('keeps future special dates ahead of weekday and weekend defaults', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-01T12:00:00Z'),
       timeZone: 'UTC',
+      teachingSeasonActive: true,
       days: [],
       specialDates: [
         {
@@ -242,32 +387,43 @@ describe('weekly timeline resolution', () => {
 
 
 describe('weekly timeline pagination window', () => {
-  it('builds four weeks before, the current week, and four weeks after', () => {
+  it('derives a weekly browser spanning three months before and after', () => {
+    const window = weekWindowForMonthRange(
+      new Date('2026-10-02T12:00:00Z'),
+      'UTC',
+      3,
+      3
+    )
+
+    expect(window).toEqual({
+      pastWeeks: 13,
+      futureWeeks: 13,
+    })
+
     const weeks = buildTimelineWeeks({
       now: new Date('2026-10-02T12:00:00Z'),
       timeZone: 'UTC',
       days: [],
-      pastWeeks: 4,
-      futureWeeks: 4,
+      ...window,
     })
 
-    expect(weeks).toHaveLength(9)
-    expect(weeks.map((week) => week.offset)).toEqual([
-      -4, -3, -2, -1, 0, 1, 2, 3, 4,
-    ])
+    expect(weeks).toHaveLength(27)
     expect(weeks[0]).toMatchObject({
-      startDate: '2026-08-31',
-      endDate: '2026-09-06',
+      offset: -13,
+      startDate: '2026-06-29',
+      endDate: '2026-07-05',
       isCurrentWeek: false,
     })
-    expect(weeks[4]).toMatchObject({
+    expect(weeks[13]).toMatchObject({
+      offset: 0,
       startDate: '2026-09-28',
       endDate: '2026-10-04',
       isCurrentWeek: true,
     })
-    expect(weeks[8]).toMatchObject({
-      startDate: '2026-10-26',
-      endDate: '2026-11-01',
+    expect(weeks[26]).toMatchObject({
+      offset: 13,
+      startDate: '2026-12-28',
+      endDate: '2027-01-03',
       isCurrentWeek: false,
     })
   })
@@ -296,6 +452,17 @@ describe('weekly timeline pagination window', () => {
     expect(previousWeek.some((day) => day.isToday)).toBe(false)
   })
 
+  it('rejects invalid month-window sizes', () => {
+    expect(() =>
+      weekWindowForMonthRange(
+        new Date('2026-10-02T12:00:00Z'),
+        'UTC',
+        -1,
+        3
+      )
+    ).toThrow('non-negative integers')
+  })
+
   it('rejects invalid pagination window sizes and fractional offsets', () => {
     expect(() =>
       buildTimelineWeeks({
@@ -316,13 +483,13 @@ describe('weekly timeline pagination window', () => {
     ).toThrow('Week offset must be an integer')
   })
 
-  it('collects all calendar years needed by the nine-week browser', () => {
+  it('collects all calendar years needed by the three-month browser', () => {
     expect(
       yearsForTimelineWindow(
         new Date('2026-12-31T12:00:00Z'),
         'UTC',
-        4,
-        4
+        13,
+        13
       )
     ).toEqual([2026, 2027])
   })
@@ -332,8 +499,8 @@ describe('weekly timeline pagination window', () => {
       yearsForWorkAnalyticsWindow(
         new Date('2026-12-31T12:00:00Z'),
         'UTC',
-        4,
-        4
+        13,
+        13
       )
     ).toEqual([2026])
 
@@ -341,8 +508,8 @@ describe('weekly timeline pagination window', () => {
       yearsForWorkAnalyticsWindow(
         new Date('2027-01-01T12:00:00Z'),
         'UTC',
-        4,
-        4
+        13,
+        13
       )
     ).toEqual([2026, 2027])
   })

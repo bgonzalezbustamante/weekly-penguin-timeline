@@ -1,5 +1,76 @@
 # CHANGELOG
 
+## v0.1.0-beta.1 "Frozen Ridge" — 3 October 2026
+
+### Summary
+
+- Opened the first beta development line after the tagged Bold Cipher alpha.
+- Added the canonical couple illustration for free and upcoming Saturdays while retaining normal activity states on active Saturdays.
+- Integrated the Academic API privacy-safe availability layer for Winter/Summer holidays, trips and generic unavailable periods.
+- Preserved manual special-date overrides as the highest-priority calendar rule.
+
+### Code changes
+
+`penguin visual system`
+
+- Registered `public/penguins/states/canonical-couple.png` as a required validated PNG master.
+- Added automatic WebP generation for `canonical-couple.webp`.
+- Added deterministic Saturday asset resolution to `lib/penguin-assets.ts`.
+- Registered `public/penguins/states/teaching.png` as a validated contextual PNG master with generated WebP output.
+
+`timeline behaviour`
+
+- Added dedicated `teaching` and `saturday` modes for contextual Saturday rendering.
+- Non-future Saturdays with recorded work or coffee always use the normal activity matrix, even while Teaching season is active.
+- Saturdays with recorded work or coffee use the normal activity matrix first.
+- Saturdays without recorded activity use the Teaching illustration whenever `teaching_season_active` is true, including the current Saturday and future Saturdays; otherwise they use the canonical couple.
+- Manual, Catholic and public-availability states continue to take priority over Saturday defaults.
+- Future Saturdays retain the existing provisional/dimmed presentation.
+- Expanded the browser from four weeks either side to a dynamic ±3-month date window while retaining nine compact week jump buttons and no horizontal pagination scroll.
+- Replaced Older/Newer week stepping with Previous day/Next day controls that move the rolling seven-day view by exactly one day.
+- Changed the nine central pagination buttons from week anchors to daily seven-day-window start dates.
+- Decoupled the selected date from the visible nine-date strip so the Oxford-blue state visibly moves one button per Previous day/Next day click; the strip shifts only when the selection reaches an edge.
+- Separated the highlighted date from the displayed seven-day window so the initial state can show the current Monday–Sunday week while highlighting today in Oxford blue.
+- Kept Previous day/Next day as one-day rolling navigation with the Oxford-blue selection moving by one date.
+- Removed the duplicate Current day/Current week split. A single Current day shortcut now restores the initial state: current Monday–Sunday week, today highlighted and centred in the nine-date paginator.
+- Kept First/Last range-boundary behaviour unchanged.
+- Previous week/Next week now switch to canonical Monday–Sunday weeks, preserve the highlighted weekday, and recenter the new Oxford-blue date whenever range boundaries permit.
+- Restored the lower-row distribution to First + Previous week on the left and Next week + Last on the right.
+- Unified Current day, First and Last with the same outlined shortcut styling used by Previous week/Next week, and regularised the vertical spacing above and below the main daily paginator.
+- Reordered the seven contextual gallery states to Sunday, Teaching Saturdays, Free Saturdays, Trip, Winter holiday, Summer holiday and Unavailable, keeping them in one horizontal row.
+
+`Academic API`
+
+- Added a `list_public_availability(year)` adapter alongside the existing work-analytics RPC.
+- Added `get_public_teaching_settings()` consumption with strict validation of exactly one row containing only the `teaching_season_active` boolean.
+- Added strict runtime validation for the public availability contract: exact fields, controlled type vocabulary, real in-year ranges, start/end ordering, duplicate-range rejection and the mandatory generic `Unavailable` label.
+- Mapped `winter_holiday` → `winter-holiday`, `summer_holiday` → `summer-holiday`, `trip` → `trip`, and `unavailable` → a generic unavailable timeline mode.
+- Source precedence is manual override → fixed Catholic celebration → public availability → calendar defaults → normal activity. Overlapping public availability ranges are allowed; when more than one applies to a day, `unavailable` takes priority over `trip`, followed by holiday states.
+- Within the Saturday calendar-default rule, recorded activity wins first; with no recorded activity, an active Teaching season selects `teaching.png`, otherwise the canonical couple is used.
+- The public `unavailable` state keeps the user-facing label `Unavailable` and does not consume sickness reasons, notes or other private Planning fields.
+- The existing sick-state artwork is reused for the generic unavailable mode; manual `sick` overrides remain supported separately.
+- Work analytics and public availability are loaded together and the timeline fails closed if either required RPC is unavailable or violates its contract.
+- Public availability can be requested for future calendar years reached by the ±3-month browser, within the upstream API's current-year-plus-five boundary.
+
+`testing and release metadata`
+
+- Added regression coverage for Teaching-season, active, free and upcoming Saturday precedence, including the current zero-activity Saturday, and the Saturday assets.
+- Added regression coverage for the exact ±3-month-to-week pagination calculation and invalid month-window inputs.
+- Added Teaching-settings contract tests for singleton shape, exact fields and boolean typing.
+- Added public-availability validator tests for controlled types, exact fields, malformed/reversed/cross-year ranges, privacy labels and duplicates.
+- Added precedence tests for manual overrides → fixed Catholic dates → public availability and coverage for the generic unavailable state.
+- Added regression coverage confirming that overlapping public availability ranges are accepted.
+- Bumped application and lockfile metadata to `0.1.0-beta.1`.
+- Marked Frozen Ridge as a dated beta pre-release in the README and reader-facing release notes.
+- Expanded the in-app Release notes section to all recorded versions with one release per page and compact Previous/numbered/Next pagination.
+- Documented the intended future replacement of the local fixed Catholic-date layer with `bgonzalezbustamante/catholic-calendar`, followed by reassessment of manual overrides and `content/special-dates.ts`.
+
+### Release status
+
+- Frozen Ridge beta.1 is ready for publication as a GitHub pre-release.
+- Release date: 3 October 2026.
+- Final verification: GitHub Actions CI and the Netlify deploy preview passed before merge.
+
 ## v0.1.0-alpha.1 "Bold Cipher" — 2 October 2026
 
 ### Summary

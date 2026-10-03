@@ -32,7 +32,7 @@ type SpecialTesterMode =
   | 'winter-holiday'
   | 'summer-holiday'
   | 'trip'
-  | 'sick'
+  | 'unavailable'
 
 const SPECIAL_STATES: Array<{
   mode: SpecialTesterMode
@@ -42,7 +42,7 @@ const SPECIAL_STATES: Array<{
   { mode: 'winter-holiday', label: 'Winter holiday' },
   { mode: 'summer-holiday', label: 'Summer holiday' },
   { mode: 'trip', label: 'Trip' },
-  { mode: 'sick', label: 'Sick' },
+  { mode: 'unavailable', label: 'Unavailable' },
 ]
 
 export default function PenguinStateTester() {

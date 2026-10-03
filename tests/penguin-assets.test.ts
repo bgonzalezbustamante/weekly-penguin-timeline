@@ -33,6 +33,16 @@ describe('penguin asset resolution', () => {
     ).toBe('/penguins/states/webp/sunday.webp')
   })
 
+  it('uses the existing unavailable artwork for generic public unavailable periods', () => {
+    expect(
+      resolvePenguinAsset({
+        mode: 'unavailable',
+        workBucket: 'zero',
+        coffeeBucket: 'zero',
+      })
+    ).toBe('/penguins/states/webp/sick.webp')
+  })
+
   it('uses the approved working-day asset for future weekdays', () => {
     expect(
       resolvePenguinAsset({
@@ -43,7 +53,27 @@ describe('penguin asset resolution', () => {
     ).toBe('/penguins/states/webp/working-day.webp')
   })
 
-  it('uses the canonical asset for generic upcoming days such as Saturdays', () => {
+  it('uses the teaching asset for teaching-season Saturdays', () => {
+    expect(
+      resolvePenguinAsset({
+        mode: 'teaching',
+        workBucket: '8-10',
+        coffeeBucket: '4-6',
+      })
+    ).toBe('/penguins/states/webp/teaching.webp')
+  })
+
+  it('uses the canonical couple asset for Saturdays', () => {
+    expect(
+      resolvePenguinAsset({
+        mode: 'saturday',
+        workBucket: '10-plus',
+        coffeeBucket: '10-plus',
+      })
+    ).toBe('/penguins/states/webp/canonical-couple.webp')
+  })
+
+  it('keeps the canonical baseline as the generic upcoming fallback', () => {
     expect(
       resolvePenguinAsset({
         mode: 'upcoming',
