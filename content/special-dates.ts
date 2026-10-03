@@ -4,6 +4,7 @@ import { assertValidSpecialDateRules } from '@/lib/special-date-rules'
 import type {
   PublicAvailabilityItem,
   PublicAvailabilityType,
+  PublicConferencePresentation,
   SpecialDate,
   SpecialDayType,
 } from '@/types/timeline'
@@ -26,25 +27,26 @@ export const recurringSpecialDates = [
 export const specialDates: SpecialDate[] = []
 
 const AVAILABILITY_TYPE_MAP: Record<
-  PublicAvailabilityType,
+  Exclude<PublicAvailabilityType, 'trip'>,
   SpecialDayType
 > = {
   winter_holiday: 'winter-holiday',
   summer_holiday: 'summer-holiday',
-  trip: 'trip',
   unavailable: 'unavailable',
 }
 
-const AVAILABILITY_PRIORITY: Record<PublicAvailabilityType, number> = {
+const AVAILABILITY_PRIORITY: Record<
+  Exclude<PublicAvailabilityType, 'trip'>,
+  number
+> = {
   unavailable: 0,
-  trip: 1,
-  winter_holiday: 2,
-  summer_holiday: 2,
+  winter_holiday: 1,
+  summer_holiday: 1,
 }
 
-function addIsoDay(value: string) {
+function addIsoDays(value: string, days: number) {
   const date = parseIsoDateUtc(value)
-  date.setUTCDate(date.getUTCDate() + 1)
+  date.setUTCDate(date.getUTCDate() + days)
   return date.toISOString().slice(0, 10)
 }
 
@@ -54,7 +56,7 @@ function datesInRange(startDate: string, endDate: string) {
   for (
     let date = startDate;
     date <= endDate;
-    date = addIsoDay(date)
+    date = addIsoDays(date, 1)
   ) {
     dates.push(date)
   }
@@ -62,61 +64,136 @@ function datesInRange(startDate: string, endDate: string) {
   return dates
 }
 
-function combinedTripSpecialDates(
-  trips: PublicAvailabilityItem[]
+function pushLabel(
+  labelsByDate: Map<string, Set<string>>,
+  date: string,
+  label: string
+) {
+  const labels = labelsByDate.get(date) ?? new Set<string>()
+  labels.add(label)
+  labelsByDate.set(date, labels)
+}
+
+function coalesceDailyStates(
+  states: Array<{
+    date: string
+    type: 'conference' | 'trip'
+    label: string
+  }>
 ): SpecialDate[] {
-  const labelsByDate = new Map<string, string[]>()
-
-  for (const trip of trips) {
-    for (const date of datesInRange(trip.start_date, trip.end_date)) {
-      const labels = labelsByDate.get(date) ?? []
-
-      if (!labels.includes(trip.label)) {
-        labels.push(trip.label)
-      }
-
-      labelsByDate.set(date, labels)
-    }
-  }
-
   const segments: Array<{
     from: string
     to: string
-    type: 'trip'
+    type: 'conference' | 'trip'
     label: string
   }> = []
 
-  for (const [date, labels] of [...labelsByDate.entries()].sort(
-    ([left], [right]) => left.localeCompare(right)
-  )) {
-    const label = labels.join(' · ')
+  for (const state of states) {
     const previous = segments.at(-1)
 
     if (
       previous &&
-      previous.label === label &&
-      addIsoDay(previous.to) === date
+      previous.type === state.type &&
+      previous.label === state.label &&
+      addIsoDays(previous.to, 1) === state.date
     ) {
-      previous.to = date
+      previous.to = state.date
       continue
     }
 
     segments.push({
-      from: date,
-      to: date,
-      type: 'trip',
-      label,
+      from: state.date,
+      to: state.date,
+      type: state.type,
+      label: state.label,
     })
   }
 
   return segments
 }
 
+export function conferencePresentationsToSpecialDates(
+  presentations: PublicConferencePresentation[]
+): SpecialDate[] {
+  const conferenceLabelsByDate = new Map<string, Set<string>>()
+  const tripLabelsByDate = new Map<string, Set<string>>()
+
+  const attended = presentations
+    .filter((presentation) => presentation.personal_attendance)
+    .sort(
+      (left, right) =>
+        left.start_date.localeCompare(right.start_date) ||
+        left.end_date.localeCompare(right.end_date) ||
+        left.event_short_name.localeCompare(right.event_short_name)
+    )
+
+  for (const presentation of attended) {
+    const label = presentation.event_short_name.trim()
+
+    for (const date of datesInRange(
+      presentation.start_date,
+      presentation.end_date
+    )) {
+      pushLabel(conferenceLabelsByDate, date, label)
+    }
+
+    if (presentation.involves_trip) {
+      pushLabel(
+        tripLabelsByDate,
+        addIsoDays(presentation.start_date, -1),
+        label
+      )
+      pushLabel(
+        tripLabelsByDate,
+        addIsoDays(presentation.end_date, 1),
+        label
+      )
+    }
+  }
+
+  const allDates = new Set([
+    ...conferenceLabelsByDate.keys(),
+    ...tripLabelsByDate.keys(),
+  ])
+
+  const dailyStates = [...allDates]
+    .sort((left, right) => left.localeCompare(right))
+    .map((date) => {
+      const conferenceLabels = conferenceLabelsByDate.get(date)
+
+      if (conferenceLabels && conferenceLabels.size > 0) {
+        return {
+          date,
+          type: 'conference' as const,
+          label: [...conferenceLabels].sort().join(' · '),
+        }
+      }
+
+      const tripLabels = tripLabelsByDate.get(date) ?? new Set<string>()
+
+      return {
+        date,
+        type: 'trip' as const,
+        label: [...tripLabels].sort().join(' · '),
+      }
+    })
+
+  return coalesceDailyStates(dailyStates)
+}
+
 export function availabilityToSpecialDates(
   availability: PublicAvailabilityItem[]
 ): SpecialDate[] {
   const seenProjectedStates = new Set<string>()
-  const distinctAvailability = [...availability]
+
+  return availability
+    .filter(
+      (
+        item
+      ): item is PublicAvailabilityItem & {
+        type: Exclude<PublicAvailabilityType, 'trip'>
+      } => item.type !== 'trip'
+    )
     .sort((left, right) => {
       const priority =
         AVAILABILITY_PRIORITY[left.type] - AVAILABILITY_PRIORITY[right.type]
@@ -143,41 +220,18 @@ export function availabilityToSpecialDates(
       seenProjectedStates.add(key)
       return true
     })
-
-  const unavailableDates: SpecialDate[] = []
-  const trips: PublicAvailabilityItem[] = []
-  const holidayDates: SpecialDate[] = []
-
-  for (const item of distinctAvailability) {
-    if (item.type === 'trip') {
-      trips.push(item)
-      continue
-    }
-
-    const specialDate: SpecialDate = {
+    .map((item) => ({
       from: item.start_date,
       to: item.end_date,
       type: AVAILABILITY_TYPE_MAP[item.type],
       label: item.label,
-    }
-
-    if (item.type === 'unavailable') {
-      unavailableDates.push(specialDate)
-    } else {
-      holidayDates.push(specialDate)
-    }
-  }
-
-  return [
-    ...unavailableDates,
-    ...combinedTripSpecialDates(trips),
-    ...holidayDates,
-  ]
+    }))
 }
 
 export function getConfiguredSpecialDates(
   years: number[],
-  publicAvailability: PublicAvailabilityItem[] = []
+  publicAvailability: PublicAvailabilityItem[] = [],
+  publicConferences: PublicConferencePresentation[] = []
 ): SpecialDate[] {
   assertValidSpecialDateRules(specialDates, { allowOverlaps: false })
 
@@ -190,8 +244,15 @@ export function getConfiguredSpecialDates(
     }))
   )
   const catholicDates = catholicCalendarToSpecialDates(uniqueYears)
-  const availabilityDates =
-    availabilityToSpecialDates(publicAvailability)
+  const availabilityDates = availabilityToSpecialDates(publicAvailability)
+  const conferenceDates =
+    conferencePresentationsToSpecialDates(publicConferences)
+  const unavailableDates = availabilityDates.filter(
+    (entry) => entry.type === 'unavailable'
+  )
+  const holidayDates = availabilityDates.filter(
+    (entry) => entry.type !== 'unavailable'
+  )
 
   assertValidSpecialDateRules(localRecurringDates, {
     allowOverlaps: false,
@@ -201,6 +262,8 @@ export function getConfiguredSpecialDates(
     ...specialDates,
     ...localRecurringDates,
     ...catholicDates,
-    ...availabilityDates,
+    ...unavailableDates,
+    ...conferenceDates,
+    ...holidayDates,
   ]
 }
