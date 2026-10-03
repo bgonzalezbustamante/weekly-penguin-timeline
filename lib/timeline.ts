@@ -148,6 +148,7 @@ function findSpecialDate(date: string, overrides: SpecialDate[]) {
 
 function getMode(
   date: string,
+  isToday: boolean,
   isFuture: boolean,
   special: SpecialDate | null,
   workBucket: WorkBucket,
@@ -164,7 +165,9 @@ function getMode(
       return 'activity'
     }
 
-    if (teachingSeasonActive) return 'teaching'
+    if ((isToday || isFuture) && teachingSeasonActive) {
+      return 'teaching'
+    }
 
     return 'saturday'
   }
@@ -216,6 +219,7 @@ export function buildWeeklyTimeline({
 
     const mode = getMode(
       date,
+      date === today,
       isFuture,
       special,
       workBucket,
