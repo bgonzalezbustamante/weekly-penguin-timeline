@@ -22,7 +22,7 @@ This repository is intentionally separate from `academic-website`. Development a
 - Uses `teaching.png` on Saturdays whenever `teaching_season_active` is true.
 - Outside Teaching season, Saturdays with recorded work or coffee use the normal activity state; zero-work/zero-coffee Saturdays use `canonical-couple.png`.
 - Outside Teaching season, upcoming Saturdays also use `canonical-couple.png`; manual, Catholic and public-availability overrides retain priority over every Saturday rule.
-- Treats future dates as provisional rather than falsely displaying zero activity: Monday–Friday use the dedicated working-day scene, Saturday uses the canonical couple scene, and Sunday uses the Sunday scene; future illustrations remain visually provisional.
+- Treats future dates as provisional rather than falsely displaying zero activity: Monday–Friday use the dedicated working-day scene, Saturday uses Teaching when the season flag is active or the canonical couple otherwise, and Sunday uses the Sunday scene; future illustrations remain visually provisional.
 - Paginates the weekly timeline across a fixed nine-week window: four weeks before, the current week, and four weeks after.
 - Marks the current day as provisional with “so far”.
 - Uses the Academic Website Oxford palette and typography hierarchy.
