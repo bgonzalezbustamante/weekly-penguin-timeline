@@ -37,7 +37,7 @@ export const releases: ReleaseNote[] = [
           'Recorded work or coffee on a non-future Saturday always uses the normal activity matrix, even during Teaching season.',
           'Future Saturdays use the Teaching illustration when teaching_season_active is true and the canonical couple otherwise; non-future zero-work zero-coffee Saturdays also use the couple.',
           'Manual, Catholic and public-availability states continue to take priority, and future Saturdays retain the existing provisional dimming.',
-          'Expanded navigation to roughly three months before and after the current date, with Previous day/Next day shifting the rolling seven-day view one day at a time, nine compact weekly jump buttons, and First/Last range shortcuts.',
+          'Expanded navigation to roughly three months before and after the current date, with Previous day/Next day shifting the rolling seven-day view one day at a time, a Current day shortcut, nine compact weekly jump buttons, and First/Last range shortcuts.',
         ],
       },
       {
@@ -54,6 +54,7 @@ export const releases: ReleaseNote[] = [
         items: [
           'Started v0.1.0-beta.1 Frozen Ridge as the active development release after the tagged Bold Cipher alpha.1.',
           'The local Catholic-date layer is transitional: once the catholic-calendar project is ready for consumption, it should replace the local fixed set and trigger a review of manual overrides and special-dates.ts.',
+          'Release notes now expose every recorded version, newest first, with one release per pagination page.',
         ],
       },
     ],
