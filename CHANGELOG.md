@@ -25,7 +25,7 @@
 - Added dedicated `teaching` and `saturday` modes for contextual Saturday rendering.
 - Non-future Saturdays with recorded work or coffee always use the normal activity matrix, even while Teaching season is active.
 - Saturdays with recorded work or coffee use the normal activity matrix first.
-- Saturdays without recorded activity use the Teaching illustration whenever `teaching_season_active` is true, including the current Saturday and future Saturdays; otherwise they use the canonical couple.
+- Saturdays without recorded activity use the Teaching illustration only for the current Saturday and future Saturdays when `teaching_season_active` is true. Historical zero-work/zero-coffee Saturdays use the canonical couple because the public Teaching setting is not historical.
 - Manual, Catholic and public-availability states continue to take priority over Saturday defaults.
 - Future Saturdays retain the existing provisional/dimmed presentation.
 - Expanded the browser from four weeks either side to a dynamic ±3-month date window while retaining nine compact week jump buttons and no horizontal pagination scroll.
@@ -59,6 +59,7 @@
 `testing and release metadata`
 
 - Added regression coverage for Teaching-season, active, free and upcoming Saturday precedence, including the current zero-activity Saturday, and the Saturday assets.
+- Fixed historical Saturday rendering so the current `teaching_season_active` flag is never projected backwards onto past zero-work/zero-coffee Saturdays.
 - Added regression coverage for the exact ±3-month-to-week pagination calculation and invalid month-window inputs.
 - Added Teaching-settings contract tests for singleton shape, exact fields and boolean typing.
 - Added public-availability validator tests for controlled types, exact fields, malformed/reversed/cross-year ranges and privacy labels.
