@@ -205,6 +205,82 @@ describe('Catholic Calendar integration', () => {
     ])
   })
 
+  it('combines labels only on dates where distinct trips overlap', () => {
+    expect(
+      availabilityToSpecialDates([
+        {
+          type: 'trip',
+          start_date: '2026-08-06',
+          end_date: '2026-08-08',
+          label: 'UDP Keynote',
+        },
+        {
+          type: 'trip',
+          start_date: '2026-08-08',
+          end_date: '2026-08-12',
+          label: 'ECPR',
+        },
+      ])
+    ).toEqual([
+      {
+        from: '2026-08-06',
+        to: '2026-08-07',
+        type: 'trip',
+        label: 'UDP Keynote',
+      },
+      {
+        from: '2026-08-08',
+        to: '2026-08-08',
+        type: 'trip',
+        label: 'UDP Keynote · ECPR',
+      },
+      {
+        from: '2026-08-09',
+        to: '2026-08-12',
+        type: 'trip',
+        label: 'ECPR',
+      },
+    ])
+  })
+
+  it('combines every distinct trip label on a shared date without repeating labels', () => {
+    expect(
+      availabilityToSpecialDates([
+        {
+          type: 'trip',
+          start_date: '2026-08-08',
+          end_date: '2026-08-08',
+          label: 'UDP Keynote',
+        },
+        {
+          type: 'trip',
+          start_date: '2026-08-08',
+          end_date: '2026-08-08',
+          label: 'ECPR',
+        },
+        {
+          type: 'trip',
+          start_date: '2026-08-08',
+          end_date: '2026-08-08',
+          label: 'Methods Workshop',
+        },
+        {
+          type: 'trip',
+          start_date: '2026-08-08',
+          end_date: '2026-08-08',
+          label: 'ECPR',
+        },
+      ])
+    ).toEqual([
+      {
+        from: '2026-08-08',
+        to: '2026-08-08',
+        type: 'trip',
+        label: 'ECPR · Methods Workshop · UDP Keynote',
+      },
+    ])
+  })
+
   it('maps public availability onto privacy-safe timeline states', () => {
     expect(
       availabilityToSpecialDates([
