@@ -19,7 +19,7 @@ export const releases: ReleaseNote[] = [
     status: 'In development',
     releasedOn: 'Release date TBC',
     summary:
-      'Frozen Ridge opens the first beta line with free-Saturday couple states and privacy-safe Academic API availability for holidays, trips and generic unavailable periods.',
+      'Frozen Ridge opens the first beta line with Teaching-aware Saturdays, free-Saturday couple states and privacy-safe Academic API availability.',
     sections: [
       {
         title: 'Penguin states',
@@ -27,13 +27,15 @@ export const releases: ReleaseNote[] = [
           'Added canonical-couple.png as a validated Saturday PNG master with generated WebP runtime output.',
           'Added deterministic Saturday asset resolution while keeping ordinary activity-state resolution unchanged outside the Saturday rule.',
           'Added the canonical couple image to the visual QA gallery as Free Saturdays.',
+          'Added teaching.png as the Teaching Saturdays contextual state and included it in visual QA.',
         ],
       },
       {
         title: 'Timeline behaviour',
         items: [
-          'Saturdays with recorded work or coffee use the normal activity matrix, while zero-work zero-coffee Saturdays use the canonical couple illustration.',
-          'Upcoming Saturdays also use the canonical couple illustration.',
+          'When teaching_season_active is true, Saturdays use the dedicated Teaching illustration after higher-priority manual, Catholic and availability overrides.',
+          'Outside Teaching season, Saturdays with recorded work or coffee use the normal activity matrix, while zero-work zero-coffee Saturdays use the canonical couple illustration.',
+          'Outside Teaching season, upcoming Saturdays also use the canonical couple illustration.',
           'Manual special-date overrides continue to take priority, and future Saturdays retain the existing provisional dimming.',
         ],
       },
@@ -41,6 +43,7 @@ export const releases: ReleaseNote[] = [
         title: 'Academic API availability',
         items: [
           'Added strict consumption of list_public_availability(year) for Winter/Summer holidays, trips and generic unavailable periods.',
+          'Added strict consumption of get_public_teaching_settings(), exposing only the Teaching-season boolean used by the Saturday state resolver.',
           'Source precedence is manual override, fixed Catholic celebration, then public availability; overlapping public ranges remain supported with deterministic visual resolution.',
           'Unavailable periods remain labelled Unavailable and never consume private sickness reasons or Planning notes; the existing unavailable/sick artwork is reused for the visual state.',
         ],
