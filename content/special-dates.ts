@@ -8,6 +8,12 @@ import type {
 
 export const ENABLE_CATHOLIC_FIXED_DATES = true
 
+/**
+ * Transitional local source.
+ * Once bgonzalezbustamante/catholic-calendar is ready for consumption,
+ * replace this fixed-date layer with that package/API and reassess whether
+ * manual overrides and this module are still needed.
+ */
 export const CATHOLIC_FIXED_DATES = [
   { monthDay: '08-15', label: 'Assumption' },
   { monthDay: '11-01', label: 'All Saints' },
@@ -25,8 +31,8 @@ export const CATHOLIC_FIXED_DATES = [
  * trip
  * sick
  * unavailable
- * Manual entries take precedence over public availability and enabled
- * built-in Catholic dates.
+ * Manual entries take precedence over enabled built-in Catholic dates,
+ * which in turn take precedence over public availability.
  */
 export const specialDates: SpecialDate[] = [
   {
@@ -103,5 +109,5 @@ export function getConfiguredSpecialDates(
 
   assertValidSpecialDateRules(catholicDates, { allowOverlaps: false })
 
-  return [...specialDates, ...availabilityDates, ...catholicDates]
+  return [...specialDates, ...catholicDates, ...availabilityDates]
 }
