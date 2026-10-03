@@ -147,16 +147,17 @@ describe('public availability validation', () => {
     ).not.toThrow()
   })
 
-  it('rejects duplicate identical ranges', () => {
+  it('accepts repeated identical public projections from distinct source records', () => {
     const item = {
       type: 'trip',
-      start_date: '2026-08-10',
-      end_date: '2026-08-14',
-      label: 'Trip',
+      start_date: '2026-08-06',
+      end_date: '2026-08-08',
+      label: 'UDP Keynote',
     }
 
-    expect(() => parsePublicAvailability([item, { ...item }], 2026)).toThrow(
-      'duplicate range'
-    )
+    expect(parsePublicAvailability([item, { ...item }], 2026)).toEqual([
+      item,
+      item,
+    ])
   })
 })

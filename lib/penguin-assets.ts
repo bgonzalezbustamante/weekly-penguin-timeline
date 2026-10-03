@@ -27,6 +27,7 @@ const SPECIAL_ASSETS: Partial<Record<PenguinMode, string>> = {
   'winter-holiday': '/penguins/states/webp/winter-holiday.webp',
   'summer-holiday': '/penguins/states/webp/summer-holiday.webp',
   trip: '/penguins/states/webp/trip.webp',
+  conference: '/penguins/states/webp/conference.webp',
   sick: '/penguins/states/webp/sick.webp',
   unavailable: '/penguins/states/webp/sick.webp',
 }

@@ -4,6 +4,7 @@ import ReleaseNotes from '@/components/release-notes'
 import WeeklyPenguinTimeline from '@/components/weekly-penguin-timeline'
 import { getConfiguredSpecialDates } from '@/content/special-dates'
 import { getPublicAvailability } from '@/lib/availability'
+import { getPublicConferencePresentations } from '@/lib/conferences'
 import {
   buildTimelineWeeks,
   weekWindowForMonthRange,
@@ -47,6 +48,7 @@ async function loadTimelineWindow(now: Date) {
     const [
       analyticsResults,
       availabilityResults,
+      conferences,
       teachingSettings,
     ] = await Promise.all([
       Promise.all(
@@ -55,12 +57,14 @@ async function loadTimelineWindow(now: Date) {
       Promise.all(
         availabilityYears.map((year) => getPublicAvailability(year))
       ),
+      getPublicConferencePresentations(),
       getPublicTeachingSettings(),
     ])
 
     return {
       days: analyticsResults.flatMap((result) => result.days),
       availability: availabilityResults.flat(),
+      conferences,
       teachingSeasonActive: teachingSettings.teaching_season_active,
       error: null,
       calendarYears,
@@ -71,6 +75,7 @@ async function loadTimelineWindow(now: Date) {
     return {
       days: [],
       availability: [],
+      conferences: [],
       teachingSeasonActive: false,
       error:
         error instanceof Error
@@ -88,6 +93,7 @@ export default async function HomePage() {
   const {
     days,
     availability,
+    conferences,
     teachingSeasonActive,
     error,
     calendarYears,
@@ -101,8 +107,8 @@ export default async function HomePage() {
         days,
         specialDates: getConfiguredSpecialDates(
           calendarYears,
-          undefined,
-          availability
+          availability,
+          conferences
         ),
         teachingSeasonActive,
         timeZone: TIME_ZONE,
@@ -181,10 +187,10 @@ export default async function HomePage() {
             <p className="eyebrow">Overrides</p>
             <h2>Special dates stay configurable</h2>
             <p>
-              Trips, Winter/Summer holidays and generic unavailable periods
+              Conferences, travel days, Winter/Summer holidays and generic unavailable periods
               are loaded from the privacy-safe Academic API. Manual overrides
-              remain available, while a switch enables widely observed fixed
-              Catholic celebrations.
+              remain available, while selected Catholic celebrations are
+              resolved by the Catholic Calendar package.
             </p>
           </article>
           <article>

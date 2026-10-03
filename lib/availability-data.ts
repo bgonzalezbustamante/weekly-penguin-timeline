@@ -64,8 +64,6 @@ export function parsePublicAvailability(
     throw new Error('Public availability returned an unexpected payload.')
   }
 
-  const seen = new Set<string>()
-
   return payload.map((entry, index) => {
     const label = `Public availability item ${index + 1}`
 
@@ -106,21 +104,6 @@ export function parsePublicAvailability(
       )
     }
 
-    const item = entry as unknown as PublicAvailabilityItem
-    const duplicateKey = [
-      item.type,
-      item.start_date,
-      item.end_date,
-      item.label,
-    ].join('|')
-
-    if (seen.has(duplicateKey)) {
-      throw new Error(
-        `Public availability contains duplicate range ${duplicateKey}.`
-      )
-    }
-
-    seen.add(duplicateKey)
-    return item
+    return entry as unknown as PublicAvailabilityItem
   })
 }

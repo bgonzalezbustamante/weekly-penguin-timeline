@@ -38,6 +38,7 @@ const SPECIAL_LABELS: Record<SpecialDayType, string> = {
   'winter-holiday': 'Winter holiday',
   'summer-holiday': 'Summer holiday',
   trip: 'Trip',
+  conference: 'Conference',
   sick: 'Sick',
   unavailable: 'Unavailable',
 }
@@ -147,6 +148,7 @@ function findSpecialDate(date: string, overrides: SpecialDate[]) {
 
 function getMode(
   date: string,
+  isToday: boolean,
   isFuture: boolean,
   special: SpecialDate | null,
   workBucket: WorkBucket,
@@ -163,7 +165,9 @@ function getMode(
       return 'activity'
     }
 
-    if (teachingSeasonActive) return 'teaching'
+    if ((isToday || isFuture) && teachingSeasonActive) {
+      return 'teaching'
+    }
 
     return 'saturday'
   }
@@ -215,6 +219,7 @@ export function buildWeeklyTimeline({
 
     const mode = getMode(
       date,
+      date === today,
       isFuture,
       special,
       workBucket,

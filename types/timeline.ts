@@ -19,6 +19,7 @@ export type SpecialDayType =
   | 'winter-holiday'
   | 'summer-holiday'
   | 'trip'
+  | 'conference'
   | 'sick'
   | 'unavailable'
 
@@ -48,6 +49,21 @@ export type PublicAvailabilityItem = {
   label: string
 }
 
+export type PublicConferencePresentation = {
+  event_name: string
+  event_short_name: string
+  location: string | null
+  presentation_date: string
+  start_date: string
+  end_date: string
+  personal_attendance: boolean
+  involves_trip: boolean
+  presentation_title: string | null
+  authors: string[]
+  presentation_type: string
+  url: string | null
+}
+
 export type PublicTeachingSettings = {
   teaching_season_active: boolean
 }
@@ -74,6 +90,7 @@ export type PenguinMode =
   | 'winter-holiday'
   | 'summer-holiday'
   | 'trip'
+  | 'conference'
   | 'sick'
   | 'unavailable'
   | 'upcoming'

@@ -35,6 +35,7 @@ const SPECIAL_STATES: Array<{
   { mode: 'teaching', label: 'Teaching Saturdays' },
   { mode: 'saturday', label: 'Free Saturdays' },
   { mode: 'trip', label: 'Trip' },
+  { mode: 'conference', label: 'Conference' },
   { mode: 'winter-holiday', label: 'Winter holiday' },
   { mode: 'summer-holiday', label: 'Summer holiday' },
   { mode: 'unavailable', label: 'Unavailable' },
@@ -48,8 +49,8 @@ export default function PenguinStateGallery() {
           <p className="eyebrow">Visual QA</p>
           <h2 id="state-gallery-title">Penguin state matrix</h2>
           <p className="section-intro section-intro-wide">
-            The complete approved 6 × 6 activity matrix, followed by seven
-            special and contextual states in one row. This view makes
+            The complete approved 6 × 6 activity matrix, followed by eight
+            special and contextual states in two rows of four. This view makes
             progression and visual drift easy to inspect.
           </p>
         </div>

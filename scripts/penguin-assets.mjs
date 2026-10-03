@@ -32,6 +32,7 @@ const SPECIAL_STATES = [
   'winter-holiday',
   'summer-holiday',
   'trip',
+  'conference',
   'sick',
 ]
 
@@ -258,7 +259,7 @@ async function main() {
   } = await validateAssetSet()
 
   console.log(
-    `Validated ${validated.length} PNG masters: 36 activity states, 5 special states, 1 upcoming working-day state, 1 Saturday couple state, 1 teaching state and 1 canonical baseline.`
+    `Validated ${validated.length} PNG masters: 36 activity states, 6 special states, 1 upcoming working-day state, 1 Saturday couple state, 1 teaching state and 1 canonical baseline.`
   )
   console.log(
     `Detected transparency in ${transparentCount}/${validated.length} PNG masters.`

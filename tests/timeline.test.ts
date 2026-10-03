@@ -126,6 +126,66 @@ describe('weekly timeline resolution', () => {
     })
   })
 
+  it('renders a combined label for overlapping trip ranges', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-08-08T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+      specialDates: [
+        {
+          from: '2026-08-06',
+          to: '2026-08-07',
+          type: 'trip',
+          label: 'UDP Keynote',
+        },
+        {
+          date: '2026-08-08',
+          type: 'trip',
+          label: 'UDP Keynote · ECPR',
+        },
+        {
+          from: '2026-08-09',
+          to: '2026-08-12',
+          type: 'trip',
+          label: 'ECPR',
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-08-07')).toMatchObject({
+      mode: 'trip',
+      specialLabel: 'UDP Keynote',
+    })
+    expect(timeline.find((day) => day.date === '2026-08-08')).toMatchObject({
+      mode: 'trip',
+      specialLabel: 'UDP Keynote · ECPR',
+    })
+    expect(timeline.find((day) => day.date === '2026-08-09')).toMatchObject({
+      mode: 'trip',
+      specialLabel: 'ECPR',
+    })
+  })
+
+  it('renders conference dates with the conference state and label', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-08-07T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+      specialDates: [
+        {
+          date: '2026-08-07',
+          type: 'conference',
+          label: 'UDP Keynote',
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-08-07')).toMatchObject({
+      mode: 'conference',
+      specialLabel: 'UDP Keynote',
+    })
+  })
+
   it('gives explicit overrides priority over the weekly Sunday rule', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-04T12:00:00Z'),
@@ -274,7 +334,7 @@ describe('weekly timeline resolution', () => {
     })
   })
 
-  it('uses the Teaching state for zero-work zero-coffee Saturdays during Teaching season', () => {
+  it('does not project the current Teaching-season flag onto past Saturdays', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-04T12:00:00Z'),
       timeZone: 'UTC',
@@ -289,7 +349,8 @@ describe('weekly timeline resolution', () => {
     })
 
     expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
-      mode: 'teaching',
+      mode: 'saturday',
+      isToday: false,
       isFuture: false,
       workBucket: 'zero',
       coffeeBucket: 'zero',
