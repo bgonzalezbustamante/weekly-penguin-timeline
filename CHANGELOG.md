@@ -28,6 +28,7 @@
 - Future Saturdays retain the existing provisional/dimmed presentation.
 - Expanded the browser from four weeks either side to a dynamic ±3-month date window while retaining nine compact week jump buttons and no horizontal pagination scroll.
 - Replaced Older/Newer week stepping with Previous day/Next day controls that move the rolling seven-day view by exactly one day.
+- Changed the nine central pagination buttons from week anchors to daily seven-day-window start dates, so the Oxford-blue selected state advances on every Previous day/Next day click.
 - Added a small Current day shortcut above Previous day, using the same lightweight control style as First/Last; it makes today the first date in the rolling seven-day view.
 - Added small First/Last shortcuts below the paginator for direct jumps to the beginning or end of the available range.
 - Reordered the seven contextual gallery states to Sunday, Teaching Saturdays, Free Saturdays, Trip, Winter holiday, Summer holiday and Unavailable, keeping them in one horizontal row.
