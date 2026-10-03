@@ -42,29 +42,56 @@ export default function WeeklyPenguinTimeline({
     todayIndex >= 0
       ? Math.min(todayIndex, maxStartIndex)
       : currentStartIndex
-  const [selectedStartIndex, setSelectedStartIndex] =
-    useState(currentStartIndex)
-  const selectedDays = allDays.slice(
-    selectedStartIndex,
-    selectedStartIndex + 7
-  )
   const availableStartCount = maxStartIndex + 1
   const visiblePageCount = Math.min(9, availableStartCount)
   const maxWindowStart = Math.max(
     0,
     availableStartCount - visiblePageCount
   )
-  const windowStart = Math.min(
+  const initialWindowStart = Math.min(
     maxWindowStart,
     Math.max(
       0,
-      selectedStartIndex - Math.floor(visiblePageCount / 2)
+      currentStartIndex - Math.floor(visiblePageCount / 2)
     )
+  )
+  const [selectedStartIndex, setSelectedStartIndex] =
+    useState(currentStartIndex)
+  const [windowStart, setWindowStart] = useState(initialWindowStart)
+  const selectedDays = allDays.slice(
+    selectedStartIndex,
+    selectedStartIndex + 7
   )
   const visibleStartIndices = Array.from(
     { length: visiblePageCount },
     (_, index) => windowStart + index
   )
+
+  function selectStartIndex(nextIndex: number) {
+    const clampedIndex = Math.min(
+      maxStartIndex,
+      Math.max(0, nextIndex)
+    )
+
+    setSelectedStartIndex(clampedIndex)
+    setWindowStart((currentWindowStart) => {
+      const currentWindowEnd =
+        currentWindowStart + visiblePageCount - 1
+
+      if (clampedIndex < currentWindowStart) {
+        return clampedIndex
+      }
+
+      if (clampedIndex > currentWindowEnd) {
+        return Math.min(
+          maxWindowStart,
+          clampedIndex - visiblePageCount + 1
+        )
+      }
+
+      return currentWindowStart
+    })
+  }
   const selectedStartDate = selectedDays[0]?.date
   const selectedEndDate = selectedDays[selectedDays.length - 1]?.date
   const isCurrentWeek = selectedStartIndex === currentStartIndex
@@ -91,7 +118,7 @@ export default function WeeklyPenguinTimeline({
             <button
               className="week-edge-button week-current-day-button"
               type="button"
-              onClick={() => setSelectedStartIndex(currentDayStartIndex)}
+              onClick={() => selectStartIndex(currentDayStartIndex)}
               disabled={selectedStartIndex === currentDayStartIndex}
             >
               Current day
@@ -100,7 +127,7 @@ export default function WeeklyPenguinTimeline({
               className="week-nav-button"
               type="button"
               onClick={() =>
-                setSelectedStartIndex((index) => Math.max(0, index - 1))
+                selectStartIndex(selectedStartIndex - 1)
               }
               disabled={selectedStartIndex === 0}
               aria-label="Move seven-day window back one day"
@@ -129,7 +156,7 @@ export default function WeeklyPenguinTimeline({
                     .join(' ')}
                   type="button"
                   key={startDay.date}
-                  onClick={() => setSelectedStartIndex(startIndex)}
+                  onClick={() => selectStartIndex(startIndex)}
                   aria-current={selected ? 'page' : undefined}
                   aria-label={`Show seven-day window starting ${formatDisplayDate(startDay.date)}`}
                 >
@@ -146,9 +173,7 @@ export default function WeeklyPenguinTimeline({
             className="week-nav-button"
             type="button"
             onClick={() =>
-              setSelectedStartIndex((index) =>
-                Math.min(maxStartIndex, index + 1)
-              )
+              selectStartIndex(selectedStartIndex + 1)
             }
             disabled={selectedStartIndex === maxStartIndex}
             aria-label="Move seven-day window forward one day"
@@ -161,7 +186,7 @@ export default function WeeklyPenguinTimeline({
           <button
             className="week-edge-button"
             type="button"
-            onClick={() => setSelectedStartIndex(0)}
+            onClick={() => selectStartIndex(0)}
             disabled={selectedStartIndex === 0}
           >
             First
@@ -169,7 +194,7 @@ export default function WeeklyPenguinTimeline({
           <button
             className="week-edge-button"
             type="button"
-            onClick={() => setSelectedStartIndex(maxStartIndex)}
+            onClick={() => selectStartIndex(maxStartIndex)}
             disabled={selectedStartIndex === maxStartIndex}
           >
             Last
