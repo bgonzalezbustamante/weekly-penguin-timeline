@@ -53,6 +53,16 @@ describe('penguin asset resolution', () => {
     ).toBe('/penguins/states/webp/working-day.webp')
   })
 
+  it('uses the teaching asset for teaching-season Saturdays', () => {
+    expect(
+      resolvePenguinAsset({
+        mode: 'teaching',
+        workBucket: '8-10',
+        coffeeBucket: '4-6',
+      })
+    ).toBe('/penguins/states/webp/teaching.webp')
+  })
+
   it('uses the canonical couple asset for Saturdays', () => {
     expect(
       resolvePenguinAsset({
