@@ -38,6 +38,7 @@ const SPECIAL_LABELS: Record<SpecialDayType, string> = {
   'winter-holiday': 'Winter holiday',
   'summer-holiday': 'Summer holiday',
   trip: 'Trip',
+  conference: 'Conference',
   sick: 'Sick',
   unavailable: 'Unavailable',
 }
