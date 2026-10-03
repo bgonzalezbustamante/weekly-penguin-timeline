@@ -179,6 +179,32 @@ describe('Catholic Calendar integration', () => {
     )
   })
 
+  it('coalesces identical public projections into one rendered state', () => {
+    expect(
+      availabilityToSpecialDates([
+        {
+          type: 'trip',
+          start_date: '2026-08-06',
+          end_date: '2026-08-08',
+          label: 'UDP Keynote',
+        },
+        {
+          type: 'trip',
+          start_date: '2026-08-06',
+          end_date: '2026-08-08',
+          label: 'UDP Keynote',
+        },
+      ])
+    ).toEqual([
+      {
+        from: '2026-08-06',
+        to: '2026-08-08',
+        type: 'trip',
+        label: 'UDP Keynote',
+      },
+    ])
+  })
+
   it('maps public availability onto privacy-safe timeline states', () => {
     expect(
       availabilityToSpecialDates([
