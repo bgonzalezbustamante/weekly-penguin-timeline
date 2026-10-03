@@ -166,6 +166,26 @@ describe('weekly timeline resolution', () => {
     })
   })
 
+  it('renders conference dates with the conference state and label', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-08-07T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [],
+      specialDates: [
+        {
+          date: '2026-08-07',
+          type: 'conference',
+          label: 'UDP Keynote',
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-08-07')).toMatchObject({
+      mode: 'conference',
+      specialLabel: 'UDP Keynote',
+    })
+  })
+
   it('gives explicit overrides priority over the weekly Sunday rule', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-04T12:00:00Z'),
