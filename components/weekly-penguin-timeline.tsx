@@ -92,6 +92,11 @@ export default function WeeklyPenguinTimeline({
       return currentWindowStart
     })
   }
+
+  function selectCurrentWeek() {
+    setSelectedStartIndex(currentStartIndex)
+    setWindowStart(initialWindowStart)
+  }
   const selectedStartDate = selectedDays[0]?.date
   const selectedEndDate = selectedDays[selectedDays.length - 1]?.date
   const isCurrentWeek = selectedStartIndex === currentStartIndex
@@ -169,18 +174,31 @@ export default function WeeklyPenguinTimeline({
             })}
           </div>
 
-          <button
-            className="week-nav-button"
-            type="button"
-            onClick={() =>
-              selectStartIndex(selectedStartIndex + 1)
-            }
-            disabled={selectedStartIndex === maxStartIndex}
-            aria-label="Move seven-day window forward one day"
-          >
-            Next day
-            <span aria-hidden="true">→</span>
-          </button>
+          <div className="week-nav-stack">
+            <button
+              className="week-edge-button week-current-week-button"
+              type="button"
+              onClick={selectCurrentWeek}
+              disabled={
+                selectedStartIndex === currentStartIndex &&
+                windowStart === initialWindowStart
+              }
+            >
+              Current week
+            </button>
+            <button
+              className="week-nav-button"
+              type="button"
+              onClick={() =>
+                selectStartIndex(selectedStartIndex + 1)
+              }
+              disabled={selectedStartIndex === maxStartIndex}
+              aria-label="Move seven-day window forward one day"
+            >
+              Next day
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
         </nav>
         <div className="week-pagination-edges" aria-label="Timeline range shortcuts">
           <button
