@@ -101,7 +101,6 @@ export default async function HomePage() {
         days,
         specialDates: getConfiguredSpecialDates(
           calendarYears,
-          undefined,
           availability
         ),
         teachingSeasonActive,
@@ -183,8 +182,8 @@ export default async function HomePage() {
             <p>
               Trips, Winter/Summer holidays and generic unavailable periods
               are loaded from the privacy-safe Academic API. Manual overrides
-              remain available, while a switch enables widely observed fixed
-              Catholic celebrations.
+              remain available, while selected Catholic celebrations are
+              resolved by the Catholic Calendar package.
             </p>
           </article>
           <article>
