@@ -6,7 +6,8 @@
 
 - Opened the first beta development line after the tagged Bold Cipher alpha.
 - Added the canonical couple illustration for free and upcoming Saturdays while retaining normal activity states on active Saturdays.
-- Preserved special-date overrides as the highest-priority calendar rule.
+- Integrated the Academic API privacy-safe availability layer for Winter/Summer holidays, trips and generic unavailable periods.
+- Preserved manual special-date overrides as the highest-priority calendar rule.
 
 ### Code changes
 
@@ -26,9 +27,22 @@
 - Future Saturdays retain the existing provisional/dimmed presentation.
 - Added the canonical couple illustration to the end of the visual QA gallery as `Free Saturdays`.
 
+`Academic API`
+
+- Added a `list_public_availability(year)` adapter alongside the existing work-analytics RPC.
+- Added strict runtime validation for the public availability contract: exact fields, controlled type vocabulary, real in-year ranges, start/end ordering, duplicate-range rejection and the mandatory generic `Unavailable` label.
+- Mapped `winter_holiday` → `winter-holiday`, `summer_holiday` → `summer-holiday`, `trip` → `trip`, and `unavailable` → a generic unavailable timeline mode.
+- Public availability is inserted after manual overrides and before fixed Catholic dates. When public ranges overlap, `unavailable` takes priority over `trip`, followed by holiday states.
+- The public `unavailable` state keeps the user-facing label `Unavailable` and does not consume sickness reasons, notes or other private Planning fields.
+- The existing sick-state artwork is reused for the generic unavailable mode; manual `sick` overrides remain supported separately.
+- Work analytics and public availability are loaded together and the timeline fails closed if either required RPC is unavailable or violates its contract.
+- Public availability can be requested for the future calendar year reached by the nine-week browser, matching the upstream API's current-year-plus-five boundary.
+
 `testing and release metadata`
 
 - Added regression coverage for active, free and upcoming Saturday mode resolution and the Saturday couple asset.
+- Added public-availability validator tests for controlled types, exact fields, malformed/reversed/cross-year ranges, privacy labels and duplicates.
+- Added precedence tests for manual overrides → public availability → fixed Catholic dates and coverage for the generic unavailable state.
 - Bumped application and lockfile metadata to `0.1.0-beta.1`.
 - Marked Frozen Ridge as in development in the README and reader-facing release notes.
 
