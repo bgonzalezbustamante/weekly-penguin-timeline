@@ -160,7 +160,7 @@ describe('weekly timeline resolution', () => {
       specialLabel: null,
     })
     expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
-      mode: 'upcoming',
+      mode: 'saturday',
       isFuture: true,
       specialLabel: null,
     })
@@ -168,6 +168,28 @@ describe('weekly timeline resolution', () => {
       mode: 'sunday',
       isFuture: true,
       specialLabel: 'Sunday',
+    })
+  })
+
+  it('uses the Saturday couple mode for past Saturdays too', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-04T12:00:00Z'),
+      timeZone: 'UTC',
+      days: [
+        {
+          date: '2026-10-03',
+          net_minutes: 480,
+          coffee_count: 4,
+        },
+      ],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'saturday',
+      isFuture: false,
+      workBucket: '8-10',
+      coffeeBucket: '4-6',
+      specialLabel: null,
     })
   })
 
