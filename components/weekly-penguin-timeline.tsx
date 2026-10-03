@@ -93,6 +93,23 @@ export default function WeeklyPenguinTimeline({
     })
   }
 
+  function selectStartIndexCentered(nextIndex: number) {
+    const clampedIndex = Math.min(
+      maxStartIndex,
+      Math.max(0, nextIndex)
+    )
+    const centredWindowStart = Math.min(
+      maxWindowStart,
+      Math.max(
+        0,
+        clampedIndex - Math.floor(visiblePageCount / 2)
+      )
+    )
+
+    setSelectedStartIndex(clampedIndex)
+    setWindowStart(centredWindowStart)
+  }
+
   function selectCurrentWeek() {
     setSelectedStartIndex(currentStartIndex)
     setWindowStart(initialWindowStart)
@@ -204,46 +221,51 @@ export default function WeeklyPenguinTimeline({
           className="week-pagination-secondary"
           aria-label="Weekly timeline shortcuts"
         >
-          <button
-            className="week-jump-button week-range-first"
-            type="button"
-            onClick={() => selectStartIndex(0)}
-            disabled={selectedStartIndex === 0}
-          >
-            First
-          </button>
-
           <div className="week-pagination-secondary-group">
             <button
               className="week-jump-button"
               type="button"
-              onClick={() => selectStartIndex(selectedStartIndex - 7)}
+              onClick={() => selectStartIndex(0)}
+              disabled={selectedStartIndex === 0}
+            >
+              First
+            </button>
+            <button
+              className="week-jump-button"
+              type="button"
+              onClick={() =>
+                selectStartIndexCentered(selectedStartIndex - 7)
+              }
               disabled={selectedStartIndex === 0}
               aria-label="Move seven-day window back one week"
             >
               <span aria-hidden="true">←</span>
               Previous week
             </button>
+          </div>
+
+          <div className="week-pagination-secondary-group">
             <button
               className="week-jump-button"
               type="button"
-              onClick={() => selectStartIndex(selectedStartIndex + 7)}
+              onClick={() =>
+                selectStartIndexCentered(selectedStartIndex + 7)
+              }
               disabled={selectedStartIndex === maxStartIndex}
               aria-label="Move seven-day window forward one week"
             >
               Next week
               <span aria-hidden="true">→</span>
             </button>
+            <button
+              className="week-jump-button"
+              type="button"
+              onClick={() => selectStartIndex(maxStartIndex)}
+              disabled={selectedStartIndex === maxStartIndex}
+            >
+              Last
+            </button>
           </div>
-
-          <button
-            className="week-jump-button week-range-last"
-            type="button"
-            onClick={() => selectStartIndex(maxStartIndex)}
-            disabled={selectedStartIndex === maxStartIndex}
-          >
-            Last
-          </button>
         </div>
       </div>
 
