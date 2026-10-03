@@ -32,8 +32,9 @@
 - Decoupled the selected date from the visible nine-date strip so the Oxford-blue state visibly moves one button per Previous day/Next day click; the strip shifts only when the selection reaches an edge.
 - Added a small Current day shortcut above Previous day, using the same lightweight control style as First/Last; it makes today the first date in the rolling seven-day view.
 - Added a matching Current week shortcut above Next day; it restores the current Monday–Sunday week and recentres the current Monday within the nine-date paginator.
-- Added a separate lower navigation row with Previous week/Next week controls that move the rolling seven-day window by exactly seven days while preserving the selected weekday; First/Last remain at the outer edges.
-- Added small First/Last shortcuts below the paginator for direct jumps to the beginning or end of the available range.
+- Added a separate lower navigation row with Previous week/Next week controls that move the rolling seven-day window by exactly seven days while preserving the selected weekday.
+- Centred Previous week/Next week as a pair, with First pinned to the far left and Last pinned to the far right.
+- Unified Current day, Current week, First and Last with the same outlined shortcut styling used by Previous week/Next week.
 - Reordered the seven contextual gallery states to Sunday, Teaching Saturdays, Free Saturdays, Trip, Winter holiday, Summer holiday and Unavailable, keeping them in one horizontal row.
 
 `Academic API`
