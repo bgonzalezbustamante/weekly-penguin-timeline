@@ -38,18 +38,18 @@ The proof-of-concept separates:
 4. `lib/date-utils.ts` and `lib/special-date-rules.ts` — calendar-date and override-rule validation.
 5. `lib/catholic-calendar.ts` — adapter from the Catholic Calendar package to the timeline’s selected Sunday-style celebration states.
 6. `lib/timeline.ts` — date, bucket and override resolution.
-6. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
-7. `lib/penguin-assets.ts` — deterministic mapping from resolved state to approved image asset.
-8. `public/penguins/states/` — 36 validated activity PNG masters, five validated special-state PNG masters, `working-day.png`, `canonical-couple.png`, and `teaching.png` contextual masters.
-9. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
-10. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
-11. `components/weekly-penguin-timeline.tsx` — reusable rolling seven-day presentation with a ±3-month browser, daily stepping and compact date-start buttons.
-12. `components/penguin-state-tester.tsx` — interactive state inspector.
-13. `components/penguin-state-gallery.tsx` — visual QA matrix for the 36 normal states plus special and contextual states.
+7. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
+8. `lib/penguin-assets.ts` — deterministic mapping from resolved state to approved image asset.
+9. `public/penguins/states/` — 36 validated activity PNG masters, five validated special-state PNG masters, `working-day.png`, `canonical-couple.png`, and `teaching.png` contextual masters.
+10. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
+11. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
+12. `components/weekly-penguin-timeline.tsx` — reusable rolling seven-day presentation with a ±3-month browser, daily stepping and compact date-start buttons.
+13. `components/penguin-state-tester.tsx` — interactive state inspector.
+14. `components/penguin-state-gallery.tsx` — visual QA matrix for the 36 normal states plus special and contextual states.
 15. `content/special-dates.ts` — manual/local presentation overrides, recurring Christmas Eve and public-availability mapping; Catholic observance dates themselves come from the package.
-15. `tests/` — API-contract, date-rule, boundary, timezone and asset-resolution regression tests.
-16. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
-17. `app/page.tsx` — demonstration page only.
+16. `tests/` — API-contract, date-rule, boundary, timezone and asset-resolution regression tests.
+17. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
+18. `app/page.tsx` — demonstration page only.
 
 That separation is deliberate: the canonical mascot remains the immutable visual ground truth, while each approved state is a complete derived image rather than a runtime SVG composition. The validated PNG files remain the source masters. Development and production builds generate ignored WebP derivatives for runtime delivery, so optimisation never overwrites the approved images. State resolution remains independent of presentation, allowing the timeline to move into another Next.js application without retaining the PoC shell.
 
