@@ -19,19 +19,21 @@ export const releases: ReleaseNote[] = [
     status: 'In development',
     releasedOn: 'Release date TBC',
     summary:
-      'Frozen Ridge opens the first beta line, beginning with a dedicated canonical couple state for Saturdays while preserving special-date precedence.',
+      'Frozen Ridge opens the first beta line, beginning with a dedicated couple state for free and upcoming Saturdays while preserving normal activity states and special-date precedence.',
     sections: [
       {
         title: 'Penguin states',
         items: [
           'Added canonical-couple.png as a validated Saturday PNG master with generated WebP runtime output.',
-          'Added deterministic Saturday asset resolution without changing the canonical baseline used by the zero-work zero-coffee activity state.',
+          'Added deterministic Saturday asset resolution while keeping ordinary activity-state resolution unchanged outside the Saturday rule.',
+          'Added the canonical couple image to the visual QA gallery as Free Saturdays.',
         ],
       },
       {
         title: 'Timeline behaviour',
         items: [
-          'Saturdays now use the canonical couple illustration whether they are past or future.',
+          'Saturdays with recorded work or coffee use the normal activity matrix, while zero-work zero-coffee Saturdays use the canonical couple illustration.',
+          'Upcoming Saturdays also use the canonical couple illustration.',
           'Special-date overrides continue to take priority, and future Saturdays retain the existing provisional dimming.',
         ],
       },
