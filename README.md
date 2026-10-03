@@ -23,7 +23,7 @@ This repository is intentionally separate from `academic-website`. Development a
 - Future Saturdays use `teaching.png` when `teaching_season_active` is true and `canonical-couple.png` otherwise.
 - Non-future zero-work/zero-coffee Saturdays use `canonical-couple.png`; manual, Catholic and public-availability overrides retain priority over every Saturday rule.
 - Treats future dates as provisional rather than falsely displaying zero activity: Monday–Friday use the dedicated working-day scene, Saturday uses Teaching when the season flag is active or the canonical couple otherwise, and Sunday uses the Sunday scene; future illustrations remain visually provisional.
-- Paginates the weekly timeline across a dynamic window covering roughly three months before and three months after the current date.
+- Browses a rolling seven-day window across roughly three months before and three months after the current date: Previous day/Next day shift the view by one day, nine compact week buttons provide direct weekly jumps, and First/Last jump to the range boundaries.
 - Marks the current day as provisional with “so far”.
 - Uses the Academic Website Oxford palette and typography hierarchy.
 - Includes an interactive state tester for inspecting any work/coffee combination.
@@ -42,7 +42,7 @@ The proof-of-concept separates:
 8. `public/penguins/states/` — 36 validated activity PNG masters, five validated special-state PNG masters, `working-day.png`, `canonical-couple.png`, and `teaching.png` contextual masters.
 9. `scripts/penguin-assets.mjs` — asset-integrity validation and incremental WebP generation.
 10. `components/penguin-sprite.tsx` — lightweight renderer for the generated WebP runtime asset.
-11. `components/weekly-penguin-timeline.tsx` — reusable seven-day presentation with a ±3-month weekly browser.
+11. `components/weekly-penguin-timeline.tsx` — reusable rolling seven-day presentation with a ±3-month browser, daily stepping and compact weekly jump buttons.
 12. `components/penguin-state-tester.tsx` — interactive state inspector.
 13. `components/penguin-state-gallery.tsx` — visual QA matrix for the 36 normal states plus special and contextual states.
 14. `content/special-dates.ts` — manual overrides, public-availability mapping and toggleable fixed Catholic celebrations.
@@ -124,7 +124,7 @@ Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 
 
 ## Component hardening
 
-The current component includes regression coverage for work and coffee bucket boundaries, strict work-analytics, public-availability and Teaching-settings validation, duplicate/incomplete data, special-date validation and precedence, Teaching/free/active/upcoming Saturday behaviour, weekday/Sunday state selection, the ±3-month weekly browser, New Year API boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. Work analytics are requested only for supported years, while public availability can also cover a future calendar year reached by the three-month browser.
+The current component includes regression coverage for work and coffee bucket boundaries, strict work-analytics, public-availability and Teaching-settings validation, duplicate/incomplete data, special-date validation and precedence, Teaching/free/active/upcoming Saturday behaviour, weekday/Sunday state selection, the ±3-month rolling seven-day browser, New Year API boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. Work analytics are requested only for supported years, while public availability can also cover a future calendar year reached by the three-month browser.
 
 ```bash
 npm run test
@@ -144,7 +144,7 @@ For a Home-page integration:
 3. Reuse an existing public Supabase client plus the `get_public_work_analytics(year)`, `list_public_availability(year)`, and `get_public_teaching_settings()` adapters when the receiving application already has them. Bring the strict response validation from this repository with the component.
 4. Copy the approved penguin PNG masters and the asset-generation script. Merge penguin asset generation into any existing `predev`/`prebuild` workflow rather than replacing other build preparation tasks.
 5. Port only the Weekly timeline CSS and map the PoC colour variables to the receiving application's design tokens. For `academic-website`, map them to its existing Oxford variables.
-6. Build the ±3-month weekly window on the host page and pass the resulting `weeks` into `WeeklyPenguinTimeline`.
+6. Build the ±3-month source-week range on the host page and pass the resulting `weeks` into `WeeklyPenguinTimeline`; the component derives the rolling seven-day window and daily navigation client-side.
 
 The standalone hero, state tester, visual QA matrix, release notes, and footer are development/demo surfaces and do not need to be copied unless they are separately useful in the receiving application.
 
