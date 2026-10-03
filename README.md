@@ -1,6 +1,6 @@
 # Weekly Penguin Timeline
 
-**v0.1.0-beta.1 "Frozen Ridge" — 3 October 2026**
+**v0.1.0-beta.1 "Frozen Ridge" — in development**
 
 A standalone proof-of-concept for a reusable Next.js weekly timeline component. It converts public daily working-time and coffee data into one Oxford-colour, kawaii-style penguin state per day.
 
@@ -17,7 +17,7 @@ This repository is intentionally separate from `academic-website`. Development a
 - Resolves six coffee states: `0`, `<4`, `4–6`, `6–8`, `8–10`, and `10+`.
 - Produces 36 normal combined activity states.
 - Uses a praying penguin on Sundays.
-- Supports toggleable fixed Catholic celebrations that reuse the Sunday illustration with celebration-specific labels.
+- Resolves the selected Catholic celebrations used by the timeline through `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1`, reusing the Sunday illustration with package-provided observed dates and names.
 - Supports manual overrides for Sunday-style holidays, winter holiday, summer holiday, trip, and sick dates.
 - On Saturdays, recorded work or coffee always uses the normal activity state, even during Teaching season.
 - When there is no recorded Saturday activity and `teaching_season_active` is true, use `teaching.png` — including the current Saturday and future Saturdays.
@@ -36,7 +36,8 @@ The proof-of-concept separates:
 2. `lib/availability.ts` and `lib/availability-data.ts` — public-availability RPC adapter and strict runtime validation.
 3. `lib/teaching-settings.ts` and `lib/teaching-settings-data.ts` — Teaching-season RPC adapter and strict singleton-boolean validation.
 4. `lib/date-utils.ts` and `lib/special-date-rules.ts` — calendar-date and override-rule validation.
-5. `lib/timeline.ts` — date, bucket and override resolution.
+5. `lib/catholic-calendar.ts` — adapter from the Catholic Calendar package to the timeline’s selected Sunday-style celebration states.
+6. `lib/timeline.ts` — date, bucket and override resolution.
 6. `public/penguins/canonical-baseline.png` — approved canonical mascot asset.
 7. `lib/penguin-assets.ts` — deterministic mapping from resolved state to approved image asset.
 8. `public/penguins/states/` — 36 validated activity PNG masters, five validated special-state PNG masters, `working-day.png`, `canonical-couple.png`, and `teaching.png` contextual masters.
@@ -45,7 +46,7 @@ The proof-of-concept separates:
 11. `components/weekly-penguin-timeline.tsx` — reusable rolling seven-day presentation with a ±3-month browser, daily stepping and compact date-start buttons.
 12. `components/penguin-state-tester.tsx` — interactive state inspector.
 13. `components/penguin-state-gallery.tsx` — visual QA matrix for the 36 normal states plus special and contextual states.
-14. `content/special-dates.ts` — manual overrides, public-availability mapping and toggleable fixed Catholic celebrations.
+15. `content/special-dates.ts` — manual/local presentation overrides, recurring Christmas Eve and public-availability mapping; Catholic observance dates themselves come from the package.
 15. `tests/` — API-contract, date-rule, boundary, timezone and asset-resolution regression tests.
 16. `lib/releases.ts` and `CHANGELOG.md` — readable and technical release documentation.
 17. `app/page.tsx` — demonstration page only.
@@ -89,15 +90,11 @@ If a PNG master is replaced while the development server is already running, run
 
 ## Special dates
 
-Edit `content/special-dates.ts`. The built-in fixed Catholic celebrations are controlled by:
+Edit `content/special-dates.ts` for timeline-only manual or local presentation overrides. Catholic observance dates are no longer maintained there: the timeline consumes the pinned package `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1` through `lib/catholic-calendar.ts`.
 
-```ts
-export const ENABLE_CATHOLIC_FIXED_DATES = true
-```
+The timeline deliberately keeps its existing compact Catholic scope rather than treating every package observance as a special penguin state. It currently consumes Assumption, All Saints, All Souls, the Immaculate Conception and Christmas. The package supplies their observed dates, including transfers, and their canonical English names. The 1 January observance remains outside the Weekly Timeline’s selected subset.
 
-When enabled, the recurring fixed-date set is Assumption (15 August), All Saints (1 November), All Souls (2 November), Immaculate Conception (8 December), Christmas Eve (24 December), and Christmas Day (25 December). The 1 January celebration is intentionally not included.
-
-Manual exact dates and inclusive ranges remain supported. A labelled `sunday` override can reuse the praying Sunday illustration for Christian holidays on any weekday:
+Christmas Eve is not a discrete observance in the Catholic Calendar package, so `special-dates.ts` retains it as one local recurring Sunday-style presentation rule. Manual exact dates and inclusive ranges remain supported for future project-specific exceptions:
 
 ```ts
 {
@@ -114,9 +111,7 @@ Manual exact dates and inclusive ranges remain supported. A labelled `sunday` ov
 }
 ```
 
-Precedence is: manual special date → enabled fixed Catholic date → public availability → Saturday/Sunday/future-day rule → normal activity state. Inside the Saturday rule, recorded activity takes priority first; when no activity is recorded, an active Teaching season selects `teaching.png`; otherwise the canonical couple is used. Overlapping public availability ranges are allowed; when more than one applies to a day, generic `unavailable` takes priority over `trip`, followed by Winter/Summer holiday states. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and ambiguous manual overlaps fail explicitly. Public `unavailable` remains labelled `Unavailable` in the UI; private sickness reasons and notes are never consumed by this repository.
-
-The local fixed Catholic-date set is transitional. Once `bgonzalezbustamante/catholic-calendar` is ready for consumption, the intended direction is to use it as the Catholic calendar source and then reassess whether manual overrides and `content/special-dates.ts` can be deprecated.
+Precedence is: manual/local special date → selected package-backed Catholic celebration → public availability → Saturday/Sunday/future-day rule → normal activity state. Inside the Saturday rule, recorded activity takes priority first; when no activity is recorded, an active Teaching season selects `teaching.png`; otherwise the canonical couple is used. Overlapping public availability ranges are allowed; when more than one applies to a day, generic `unavailable` takes priority over `trip`, followed by Winter/Summer holiday states. Manual rules are validated as real calendar dates and ranges; reversed ranges, empty labels and ambiguous manual overlaps fail explicitly. Public `unavailable` remains labelled `Unavailable` in the UI; private sickness reasons and notes are never consumed by this repository.
 
 ## Activity bands
 
@@ -124,7 +119,7 @@ Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 
 
 ## Component hardening
 
-The current component includes regression coverage for work and coffee bucket boundaries, strict work-analytics, public-availability and Teaching-settings validation, duplicate/incomplete data, special-date validation and precedence, Teaching/free/active/upcoming Saturday behaviour, weekday/Sunday state selection, the ±3-month rolling seven-day browser, New Year API boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. Work analytics are requested only for supported years, while public availability can also cover a future calendar year reached by the three-month browser.
+The current component includes regression coverage for work and coffee bucket boundaries, strict work-analytics, public-availability and Teaching-settings validation, Catholic Calendar package selection and transfers, duplicate/incomplete data, special-date validation and precedence, Teaching/free/active/upcoming Saturday behaviour, weekday/Sunday state selection, the ±3-month rolling seven-day browser, New Year API boundaries, Europe/Amsterdam DST transitions, display helpers and deterministic asset resolution. Work analytics are requested only for supported years, while public availability can also cover a future calendar year reached by the three-month browser.
 
 ```bash
 npm run test
@@ -140,7 +135,7 @@ For integration into another Next.js application, use a source-level transplant 
 For a Home-page integration:
 
 1. Move `components/weekly-penguin-timeline.tsx` and `components/penguin-sprite.tsx`.
-2. Move the timeline support modules: `lib/timeline.ts`, `lib/date-utils.ts`, `lib/work-data.ts`, `lib/availability-data.ts`, `lib/teaching-settings-data.ts`, `lib/special-date-rules.ts`, `lib/penguin-assets.ts`, `content/special-dates.ts`, and the relevant timeline types.
+2. Move the timeline support modules: `lib/timeline.ts`, `lib/date-utils.ts`, `lib/work-data.ts`, `lib/availability-data.ts`, `lib/teaching-settings-data.ts`, `lib/special-date-rules.ts`, `lib/catholic-calendar.ts`, `lib/penguin-assets.ts`, `content/special-dates.ts`, and the relevant timeline types; install the pinned Catholic Calendar package alongside them.
 3. Reuse an existing public Supabase client plus the `get_public_work_analytics(year)`, `list_public_availability(year)`, and `get_public_teaching_settings()` adapters when the receiving application already has them. Bring the strict response validation from this repository with the component.
 4. Copy the approved penguin PNG masters and the asset-generation script. Merge penguin asset generation into any existing `predev`/`prebuild` workflow rather than replacing other build preparation tasks.
 5. Port only the Weekly timeline CSS and map the PoC colour variables to the receiving application's design tokens. For `academic-website`, map them to its existing Oxford variables.
