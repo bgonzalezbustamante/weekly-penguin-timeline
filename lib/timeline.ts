@@ -92,14 +92,22 @@ function findSpecialDate(date: string, overrides: SpecialDate[]) {
 function getMode(
   date: string,
   isFuture: boolean,
-  special: SpecialDate | null
+  special: SpecialDate | null,
+  workBucket: WorkBucket,
+  coffeeBucket: CoffeeBucket
 ): PenguinMode {
   if (special) return special.type
 
   const weekday = parseIsoDateUtc(date).getUTCDay()
 
-  if (weekday === 6) return 'saturday'
   if (weekday === 0) return 'sunday'
+  if (weekday === 6) {
+    if (isFuture || (workBucket === 'zero' && coffeeBucket === 'zero')) {
+      return 'saturday'
+    }
+
+    return 'activity'
+  }
   if (isFuture) return 'working-day'
 
   return 'activity'
@@ -144,7 +152,13 @@ export function buildWeeklyTimeline({
       timeZone: 'UTC',
     }).format(parsed)
 
-    const mode = getMode(date, isFuture, special)
+    const mode = getMode(
+      date,
+      isFuture,
+      special,
+      workBucket,
+      coffeeBucket
+    )
 
     return {
       date,
