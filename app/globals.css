@@ -756,9 +756,11 @@ h1 {
 
 .special-gallery {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(140px, 1fr));
   gap: 0.75rem;
   margin-top: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.45rem;
 }
 
 
