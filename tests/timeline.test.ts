@@ -274,7 +274,7 @@ describe('weekly timeline resolution', () => {
     })
   })
 
-  it('uses the canonical couple for zero-work zero-coffee past Saturdays during Teaching season', () => {
+  it('uses the Teaching state for zero-work zero-coffee Saturdays during Teaching season', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2026-10-04T12:00:00Z'),
       timeZone: 'UTC',
@@ -289,7 +289,25 @@ describe('weekly timeline resolution', () => {
     })
 
     expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
-      mode: 'saturday',
+      mode: 'teaching',
+      isFuture: false,
+      workBucket: 'zero',
+      coffeeBucket: 'zero',
+      specialLabel: null,
+    })
+  })
+
+  it('uses the Teaching state on the current Saturday when there is no activity', () => {
+    const timeline = buildWeeklyTimeline({
+      now: new Date('2026-10-03T12:00:00Z'),
+      timeZone: 'UTC',
+      teachingSeasonActive: true,
+      days: [],
+    })
+
+    expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
+      mode: 'teaching',
+      isToday: true,
       isFuture: false,
       workBucket: 'zero',
       coffeeBucket: 'zero',
