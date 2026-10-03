@@ -32,6 +32,7 @@ type SpecialTesterMode =
   | 'winter-holiday'
   | 'summer-holiday'
   | 'trip'
+  | 'conference'
   | 'unavailable'
 
 const SPECIAL_STATES: Array<{
@@ -42,6 +43,7 @@ const SPECIAL_STATES: Array<{
   { mode: 'winter-holiday', label: 'Winter holiday' },
   { mode: 'summer-holiday', label: 'Summer holiday' },
   { mode: 'trip', label: 'Trip' },
+  { mode: 'conference', label: 'Conference' },
   { mode: 'unavailable', label: 'Unavailable' },
 ]
 
