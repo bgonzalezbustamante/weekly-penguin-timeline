@@ -28,7 +28,8 @@ export const releases: ReleaseNote[] = [
           'Added deterministic Saturday asset resolution while keeping ordinary activity-state resolution unchanged outside the Saturday rule.',
           'Added the canonical couple image to the visual QA gallery as Free Saturdays.',
           'Added teaching.png as the Teaching Saturdays contextual state and included it in visual QA.',
-          'Reordered the seven contextual QA states into one row: Sunday, Teaching Saturdays, Free Saturdays, Trip, Winter holiday, Summer holiday and Unavailable.',
+          'Added conference.png as the dedicated Conference state.',
+          'Expanded the contextual QA gallery to eight states in two rows of four: Sunday, Teaching Saturdays, Free Saturdays, Trip, Conference, Winter holiday, Summer holiday and Unavailable.',
         ],
       },
       {
@@ -36,7 +37,8 @@ export const releases: ReleaseNote[] = [
         items: [
           'Recorded work or coffee on a Saturday always uses the normal activity matrix first, even during Teaching season.',
           'With no recorded Saturday activity, teaching_season_active selects the Teaching illustration — including today and future Saturdays — while an inactive Teaching season falls back to the canonical couple.',
-          'Manual/local, package-backed Catholic and public-availability states continue to take priority, and future Saturdays retain the existing provisional dimming.',
+          'Manual/local, package-backed Catholic, unavailable, Conference and Trip states continue to take priority over Saturday defaults, and future Saturdays retain the existing provisional dimming.',
+          'Personally attended conference dates come from list_public_conference_presentations(); when involves_trip is true, only the day before and after use Trip, while Conference wins over overlapping travel days.',
           'Replaced the transitional fixed Catholic-date table with @bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1; observed dates and transfers now come from the package while Christmas Eve remains a local recurring rule.',
           'Expanded package-backed celebrations to Palm Sunday, Holy Thursday, Good Friday, Holy Saturday, Easter Sunday, Divine Mercy, Ascension, Pentecost, Corpus Christi, Assumption, All Saints, All Souls, Immaculate and Christmas, using concise Timeline-owned labels.',
           'Expanded navigation to roughly three months before and after the current date with separate highlighted-day and displayed-week state: first load shows the current Monday–Sunday week with today highlighted, Current day restores that state, daily controls retain one-day rolling navigation, and Previous week/Next week switch to canonical weeks while preserving and centring the highlighted weekday.',
@@ -45,9 +47,10 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Academic API availability',
         items: [
-          'Added strict consumption of list_public_availability(year) for Winter/Summer holidays, trips and generic unavailable periods.',
+          'Added strict consumption of list_public_availability(year) for Winter/Summer holidays and generic unavailable periods.',
+          'Added strict consumption of list_public_conference_presentations() for actual conference dates, personal attendance and trip involvement.',
           'Added strict consumption of get_public_teaching_settings(), exposing only the Teaching-season boolean used by the Saturday state resolver.',
-          'Source precedence is manual/local override, package-backed Catholic celebration, then public availability; repeated identical anonymous projections are coalesced for rendering, while distinct overlapping trips combine their unique labels only on shared dates.',
+          'Source precedence is manual/local override, package-backed Catholic celebration, unavailable, Conference, Trip, then Winter/Summer holiday; overlapping conference labels combine on shared dates and Conference beats Trip.',
           'Unavailable periods remain labelled Unavailable and never consume private sickness reasons or Planning notes; the existing unavailable/sick artwork is reused for the visual state.',
         ],
       },
