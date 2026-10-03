@@ -183,6 +183,21 @@ h1 {
   gap: 0.4rem;
 }
 
+.week-nav-stack {
+  display: grid;
+  gap: 0.18rem;
+  align-content: end;
+}
+
+.week-current-day-button {
+  justify-self: start;
+}
+
+.week-pagination > .week-nav-button,
+.week-pages {
+  align-self: end;
+}
+
 .week-nav-button,
 .week-page-button {
   border: 1px solid var(--stone);
@@ -971,6 +986,63 @@ h1 {
 
 .release-sections li + li {
   margin-top: 0.28rem;
+}
+
+.release-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+  font-family: var(--font-roboto), Arial, sans-serif;
+}
+
+.release-page-numbers {
+  display: flex;
+  gap: 0.28rem;
+}
+
+.release-page-nav,
+.release-page-number {
+  border: 1px solid var(--stone);
+  border-radius: 0.4rem;
+  background: var(--paper);
+  color: var(--blue);
+  font-family: inherit;
+  font-size: 0.66rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.release-page-nav {
+  padding: 0.28rem 0.48rem;
+}
+
+.release-page-number {
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.release-page-number.is-selected {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: var(--paper);
+}
+
+.release-page-nav:hover:not(:disabled),
+.release-page-number:hover:not(.is-selected),
+.release-page-nav:focus-visible,
+.release-page-number:focus-visible {
+  border-color: var(--aqua);
+  outline: none;
+}
+
+.release-page-nav:disabled {
+  opacity: 0.36;
+  cursor: not-allowed;
 }
 
 @media (max-width: 760px) {
