@@ -8,7 +8,7 @@
 - Added the canonical couple illustration for free and upcoming Saturdays while retaining normal activity states on active Saturdays.
 - Integrated the Academic API privacy-safe availability layer for Winter/Summer holidays, trips and generic unavailable periods.
 - Preserved manual special-date overrides as the highest-priority calendar rule.
-- Integrated `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1` as the authoritative source for the timeline’s selected Catholic observance dates and names.
+- Integrated `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1` as the authoritative source for the timeline’s selected Catholic observance semantics and observed dates, while keeping concise Timeline-specific labels.
 
 ### Code changes
 
@@ -60,7 +60,9 @@
 - Added Teaching-settings contract tests for singleton shape, exact fields and boolean typing.
 - Added public-availability validator tests for controlled types, exact fields, malformed/reversed/cross-year ranges, privacy labels and duplicates.
 - Added precedence tests for manual/local overrides → package-backed Catholic dates → public availability and coverage for the generic unavailable state.
-- Replaced the local fixed-date Catholic table with a package adapter that preserves the selected timeline subset, uses observed/transferred dates, and keeps Christmas Eve as the sole local recurring Catholic presentation rule.
+- Replaced the local fixed-date Catholic table with a package adapter that uses observed/transferred dates and keeps Christmas Eve as the sole local recurring Catholic presentation rule.
+- Expanded the package-backed subset to Palm Sunday, Holy Thursday, Good Friday, Holy Saturday, Easter Sunday, Divine Mercy Sunday, Ascension, Pentecost, Corpus Christi, Assumption, All Saints, All Souls, Immaculate Conception and Christmas.
+- Added Timeline-specific display labels for package observances, including `Assumption`, `Immaculate`, `Palm Sunday`, `Good Friday`, `Divine Mercy`, `Ascension` and `Pentecost`, without modifying package metadata.
 - Added regression coverage confirming that overlapping public availability ranges are accepted.
 - Bumped application and lockfile metadata to `0.1.0-beta.1`.
 - Kept Frozen Ridge in development pending Catholic Calendar integration and another local/release verification pass.
