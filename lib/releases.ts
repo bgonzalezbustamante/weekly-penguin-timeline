@@ -36,7 +36,7 @@ export const releases: ReleaseNote[] = [
         title: 'Timeline behaviour',
         items: [
           'Recorded work or coffee on a Saturday always uses the normal activity matrix first, even during Teaching season.',
-          'With no recorded Saturday activity, teaching_season_active selects the Teaching illustration — including today and future Saturdays — while an inactive Teaching season falls back to the canonical couple.',
+          'With no recorded Saturday activity, teaching_season_active selects the Teaching illustration only for today and future Saturdays; historical zero-work/zero-coffee Saturdays use the canonical couple because the flag is current-state metadata.',
           'Manual/local, package-backed Catholic, unavailable, Conference and Trip states continue to take priority over Saturday defaults, and future Saturdays retain the existing provisional dimming.',
           'Personally attended conference dates come from list_public_conference_presentations(); when involves_trip is true, only the day before and after use Trip, while Conference wins over overlapping travel days.',
           'Replaced the transitional fixed Catholic-date table with @bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1; observed dates and transfers now come from the package while Christmas Eve remains a local recurring rule.',
