@@ -35,7 +35,7 @@ const SPECIAL_STATES: Array<{
   { mode: 'winter-holiday', label: 'Winter holiday' },
   { mode: 'summer-holiday', label: 'Summer holiday' },
   { mode: 'trip', label: 'Trip' },
-  { mode: 'sick', label: 'Sick' },
+  { mode: 'unavailable', label: 'Unavailable' },
   { mode: 'saturday', label: 'Free Saturdays' },
 ]
 
