@@ -16,8 +16,8 @@ export const releases: ReleaseNote[] = [
   {
     version: 'v0.1.0-beta.1',
     codename: 'Frozen Ridge',
-    status: 'In development',
-    releasedOn: 'Release date TBC',
+    status: 'Pre-release',
+    releasedOn: '3 October 2026',
     summary:
       'Frozen Ridge opens the first beta line with Teaching-aware Saturdays, free-Saturday couple states and privacy-safe Academic API availability.',
     sections: [
@@ -52,7 +52,7 @@ export const releases: ReleaseNote[] = [
       {
         title: 'Release line',
         items: [
-          'Started v0.1.0-beta.1 Frozen Ridge as the active development release after the tagged Bold Cipher alpha.1.',
+          'Released v0.1.0-beta.1 Frozen Ridge on 3 October 2026 after the tagged Bold Cipher alpha.1.',
           'The local Catholic-date layer is transitional: once the catholic-calendar project is ready for consumption, it should replace the local fixed set and trigger a review of manual overrides and special-dates.ts.',
           'Release notes now expose every recorded version, newest first, with one release per pagination page.',
         ],
