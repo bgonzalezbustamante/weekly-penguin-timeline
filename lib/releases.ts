@@ -37,7 +37,7 @@ export const releases: ReleaseNote[] = [
           'Recorded work or coffee on a non-future Saturday always uses the normal activity matrix, even during Teaching season.',
           'Future Saturdays use the Teaching illustration when teaching_season_active is true and the canonical couple otherwise; non-future zero-work zero-coffee Saturdays also use the couple.',
           'Manual, Catholic and public-availability states continue to take priority, and future Saturdays retain the existing provisional dimming.',
-          'Expanded weekly navigation to cover roughly three months before and three months after the current date.',
+          'Expanded weekly navigation to cover roughly three months before and three months after the current date while retaining the compact nine-week-button view with Older/Newer controls.',
         ],
       },
       {
