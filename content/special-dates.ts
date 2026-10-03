@@ -44,6 +44,8 @@ const AVAILABILITY_PRIORITY: Record<PublicAvailabilityType, number> = {
 export function availabilityToSpecialDates(
   availability: PublicAvailabilityItem[]
 ): SpecialDate[] {
+  const seenProjectedStates = new Set<string>()
+
   return [...availability]
     .sort((left, right) => {
       const priority =
@@ -54,8 +56,22 @@ export function availabilityToSpecialDates(
       return (
         left.start_date.localeCompare(right.start_date) ||
         left.end_date.localeCompare(right.end_date) ||
-        left.type.localeCompare(right.type)
+        left.type.localeCompare(right.type) ||
+        left.label.localeCompare(right.label)
       )
+    })
+    .filter((item) => {
+      const key = [
+        item.type,
+        item.start_date,
+        item.end_date,
+        item.label,
+      ].join('|')
+
+      if (seenProjectedStates.has(key)) return false
+
+      seenProjectedStates.add(key)
+      return true
     })
     .map((item) => ({
       from: item.start_date,
