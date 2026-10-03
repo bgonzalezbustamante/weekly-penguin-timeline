@@ -81,6 +81,61 @@ function mondayFor(value: string) {
   return addDays(value, offset)
 }
 
+function daysInUtcMonth(year: number, monthIndex: number) {
+  return new Date(Date.UTC(year, monthIndex + 1, 0)).getUTCDate()
+}
+
+function addMonthsClamped(value: string, months: number) {
+  if (!Number.isInteger(months)) {
+    throw new Error('Month offset must be an integer.')
+  }
+
+  const date = parseIsoDateUtc(value)
+  const target = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + months, 1)
+  )
+  const day = Math.min(
+    date.getUTCDate(),
+    daysInUtcMonth(target.getUTCFullYear(), target.getUTCMonth())
+  )
+
+  target.setUTCDate(day)
+  return target.toISOString().slice(0, 10)
+}
+
+export function weekWindowForMonthRange(
+  now = new Date(),
+  timeZone = 'Europe/Amsterdam',
+  pastMonths = 3,
+  futureMonths = 3
+) {
+  if (
+    !Number.isInteger(pastMonths) ||
+    !Number.isInteger(futureMonths) ||
+    pastMonths < 0 ||
+    futureMonths < 0
+  ) {
+    throw new Error('Month window sizes must be non-negative integers.')
+  }
+
+  const today = isoDateInTimeZone(now, timeZone)
+  const currentMonday = mondayFor(today)
+  const firstMonday = mondayFor(addMonthsClamped(today, -pastMonths))
+  const lastMonday = mondayFor(addMonthsClamped(today, futureMonths))
+  const millisecondsPerWeek = 7 * 24 * 60 * 60 * 1000
+
+  return {
+    pastWeeks:
+      (parseIsoDateUtc(currentMonday).getTime() -
+        parseIsoDateUtc(firstMonday).getTime()) /
+      millisecondsPerWeek,
+    futureWeeks:
+      (parseIsoDateUtc(lastMonday).getTime() -
+        parseIsoDateUtc(currentMonday).getTime()) /
+      millisecondsPerWeek,
+  }
+}
+
 function findSpecialDate(date: string, overrides: SpecialDate[]) {
   return (
     overrides.find((entry) => {
@@ -104,13 +159,13 @@ function getMode(
 
   if (weekday === 0) return 'sunday'
   if (weekday === 6) {
-    if (teachingSeasonActive) return 'teaching'
-
-    if (isFuture || (workBucket === 'zero' && coffeeBucket === 'zero')) {
-      return 'saturday'
+    if (!isFuture && (workBucket !== 'zero' || coffeeBucket !== 'zero')) {
+      return 'activity'
     }
 
-    return 'activity'
+    if (isFuture && teachingSeasonActive) return 'teaching'
+
+    return 'saturday'
   }
   if (isFuture) return 'working-day'
 
