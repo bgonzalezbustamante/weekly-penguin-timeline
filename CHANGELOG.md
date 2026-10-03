@@ -18,6 +18,7 @@
 - Added automatic WebP generation for `canonical-couple.webp`.
 - Added deterministic Saturday asset resolution to `lib/penguin-assets.ts`.
 - Registered `public/penguins/states/teaching.png` as a validated contextual PNG master with generated WebP output.
+- Registered `public/penguins/states/conference.png` as the dedicated Conference state with generated WebP output.
 
 `timeline behaviour`
 
@@ -38,19 +39,21 @@
 - Previous week/Next week now switch to canonical Monday–Sunday weeks, preserve the highlighted weekday, and recenter the new Oxford-blue date whenever range boundaries permit.
 - Restored the lower-row distribution to First + Previous week on the left and Next week + Last on the right.
 - Unified Current day, First and Last with the same outlined shortcut styling used by Previous week/Next week, and regularised the vertical spacing above and below the main daily paginator.
-- Reordered the seven contextual gallery states to Sunday, Teaching Saturdays, Free Saturdays, Trip, Winter holiday, Summer holiday and Unavailable, keeping them in one horizontal row.
+- Expanded the contextual gallery to eight states in two rows of four: Sunday, Teaching Saturdays, Free Saturdays, Trip, Conference, Winter holiday, Summer holiday and Unavailable.
 
 `Academic API`
 
 - Added a `list_public_availability(year)` adapter alongside the existing work-analytics RPC.
+- Added strict `list_public_conference_presentations()` consumption for actual conference dates, `personal_attendance`, and `involves_trip`.
 - Added `get_public_teaching_settings()` consumption with strict validation of exactly one row containing only the `teaching_season_active` boolean.
 - Added strict runtime validation for the public availability contract: exact fields, controlled type vocabulary, real in-year ranges, start/end ordering and the mandatory generic `Unavailable` label.
-- Mapped `winter_holiday` → `winter-holiday`, `summer_holiday` → `summer-holiday`, `trip` → `trip`, and `unavailable` → a generic unavailable timeline mode.
-- Source precedence is manual/local override → package-backed Catholic celebration → public availability → calendar defaults → normal activity. Overlapping public availability ranges are allowed; when more than one applies to a day, `unavailable` takes priority over `trip`, followed by holiday states.
+- Mapped `winter_holiday` → `winter-holiday`, `summer_holiday` → `summer-holiday`, and `unavailable` → a generic unavailable timeline mode; public availability `trip` projections are no longer used to infer conference days.
+- Source precedence is manual/local override → package-backed Catholic celebration → `unavailable` → Conference → Trip → Winter/Summer holiday → calendar defaults → normal activity.
+- Personally attended conferences use their actual public start/end dates for the Conference state. When `involves_trip` is true, only the day before and day after use Trip; Conference wins whenever an actual conference date overlaps another conference's travel day.
 - Within the Saturday calendar-default rule, recorded activity wins first; with no recorded activity, an active Teaching season selects `teaching.png`, otherwise the canonical couple is used.
 - The public `unavailable` state keeps the user-facing label `Unavailable` and does not consume sickness reasons, notes or other private Planning fields.
 - The existing sick-state artwork is reused for the generic unavailable mode; manual `sick` overrides remain supported separately.
-- Work analytics and public availability are loaded together and the timeline fails closed if either required RPC is unavailable or violates its contract.
+- Work analytics, public availability, public conferences and Teaching settings are loaded together and the timeline fails closed if any required RPC is unavailable or violates its contract.
 - Public availability can be requested for future calendar years reached by the ±3-month browser, within the upstream API's current-year-plus-five boundary.
 
 `testing and release metadata`
@@ -58,14 +61,15 @@
 - Added regression coverage for Teaching-season, active, free and upcoming Saturday precedence, including the current zero-activity Saturday, and the Saturday assets.
 - Added regression coverage for the exact ±3-month-to-week pagination calculation and invalid month-window inputs.
 - Added Teaching-settings contract tests for singleton shape, exact fields and boolean typing.
-- Added public-availability validator tests for controlled types, exact fields, malformed/reversed/cross-year ranges, privacy labels and duplicates.
+- Added public-availability validator tests for controlled types, exact fields, malformed/reversed/cross-year ranges and privacy labels.
+- Added public-conference validator tests for exact fields, date aliases/ranges, attendance/trip invariants and privacy-safe shape.
 - Added precedence tests for manual/local overrides → package-backed Catholic dates → public availability and coverage for the generic unavailable state.
 - Replaced the local fixed-date Catholic table with a package adapter that uses observed/transferred dates and keeps Christmas Eve as the sole local recurring Catholic presentation rule.
 - Expanded the package-backed subset to Palm Sunday, Holy Thursday, Good Friday, Holy Saturday, Easter Sunday, Divine Mercy Sunday, Ascension, Pentecost, Corpus Christi, Assumption, All Saints, All Souls, Immaculate Conception and Christmas.
 - Added Timeline-specific display labels for package observances, including `Assumption`, `Immaculate`, `Palm Sunday`, `Good Friday`, `Divine Mercy`, `Ascension` and `Pentecost`, without modifying package metadata.
 - Added regression coverage confirming that overlapping public availability ranges are accepted.
 - Corrected availability multiplicity handling: identical anonymous projections may represent distinct source records, so they are accepted by validation and coalesced only into one rendered Timeline state.
-- Added day-level trip overlap resolution: distinct overlapping trips retain their individual labels outside the overlap and combine unique labels with ` · ` on shared dates.
+- Replaced trip-range inference with conference-aware resolution from `list_public_conference_presentations()`: actual conference dates use Conference, trip days are only one day before/after when `involves_trip` is true, overlapping conference labels combine with ` · `, and Conference wins over Trip.
 - Bumped application and lockfile metadata to `0.1.0-beta.1`.
 - Kept Frozen Ridge in development pending Catholic Calendar integration and another local/release verification pass.
 - Expanded the in-app Release notes section to all recorded versions with one release per page and compact Previous/numbered/Next pagination.
