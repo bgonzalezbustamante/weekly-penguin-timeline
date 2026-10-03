@@ -20,14 +20,14 @@
 
 `timeline behaviour`
 
-- Added a dedicated `teaching` mode for Saturdays while the public Teaching-season flag is active.
-- Added a dedicated `saturday` penguin mode for zero-work/zero-coffee and upcoming Saturdays.
-- Saturdays with recorded work or coffee continue to use the normal activity matrix.
-- Zero-work/zero-coffee Saturdays use the canonical couple illustration.
-- Upcoming Saturdays use the canonical couple illustration regardless of work-data availability.
-- Manual and generated special-date overrides continue to take priority over the Saturday rule.
+- Added dedicated `teaching` and `saturday` modes for contextual Saturday rendering.
+- Non-future Saturdays with recorded work or coffee always use the normal activity matrix, even while Teaching season is active.
+- Future Saturdays use the Teaching illustration when `teaching_season_active` is true and the canonical couple otherwise.
+- Non-future zero-work/zero-coffee Saturdays use the canonical couple illustration.
+- Manual, Catholic and public-availability states continue to take priority over Saturday defaults.
 - Future Saturdays retain the existing provisional/dimmed presentation.
-- Added the canonical couple illustration to the end of the visual QA gallery as `Free Saturdays`.
+- Expanded the weekly browser from four weeks either side to a dynamic ±3-month date window.
+- Reordered the seven contextual gallery states to Sunday, Teaching Saturdays, Free Saturdays, Trip, Winter holiday, Summer holiday and Unavailable, keeping them in one horizontal row.
 
 `Academic API`
 
@@ -36,15 +36,16 @@
 - Added strict runtime validation for the public availability contract: exact fields, controlled type vocabulary, real in-year ranges, start/end ordering, duplicate-range rejection and the mandatory generic `Unavailable` label.
 - Mapped `winter_holiday` → `winter-holiday`, `summer_holiday` → `summer-holiday`, `trip` → `trip`, and `unavailable` → a generic unavailable timeline mode.
 - Source precedence is manual override → fixed Catholic celebration → public availability → calendar defaults → normal activity. Overlapping public availability ranges are allowed; when more than one applies to a day, `unavailable` takes priority over `trip`, followed by holiday states.
-- Within the Saturday calendar-default rule, an active Teaching season selects `teaching.png`; otherwise upcoming/free Saturdays use the canonical couple and active Saturdays use the normal activity matrix.
+- Within the Saturday calendar-default rule, recorded non-future activity wins first; future Saturdays use `teaching.png` when Teaching season is active and the canonical couple otherwise; non-future zero-work/zero-coffee Saturdays use the couple.
 - The public `unavailable` state keeps the user-facing label `Unavailable` and does not consume sickness reasons, notes or other private Planning fields.
 - The existing sick-state artwork is reused for the generic unavailable mode; manual `sick` overrides remain supported separately.
 - Work analytics and public availability are loaded together and the timeline fails closed if either required RPC is unavailable or violates its contract.
-- Public availability can be requested for the future calendar year reached by the nine-week browser, matching the upstream API's current-year-plus-five boundary.
+- Public availability can be requested for future calendar years reached by the ±3-month browser, within the upstream API's current-year-plus-five boundary.
 
 `testing and release metadata`
 
-- Added regression coverage for Teaching-season, active, free and upcoming Saturday mode resolution and the Saturday assets.
+- Added regression coverage for Teaching-season, active, free and upcoming Saturday precedence and the Saturday assets.
+- Added regression coverage for the exact ±3-month-to-week pagination calculation and invalid month-window inputs.
 - Added Teaching-settings contract tests for singleton shape, exact fields and boolean typing.
 - Added public-availability validator tests for controlled types, exact fields, malformed/reversed/cross-year ranges, privacy labels and duplicates.
 - Added precedence tests for manual overrides → fixed Catholic dates → public availability and coverage for the generic unavailable state.
