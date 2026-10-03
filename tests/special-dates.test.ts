@@ -2,51 +2,127 @@ import { describe, expect, it } from 'vitest'
 
 import {
   availabilityToSpecialDates,
-  CATHOLIC_FIXED_DATES,
   getConfiguredSpecialDates,
+  recurringSpecialDates,
   specialDates,
 } from '@/content/special-dates'
+import {
+  catholicCalendarToSpecialDates,
+  TIMELINE_CATHOLIC_OBSERVANCE_IDS,
+} from '@/lib/catholic-calendar'
 import { assertValidSpecialDateRules } from '@/lib/special-date-rules'
 import { buildWeeklyTimeline } from '@/lib/timeline'
 
-describe('fixed Catholic celebrations', () => {
-  it('defines the compact fixed-date set without 1 January', () => {
-    expect(CATHOLIC_FIXED_DATES).toEqual([
-      { monthDay: '08-15', label: 'Assumption' },
-      { monthDay: '11-01', label: 'All Saints' },
-      { monthDay: '11-02', label: 'All Souls' },
-      { monthDay: '12-08', label: 'Immaculate' },
-      { monthDay: '12-24', label: 'Christmas Eve' },
-      { monthDay: '12-25', label: 'Christmas Day' },
+describe('Catholic Calendar integration', () => {
+  it('keeps the timeline Catholic scope explicit and compact', () => {
+    expect(TIMELINE_CATHOLIC_OBSERVANCE_IDS).toEqual([
+      'assumption',
+      'all-saints',
+      'all-souls',
+      'immaculate-conception',
+      'christmas',
     ])
+
+    expect(recurringSpecialDates).toEqual([
+      {
+        monthDay: '12-24',
+        type: 'sunday',
+        label: 'Christmas Eve',
+      },
+    ])
+
+    expect(specialDates).toEqual([])
   })
 
-  it('expands enabled fixed celebrations for the requested year', () => {
-    const configured = getConfiguredSpecialDates([2027], true)
-    const builtIns = configured.slice(specialDates.length)
-
-    expect(builtIns).toEqual([
-      { date: '2027-08-15', type: 'sunday', label: 'Assumption' },
-      { date: '2027-11-01', type: 'sunday', label: 'All Saints' },
-      { date: '2027-11-02', type: 'sunday', label: 'All Souls' },
+  it('resolves selected celebrations from the package', () => {
+    expect(catholicCalendarToSpecialDates([2027])).toEqual([
+      {
+        date: '2027-08-15',
+        type: 'sunday',
+        label: 'Assumption of the Blessed Virgin Mary',
+      },
+      {
+        date: '2027-11-01',
+        type: 'sunday',
+        label: 'All Saints',
+      },
+      {
+        date: '2027-11-02',
+        type: 'sunday',
+        label: 'All Souls',
+      },
       {
         date: '2027-12-08',
         type: 'sunday',
-        label: 'Immaculate',
+        label: 'Immaculate Conception',
       },
-      { date: '2027-12-24', type: 'sunday', label: 'Christmas Eve' },
-      { date: '2027-12-25', type: 'sunday', label: 'Christmas Day' },
+      {
+        date: '2027-12-25',
+        type: 'sunday',
+        label: 'Christmas',
+      },
     ])
+  })
+
+  it('uses the package observed date when a selected solemnity transfers', () => {
+    const dates = catholicCalendarToSpecialDates([2024])
+    const immaculate = dates.find(
+      (entry) =>
+        'date' in entry &&
+        entry.label === 'Immaculate Conception'
+    )
+
+    expect(immaculate).toEqual({
+      date: '2024-12-09',
+      type: 'sunday',
+      label: 'Immaculate Conception',
+    })
+    expect(
+      dates.some(
+        (entry) =>
+          'date' in entry &&
+          entry.date === '2024-12-08' &&
+          entry.label === 'Immaculate Conception'
+      )
+    ).toBe(false)
+  })
+
+  it('keeps Christmas Eve as the local recurring presentation override', () => {
+    const configured = getConfiguredSpecialDates([2027])
+
+    expect(configured[0]).toEqual({
+      date: '2027-12-24',
+      type: 'sunday',
+      label: 'Christmas Eve',
+    })
+    expect(
+      configured.some(
+        (entry) =>
+          'date' in entry &&
+          entry.date === '2027-12-25' &&
+          entry.label === 'Christmas'
+      )
+    ).toBe(true)
+  })
+
+  it('does not add 1 January merely because the package models it', () => {
+    const configured = getConfiguredSpecialDates([2027])
 
     expect(
-      builtIns.some(
+      configured.some(
         (entry) => 'date' in entry && entry.date.endsWith('-01-01')
       )
     ).toBe(false)
   })
 
-  it('returns only manual overrides when fixed celebrations are disabled', () => {
-    expect(getConfiguredSpecialDates([2027], false)).toEqual(specialDates)
+  it('deduplicates repeated requested years', () => {
+    expect(getConfiguredSpecialDates([2027, 2027])).toHaveLength(6)
+  })
+
+  it('rejects years outside the package contract', () => {
+    expect(() => catholicCalendarToSpecialDates([1999])).toThrow(
+      'Catholic Calendar supports years 2000–2100.'
+    )
   })
 
   it('maps public availability onto privacy-safe timeline states', () => {
@@ -105,79 +181,68 @@ describe('fixed Catholic celebrations', () => {
     ])
   })
 
-  it('places fixed Catholic dates after manual overrides and before public availability', () => {
+  it('keeps local and package Catholic dates ahead of public availability', () => {
     const availability = [
       {
         type: 'trip' as const,
-        start_date: '2026-12-24',
-        end_date: '2026-12-25',
+        start_date: '2027-12-24',
+        end_date: '2027-12-25',
         label: 'Trip',
       },
     ]
-    const configured = getConfiguredSpecialDates([2026], true, availability)
+    const configured = getConfiguredSpecialDates([2027], availability)
 
-    expect(configured[0]).toEqual(specialDates[0])
-    expect(configured[1]).toEqual({
-      date: '2026-08-15',
+    expect(configured[0]).toEqual({
+      date: '2027-12-24',
       type: 'sunday',
-      label: 'Assumption',
+      label: 'Christmas Eve',
     })
     expect(configured.at(-1)).toEqual({
-      from: '2026-12-24',
-      to: '2026-12-25',
+      from: '2027-12-24',
+      to: '2027-12-25',
       type: 'trip',
       label: 'Trip',
     })
 
     const christmas = buildWeeklyTimeline({
-      now: new Date('2026-12-25T12:00:00Z'),
+      now: new Date('2027-12-25T12:00:00Z'),
       timeZone: 'UTC',
       days: [],
       specialDates: configured,
     })
 
-    expect(christmas.find((day) => day.date === '2026-12-24')).toMatchObject({
+    expect(
+      christmas.find((day) => day.date === '2027-12-24')
+    ).toMatchObject({
       mode: 'sunday',
       specialLabel: 'Christmas Eve',
     })
-    expect(christmas.find((day) => day.date === '2026-12-25')).toMatchObject({
+    expect(
+      christmas.find((day) => day.date === '2027-12-25')
+    ).toMatchObject({
       mode: 'sunday',
-      specialLabel: 'Christmas Day',
+      specialLabel: 'Christmas',
     })
   })
 
-  it('keeps manual overrides before built-in dates for resolver precedence', () => {
-    const configured = getConfiguredSpecialDates([2026], true)
-
-    expect(configured.slice(0, specialDates.length)).toEqual(specialDates)
-    expect(configured[specialDates.length]).toEqual({
-      date: '2026-08-15',
-      type: 'sunday',
-      label: 'Assumption',
-    })
-  })
-
-  it('feeds fixed celebrations into the normal Sunday-style timeline state', () => {
+  it('feeds package celebrations into the normal Sunday-style timeline state', () => {
     const timeline = buildWeeklyTimeline({
       now: new Date('2027-12-25T12:00:00Z'),
       timeZone: 'UTC',
       days: [],
-      specialDates: getConfiguredSpecialDates([2027], true),
+      specialDates: getConfiguredSpecialDates([2027]),
     })
 
-    expect(timeline.find((day) => day.date === '2027-12-25')).toMatchObject({
+    expect(
+      timeline.find((day) => day.date === '2027-12-25')
+    ).toMatchObject({
       mode: 'sunday',
-      specialLabel: 'Christmas Day',
+      specialLabel: 'Christmas',
     })
   })
+})
 
-  it('deduplicates repeated requested years', () => {
-    const configured = getConfiguredSpecialDates([2027, 2027], true)
-    const builtIns = configured.slice(specialDates.length)
-
-    expect(builtIns).toHaveLength(6)
-  })
-
+describe('special-date validation', () => {
   it('rejects impossible manual calendar dates', () => {
     expect(() =>
       assertValidSpecialDateRules([
@@ -222,7 +287,7 @@ describe('fixed Catholic celebrations', () => {
     ).toThrow('rules 1 and 2 overlap')
   })
 
-  it('allows ordered overlap when applying manual-over-built-in precedence', () => {
+  it('allows ordered overlap for explicit precedence layers', () => {
     expect(() =>
       assertValidSpecialDateRules([
         {
