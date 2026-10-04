@@ -48,7 +48,7 @@ NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
 
-The publishable key is used only with curated anonymous-safe RPCs. Work analytics, public availability, conference presentations and Teaching settings are validated before rendering. Public availability projections are expected to be unique; an exact repeated `type`/date-range/label tuple fails validation. Conference dates come from the conference RPC rather than being inferred from availability ranges. If any required source fails validation or cannot be loaded, the Timeline fails closed.
+The publishable key is used only with curated anonymous-safe RPCs. Work analytics, public availability, conference presentations and Teaching settings are validated before rendering. Public availability projections are expected to be unique upstream. The Timeline does not perform presentation-layer deduplication, but an identical projection is kept non-fatal at the consumer boundary so a transient producer inconsistency does not take the live timeline offline. Conference dates come from the conference RPC rather than being inferred from availability ranges. If any required source fails validation or cannot be loaded, the Timeline fails closed.
 
 ## Penguin asset pipeline
 
@@ -76,7 +76,7 @@ Current precedence is:
 
 `manual/local → Catholic celebration → Unavailable → Conference → Trip → Winter/Summer holiday → Saturday/Sunday/future-day rule → normal activity`
 
-Multiple presentations at the same conference may legitimately map to the same public conference dates and are coalesced visually. Public availability itself guarantees unique projections, so the Timeline validates rather than normalises exact duplicates. Distinct overlapping conferences combine their labels with ` · `. Historical 0h/0-coffee Saturdays never inherit the current Teaching-season flag.
+Multiple presentations at the same conference may legitimately map to the same public conference dates and are coalesced visually. Public availability is expected to supply unique projections upstream. The Timeline no longer normalises exact duplicates itself, while keeping accidental repeats non-fatal. Distinct overlapping conferences combine their labels with ` · `. Historical 0h/0-coffee Saturdays never inherit the current Teaching-season flag.
 
 ## Activity bands
 
