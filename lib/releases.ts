@@ -32,7 +32,7 @@ export const releases: ReleaseNote[] = [
       {
         title: 'API alignment',
         items: [
-          'The Timeline now expects public availability projections to be unique and treats exact repeats as contract drift.',
+          'Public availability is now expected to arrive deduplicated from the API, while accidental repeats no longer take the live timeline offline.',
           'Legitimate multiple presentations at the same conference still coalesce into one visual conference/travel state.',
         ],
       },
