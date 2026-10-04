@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import PenguinSprite from '@/components/penguin-sprite'
 import { formatDisplayDate, formatMinutes } from '@/lib/timeline'
@@ -68,6 +68,30 @@ export default function WeeklyPenguinTimeline({
     useState(currentWeekStartIndex)
   const [windowStart, setWindowStart] =
     useState(initialWindowStart)
+  const mobileDateRailRef = useRef<HTMLDivElement | null>(null)
+  const selectedDateButtonRef = useRef<HTMLButtonElement | null>(null)
+
+  useEffect(() => {
+    if (!window.matchMedia('(max-width: 760px)').matches) return
+
+    const rail = mobileDateRailRef.current
+    const selectedButton = selectedDateButtonRef.current
+
+    if (!rail || !selectedButton) return
+
+    const railRect = rail.getBoundingClientRect()
+    const buttonRect = selectedButton.getBoundingClientRect()
+    const targetLeft =
+      rail.scrollLeft +
+      buttonRect.left -
+      railRect.left -
+      (rail.clientWidth - buttonRect.width) / 2
+
+    rail.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: 'smooth',
+    })
+  }, [selectedDayIndex, windowStart])
 
   const selectedDays = allDays.slice(
     viewStartIndex,
@@ -163,7 +187,7 @@ export default function WeeklyPenguinTimeline({
 
       <div className="week-pagination-scroll">
         <nav className="week-pagination" aria-label="Weekly timeline pagination">
-          <div className="week-nav-stack">
+          <div className="week-nav-stack week-nav-stack-previous">
             <button
               className="week-nav-button"
               type="button"
@@ -176,39 +200,45 @@ export default function WeeklyPenguinTimeline({
             </button>
           </div>
 
-          <div className="week-pages">
-            {visibleStartIndices.map((startIndex) => {
-              const startDay = allDays[startIndex]
-              const selected = startIndex === selectedDayIndex
-              const isCurrentDay = startIndex === currentDayIndex
+          <div
+            className="week-pages-scroll"
+            ref={mobileDateRailRef}
+          >
+            <div className="week-pages">
+              {visibleStartIndices.map((startIndex) => {
+                const startDay = allDays[startIndex]
+                const selected = startIndex === selectedDayIndex
+                const isCurrentDay = startIndex === currentDayIndex
 
-              if (!startDay) return null
+                if (!startDay) return null
 
-              return (
-                <button
-                  className={[
-                    'week-page-button',
-                    selected ? 'is-selected' : '',
-                    isCurrentDay ? 'is-current-day' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  type="button"
-                  key={startDay.date}
-                  onClick={() => selectRollingStart(startIndex)}
-                  aria-current={selected ? 'page' : undefined}
-                  aria-label={`Show seven-day window starting ${formatDisplayDate(startDay.date)}`}
-                >
-                  <span>{compactDate(startDay.date)}</span>
-                  <small>
-                    {relativeDayLabel(startIndex, currentDayIndex)}
-                  </small>
-                </button>
-              )
-            })}
+                return (
+                  <button
+                    className={[
+                      'week-page-button',
+                      selected ? 'is-selected' : '',
+                      isCurrentDay ? 'is-current-day' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    type="button"
+                    key={startDay.date}
+                    ref={selected ? selectedDateButtonRef : undefined}
+                    onClick={() => selectRollingStart(startIndex)}
+                    aria-current={selected ? 'page' : undefined}
+                    aria-label={`Show seven-day window starting ${formatDisplayDate(startDay.date)}`}
+                  >
+                    <span>{compactDate(startDay.date)}</span>
+                    <small>
+                      {relativeDayLabel(startIndex, currentDayIndex)}
+                    </small>
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
-          <div className="week-nav-stack">
+          <div className="week-nav-stack week-nav-stack-next">
             <button
               className="week-jump-button week-current-day-button"
               type="button"
@@ -222,7 +252,7 @@ export default function WeeklyPenguinTimeline({
               Current day
             </button>
             <button
-              className="week-nav-button"
+              className="week-nav-button week-next-day-button"
               type="button"
               onClick={() => moveDay(1)}
               disabled={selectedDayIndex === maxStartIndex}
@@ -239,7 +269,7 @@ export default function WeeklyPenguinTimeline({
         >
           <div className="week-pagination-secondary-group">
             <button
-              className="week-jump-button"
+              className="week-jump-button week-first-button"
               type="button"
               onClick={() => selectRollingStart(0)}
               disabled={selectedDayIndex === 0}
@@ -247,7 +277,7 @@ export default function WeeklyPenguinTimeline({
               First
             </button>
             <button
-              className="week-jump-button"
+              className="week-jump-button week-previous-week-button"
               type="button"
               onClick={() =>
                 moveWeek(-1)
@@ -262,7 +292,7 @@ export default function WeeklyPenguinTimeline({
 
           <div className="week-pagination-secondary-group">
             <button
-              className="week-jump-button"
+              className="week-jump-button week-next-week-button"
               type="button"
               onClick={() =>
                 moveWeek(1)
@@ -274,7 +304,7 @@ export default function WeeklyPenguinTimeline({
               <span aria-hidden="true">→</span>
             </button>
             <button
-              className="week-jump-button"
+              className="week-jump-button week-last-button"
               type="button"
               onClick={() => selectRollingStart(maxStartIndex)}
               disabled={selectedDayIndex === maxStartIndex}
