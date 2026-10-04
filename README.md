@@ -1,6 +1,6 @@
 # Weekly Penguin Timeline
 
-**v0.1.0-beta.2 "Ivory Falcon" — in development**
+**v0.1.0-beta.2 "Summer Cedar" — in development**
 
 A standalone proof-of-concept for a reusable Next.js weekly timeline component. It converts public daily working-time and coffee data into one Oxford-colour, kawaii-style penguin state per day.
 
