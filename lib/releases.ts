@@ -15,11 +15,11 @@ export type ReleaseNote = {
 export const releases: ReleaseNote[] = [
   {
     version: 'v0.1.0-beta.2',
-    codename: 'Ivory Falcon',
+    codename: 'Summer Cedar',
     status: 'In development',
     releasedOn: 'Release date TBC',
     summary:
-      'Ivory Falcon focuses on a cleaner mobile timeline navigator and tighter alignment with the public availability contract.',
+      'Summer Cedar focuses on a cleaner mobile timeline navigator and tighter alignment with the public availability contract.',
     sections: [
       {
         title: 'Mobile navigation',
