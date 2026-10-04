@@ -14,6 +14,31 @@ export type ReleaseNote = {
 
 export const releases: ReleaseNote[] = [
   {
+    version: 'v0.1.0-beta.2',
+    codename: 'Ivory Falcon',
+    status: 'In development',
+    releasedOn: 'Release date TBC',
+    summary:
+      'Ivory Falcon focuses on a cleaner mobile timeline navigator and tighter alignment with the public availability contract.',
+    sections: [
+      {
+        title: 'Mobile navigation',
+        items: [
+          'Mobile day controls are separated from the date rail so they have more room and clearer touch targets.',
+          'Nearby dates now sit in a horizontally scrollable rail that keeps the selected date centred when possible.',
+          'Week controls remain easy to reach, while First and Last are visually quieter shortcuts.',
+        ],
+      },
+      {
+        title: 'API alignment',
+        items: [
+          'The Timeline now expects public availability projections to be unique and treats exact repeats as contract drift.',
+          'Legitimate multiple presentations at the same conference still coalesce into one visual conference/travel state.',
+        ],
+      },
+    ],
+  },
+  {
     version: 'v0.1.0-beta.1',
     codename: 'Frozen Ridge',
     status: 'Pre-release',
