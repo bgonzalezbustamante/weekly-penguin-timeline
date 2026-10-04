@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.1.0-beta.2 "Ivory Falcon" (in development)
+## v0.1.0-beta.2 "Summer Cedar" (in development)
 
 ### Summary
 
@@ -25,7 +25,7 @@
 
 ### Release status
 
-- Ivory Falcon beta.2 is in development.
+- Summer Cedar beta.2 is in development.
 - Release date: TBC.
 
 ## v0.1.0-beta.1 "Frozen Ridge" — 3 October 2026
