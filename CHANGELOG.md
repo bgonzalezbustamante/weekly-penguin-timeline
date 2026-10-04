@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## v0.1.0-beta.2 "Ivory Falcon" (in development)
+
+### Summary
+
+- Align the public-availability consumer with the refined Academic API contract.
+- Improve mobile timeline navigation without changing desktop navigation semantics.
+
+### Academic API contract alignment
+
+- Treat exact repeated public availability projections as a contract violation because the API now guarantees unique `type`/date-range/label tuples.
+- Removed redundant presentation-layer deduplication from `availabilityToSpecialDates()`.
+- Kept same-conference presentation coalescing in the conference adapter because multiple public presentation rows remain legitimate.
+- Conference and Trip rendering continues to use `list_public_conference_presentations()`; public availability trip projections remain excluded from conference rendering.
+
+### Mobile timeline navigation
+
+- Keep the existing desktop control layout.
+- On screens up to 760px, place Previous day, Current day and Next day in a dedicated three-control row with larger touch targets.
+- Move the nine date buttons into a horizontally scrollable, snap-aligned rail with stable button widths.
+- Automatically centre the selected date in the mobile rail when possible.
+- Reflow Previous week and Next week into the primary shortcut row and visually subordinate First and Last beneath them.
+- Preserve all Frozen Ridge navigation semantics: daily stepping remains daily, week navigation remains canonical Monday–Sunday navigation, and Current day restores the current-week presentation.
+
+### Release status
+
+- Ivory Falcon beta.2 is in development.
+- Release date: TBC.
+
 ## v0.1.0-beta.1 "Frozen Ridge" — 3 October 2026
 
 ### Summary
