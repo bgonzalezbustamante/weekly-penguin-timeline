@@ -9,8 +9,8 @@
 
 ### Academic API contract alignment
 
-- Treat exact repeated public availability projections as a contract violation because the API now guarantees unique `type`/date-range/label tuples.
-- Removed redundant presentation-layer deduplication from `availabilityToSpecialDates()`.
+- Align with the API's upstream uniqueness guarantee without making repeated projections fatal at the consumer boundary.
+- Removed redundant presentation-layer deduplication from `availabilityToSpecialDates()`; accidental repeated projections remain non-fatal so transient producer drift cannot take the timeline offline.
 - Kept same-conference presentation coalescing in the conference adapter because multiple public presentation rows remain legitimate.
 - Conference and Trip rendering continues to use `list_public_conference_presentations()`; public availability trip projections remain excluded from conference rendering.
 
