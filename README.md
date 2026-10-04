@@ -1,6 +1,6 @@
 # Weekly Penguin Timeline
 
-**v0.1.0-beta.1 "Frozen Ridge" — 3 October 2026**
+**v0.1.0-beta.2 "Ivory Falcon" — in development**
 
 A standalone proof-of-concept for a reusable Next.js weekly timeline component. It converts public daily working-time and coffee data into one Oxford-colour, kawaii-style penguin state per day.
 
@@ -14,7 +14,7 @@ This repository is intentionally separate from `academic-website`. Development a
 - Uses `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1` for selected Catholic observances and transfers, while retaining concise Timeline labels and a local recurring Christmas Eve rule.
 - Keeps Saturday history conservative: recorded activity uses the normal matrix; historical 0h/0-coffee Saturdays use Free Saturdays; the current/future Saturday uses Teaching only when the current Teaching-season flag is active.
 - Treats future dates as provisional, with dedicated working-day and weekend states rather than pretending that missing future activity is zero activity.
-- Browses roughly three months before and after today with daily stepping, canonical week jumps, Current day, First and Last controls.
+- Browses roughly three months before and after today with daily stepping, canonical week jumps, Current day, First and Last controls. On mobile, day controls are separated from a horizontally scrollable date rail, while week and range shortcuts are stacked below.
 - Fails closed when required public API data are unavailable or malformed; no private Planning notes, sickness reasons or source identifiers are consumed.
 - Includes a state tester, a complete visual-QA matrix and readable release notes for development and review.
 
@@ -48,7 +48,7 @@ NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
 
-The publishable key is used only with curated anonymous-safe RPCs. Work analytics, public availability, conference presentations and Teaching settings are validated before rendering. Conference dates come from the conference RPC rather than being inferred from availability ranges. If any required source fails validation or cannot be loaded, the Timeline fails closed.
+The publishable key is used only with curated anonymous-safe RPCs. Work analytics, public availability, conference presentations and Teaching settings are validated before rendering. Public availability projections are expected to be unique; an exact repeated `type`/date-range/label tuple fails validation. Conference dates come from the conference RPC rather than being inferred from availability ranges. If any required source fails validation or cannot be loaded, the Timeline fails closed.
 
 ## Penguin asset pipeline
 
@@ -76,7 +76,7 @@ Current precedence is:
 
 `manual/local → Catholic celebration → Unavailable → Conference → Trip → Winter/Summer holiday → Saturday/Sunday/future-day rule → normal activity`
 
-Multiple presentations at the same conference may legitimately map to the same public dates and are coalesced visually. Distinct overlapping conferences combine their labels with ` · `. Historical 0h/0-coffee Saturdays never inherit the current Teaching-season flag.
+Multiple presentations at the same conference may legitimately map to the same public conference dates and are coalesced visually. Public availability itself guarantees unique projections, so the Timeline validates rather than normalises exact duplicates. Distinct overlapping conferences combine their labels with ` · `. Historical 0h/0-coffee Saturdays never inherit the current Teaching-season flag.
 
 ## Activity bands
 
