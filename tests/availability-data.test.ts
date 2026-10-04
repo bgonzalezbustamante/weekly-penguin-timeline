@@ -147,7 +147,7 @@ describe('public availability validation', () => {
     ).not.toThrow()
   })
 
-  it('rejects repeated identical public projections', () => {
+  it('keeps repeated projections non-fatal at the consumer boundary', () => {
     const item = {
       type: 'trip',
       start_date: '2026-08-06',
@@ -155,8 +155,9 @@ describe('public availability validation', () => {
       label: 'UDP Keynote',
     }
 
-    expect(() =>
-      parsePublicAvailability([item, { ...item }], 2026)
-    ).toThrow('duplicates an earlier public availability projection')
+    expect(parsePublicAvailability([item, { ...item }], 2026)).toEqual([
+      item,
+      item,
+    ])
   })
 })
