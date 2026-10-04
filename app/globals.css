@@ -176,6 +176,11 @@ h1 {
   align-items: stretch;
 }
 
+.week-pages-scroll {
+  min-width: 0;
+  align-self: end;
+}
+
 .week-pages {
   min-width: 0;
   display: grid;
@@ -1061,6 +1066,114 @@ h1 {
 }
 
 @media (max-width: 760px) {
+  .week-pagination {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      'previous current next'
+      'dates dates dates';
+    gap: 0.65rem 0.5rem;
+  }
+
+  .week-nav-stack-previous {
+    grid-area: previous;
+  }
+
+  .week-nav-stack-next {
+    display: contents;
+  }
+
+  .week-current-day-button {
+    grid-area: current;
+    justify-self: stretch;
+  }
+
+  .week-next-day-button {
+    grid-area: next;
+  }
+
+  .week-nav-button,
+  .week-current-day-button {
+    min-height: 48px;
+    border-radius: 0.48rem;
+    padding: 0.42rem 0.35rem;
+    font-size: 0.68rem;
+  }
+
+  .week-pages-scroll {
+    grid-area: dates;
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding: 0.05rem 0 0.35rem;
+  }
+
+  .week-pages-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .week-pages {
+    width: max-content;
+    grid-template-columns: repeat(9, 84px);
+    gap: 0.5rem;
+  }
+
+  .week-page-button {
+    min-height: 56px;
+    scroll-snap-align: center;
+    font-size: 0.72rem;
+  }
+
+  .week-page-button small {
+    font-size: 0.62rem;
+  }
+
+  .week-pagination-secondary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      'previous-week next-week'
+      'first last';
+    gap: 0.42rem 0.6rem;
+    margin-top: 0.55rem;
+  }
+
+  .week-pagination-secondary-group {
+    display: contents;
+  }
+
+  .week-previous-week-button {
+    grid-area: previous-week;
+  }
+
+  .week-next-week-button {
+    grid-area: next-week;
+  }
+
+  .week-first-button {
+    grid-area: first;
+  }
+
+  .week-last-button {
+    grid-area: last;
+  }
+
+  .week-previous-week-button,
+  .week-next-week-button {
+    min-height: 44px;
+    font-size: 0.7rem;
+  }
+
+  .week-first-button,
+  .week-last-button {
+    min-height: 44px;
+    border-color: transparent;
+    background: transparent;
+    color: var(--ash);
+    font-size: 0.63rem;
+  }
+
   .tester-grid,
   .notes-grid,
   .release-sections {
