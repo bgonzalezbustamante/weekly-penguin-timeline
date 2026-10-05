@@ -1,18 +1,18 @@
 export type WorkBucket =
   | 'zero'
-  | 'under-4'
-  | '4-6'
-  | '6-8'
-  | '8-10'
-  | '10-plus'
+  | 'light'
+  | 'normal'
+  | 'heavy'
+  | 'very-heavy'
+  | 'extreme'
 
 export type CoffeeBucket =
   | 'zero'
-  | 'under-4'
-  | '4-6'
-  | '6-8'
-  | '8-10'
-  | '10-plus'
+  | 'light'
+  | 'normal'
+  | 'heavy'
+  | 'very-heavy'
+  | 'extreme'
 
 export type SpecialDayType =
   | 'sunday'
