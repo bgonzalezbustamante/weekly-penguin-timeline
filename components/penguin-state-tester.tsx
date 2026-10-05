@@ -11,20 +11,20 @@ import type { PenguinMode } from '@/types/timeline'
 
 const WORK_LABELS = {
   zero: '0h',
-  'under-4': '<4h',
-  '4-6': '4–6h',
-  '6-8': '6–8h',
-  '8-10': '8–10h',
-  '10-plus': '10h+',
+  light: '1m–4h',
+  normal: '4h 1m–8h',
+  heavy: '8h 1m–10h',
+  'very-heavy': '10h 1m–12h',
+  extreme: '12h 1m+',
 } as const
 
 const COFFEE_LABELS = {
   zero: '0',
-  'under-4': '<4',
-  '4-6': '4–6',
-  '6-8': '6–8',
-  '8-10': '8–10',
-  '10-plus': '10+',
+  light: '1–2',
+  normal: '3–4',
+  heavy: '5–7',
+  'very-heavy': '8–10',
+  extreme: '11+',
 } as const
 
 type SpecialTesterMode =
@@ -94,7 +94,7 @@ export default function PenguinStateTester() {
               id="hours-test"
               type="range"
               min="0"
-              max="12"
+              max="14"
               step="0.5"
               value={hours}
               onChange={(event) => setHours(Number(event.target.value))}
