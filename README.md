@@ -11,7 +11,7 @@ This repository is intentionally separate from `academic-website`. Development a
 - Builds a live seven-day penguin timeline from public work, coffee, availability, conference and Teaching-setting data exposed by the Research Dashboard Academic API.
 - Resolves 36 normal activity states from six work bands × six coffee bands, plus contextual states for Sunday, Teaching Saturdays, Free Saturdays, Conference, Trip, Winter/Summer holidays and Unavailable periods.
 - Uses actual public conference dates for the Conference state. When a personally attended conference has `involves_trip = true`, only the day before and day after use Trip; Conference wins over overlapping travel.
-- Uses `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1` for selected Catholic observances and transfers, while retaining concise Timeline labels and a local recurring Christmas Eve rule.
+- Uses `@bgonzalezbustamante/catholic-calendar@0.1.0-beta.1` for selected Catholic observances and transfers, while retaining concise Timeline labels and a local recurring Christmas Eve rule.
 - Keeps Saturday history conservative: recorded activity uses the normal matrix; historical 0h/0-coffee Saturdays use Free Saturdays; the current/future Saturday uses Teaching only when the current Teaching-season flag is active.
 - Treats future dates as provisional, with dedicated working-day and weekend states rather than pretending that missing future activity is zero activity.
 - Browses roughly three months before and after today with daily stepping, canonical week jumps, Current day, First and Last controls. On mobile, day controls are separated from a horizontally scrollable date rail, while week and range shortcuts are stacked below.
