@@ -11,20 +11,20 @@ const CANONICAL_WEBP = path.join(PENGUIN_DIR, 'canonical-baseline.webp')
 
 const WORK_BUCKETS = [
   'zero',
-  'under-4',
-  '4-6',
-  '6-8',
-  '8-10',
-  '10-plus',
+  'light',
+  'normal',
+  'heavy',
+  'very-heavy',
+  'extreme',
 ]
 
 const COFFEE_BUCKETS = [
   'zero',
-  'under-4',
-  '4-6',
-  '6-8',
-  '8-10',
-  '10-plus',
+  'light',
+  'normal',
+  'heavy',
+  'very-heavy',
+  'extreme',
 ]
 
 const SPECIAL_STATES = [
