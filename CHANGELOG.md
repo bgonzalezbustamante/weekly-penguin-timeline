@@ -39,6 +39,10 @@
 - Reflow Previous week and Next week into the primary shortcut row and visually subordinate First and Last beneath them.
 - Preserve all Frozen Ridge navigation semantics: daily stepping remains daily, week navigation remains canonical Monday–Sunday navigation, and Current day restores the current-week presentation.
 
+### Security and validation housekeeping
+
+- Added a narrow `.gitleaksignore` for six historical README fingerprints where the literal `Europe/Amsterdam` timezone was misclassified as a generic API key; no credential or secret was present.
+
 ### Release status
 
 - Summer Cedar beta.2 is in development.
