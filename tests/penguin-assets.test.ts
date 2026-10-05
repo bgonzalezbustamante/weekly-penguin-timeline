@@ -20,7 +20,7 @@ describe('penguin asset resolution', () => {
         workBucket: 'very-heavy',
         coffeeBucket: 'heavy',
       })
-    ).toBe('/penguins/states/webp/work-8-10__coffee-6-8.webp')
+    ).toBe('/penguins/states/webp/work-very-heavy__coffee-heavy.webp')
   })
 
   it('resolves manual and weekly Sunday states to the approved special asset', () => {
