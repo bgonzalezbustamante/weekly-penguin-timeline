@@ -15,6 +15,13 @@
 - Tightened conference validation to the Public RPC v1 presentation-type vocabulary (`Conference paper`, `Keynote`, `Workshop`) and require non-empty author strings.
 - Conference and Trip rendering continues to use `list_public_conference_presentations()`; public availability trip projections remain excluded from conference rendering.
 
+### Activity intensity bands
+
+- Rebalanced the six working-time levels to: exactly 0; 1 min–4h; 4h 1m–8h; 8h 1m–10h; 10h 1m–12h; and 12h 1m+.
+- Rebalanced the six coffee levels to: exactly 0; 1–2; 3–4; 5–7; 8–10; and 11+.
+- Renamed internal activity buckets by interpretation (Light, Normal, Heavy, Very heavy and Extreme) while preserving the existing approved 6 × 6 artwork files.
+- Extended the working-hours tester range beyond 12 hours so the Extreme state can be inspected directly.
+
 ### Catholic Calendar dependency
 
 - Upgraded the pinned `@bgonzalezbustamante/catholic-calendar` dependency from `0.1.0-alpha.1` to `0.1.0-beta.1` ("Crystal Falcon").
