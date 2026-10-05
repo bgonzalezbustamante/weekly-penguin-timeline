@@ -80,7 +80,18 @@ Multiple presentations at the same conference may legitimately map to the same p
 
 ## Activity bands
 
-Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 6–8, 8–10 and 10-plus. Working time is displayed in hours; coffee uses the same thresholds as counts. The combination produces 36 normal activity states.
+The 36 normal activity states use six intensity levels for working time and coffee. The boundaries are discrete because work arrives as integer minutes and coffee as integer counts.
+
+| State | Working time | Coffee | Interpretation |
+| --- | --- | --- | --- |
+| 0 | exactly 0 | exactly 0 | None |
+| 1 | 1 min–4h | 1–2 | Light |
+| 2 | 4h 1m–8h | 3–4 | Normal/substantial |
+| 3 | 8h 1m–10h | 5–7 | Heavy |
+| 4 | 10h 1m–12h | 8–10 | Very heavy |
+| 5 | 12h 1m+ | 11+ | Extreme |
+
+The intensity levels map onto the existing approved 6 × 6 penguin artwork, so the visual state set remains unchanged while the thresholds better distinguish normal, heavy and extreme days.
 
 ## Verification
 
