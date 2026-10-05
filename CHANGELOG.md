@@ -15,6 +15,11 @@
 - Tightened conference validation to the Public RPC v1 presentation-type vocabulary (`Conference paper`, `Keynote`, `Workshop`) and require non-empty author strings.
 - Conference and Trip rendering continues to use `list_public_conference_presentations()`; public availability trip projections remain excluded from conference rendering.
 
+### Catholic Calendar dependency
+
+- Upgraded the pinned `@bgonzalezbustamante/catholic-calendar` dependency from `0.1.0-alpha.1` to `0.1.0-beta.1` ("Crystal Falcon").
+- The Timeline continues to use the same `buildYearObservances`, `MIN_SUPPORTED_YEAR` and `MAX_SUPPORTED_YEAR` package boundary; no Timeline observance subset or precedence behaviour changes are required.
+
 ### Mobile timeline navigation
 
 - Keep the existing desktop control layout.
