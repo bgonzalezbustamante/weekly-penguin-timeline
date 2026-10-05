@@ -187,7 +187,14 @@ export default async function HomePage() {
               Conferences, travel days, Winter/Summer holidays and generic unavailable periods
               are loaded from the privacy-safe Academic API. Manual overrides
               remain available, while selected Catholic celebrations are
-              resolved by the Catholic Calendar package.
+              resolved by the{' '}
+              <a
+                href="https://catholic.bgonzalezbustamante.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Catholic Calendar package
+              </a>.
             </p>
           </article>
           <article>
