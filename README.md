@@ -54,6 +54,8 @@ The publishable key is used only with curated anonymous-safe RPCs. Work analytic
 
 The 46 PNG masters are validated before development and production builds: one canonical baseline, 36 activity states, six special states, one upcoming working-day state, one Saturday couple state and one Teaching state. Validation checks filenames, PNG structure, minimum dimensions, integrity and transparency.
 
+The 36 activity-state masters form the approved 6 × 6 matrix. The final beta.2 artwork was visually reviewed across both axes so increasing work adds progressively denser work materials and fatigue, while increasing coffee adds progressively stronger caffeine cues without artificially increasing workload.
+
 `npm run dev` and `npm run build` automatically create WebP runtime derivatives when they are missing or older than their PNG source. Generated WebP files are ignored by Git and the PNG masters are never modified.
 
 Useful commands:
@@ -91,19 +93,21 @@ The 36 normal activity states use six intensity levels for working time and coff
 | 4 | 10h 1m–12h | 8–10 | Very heavy |
 | 5 | 12h 1m+ | 11+ | Extreme |
 
-The intensity levels map onto the existing approved 6 × 6 penguin artwork, so the visual state set remains unchanged while the thresholds better distinguish normal, heavy and extreme days.
+The intensity levels map onto the approved 6 × 6 penguin artwork. Summer Cedar refreshes the complete matrix so the semantic filenames, revised thresholds and visual progression tell the same story across both axes, from 0h/0 coffee through the 12h+/11+ maximum.
 
 ## Verification
 
 The automated suite covers work/coffee boundaries, API contracts, conference/travel overlap, Saturday Teaching boundaries, Catholic Calendar transfers, date precedence, navigation windows, New Year/DST behaviour and deterministic asset resolution.
 
 ```bash
+npm run assets:validate
+npm run lint
+npm run typecheck
 npm run test
-npm run check
 npm run build
 ```
 
-`npm run check` validates the PNG masters, lints, type-checks and runs the unit tests.
+These are the same substantive steps as CI. For a compact local gate, `npm run check` runs asset validation, linting, type-checking and unit tests; follow it with `npm run build`.
 
 ## Integration
 

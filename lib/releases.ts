@@ -19,7 +19,7 @@ export const releases: ReleaseNote[] = [
     status: 'In development',
     releasedOn: 'Release date TBC',
     summary:
-      'Summer Cedar refines mobile navigation, activity-intensity thresholds and alignment with the public data contracts.',
+      'Summer Cedar refines mobile navigation, activity-intensity thresholds, the complete 36-state penguin matrix and alignment with the public data contracts.',
     sections: [
       {
         title: 'Mobile navigation',
@@ -33,7 +33,8 @@ export const releases: ReleaseNote[] = [
         title: 'Activity states',
         items: [
           'Work and coffee thresholds now use clearer Light through Extreme levels, with eight hours remaining within the normal working-time range.',
-          'The same 36 approved penguin illustrations remain in use; only the thresholds that select them have changed.',
+          'The full 36-state penguin matrix has been refreshed and visually checked so heavier work adds more work clutter and fatigue while higher coffee adds stronger caffeine cues.',
+          'Extreme combinations now escalate more clearly, with 12h+ work and 11+ coffee remaining the visual maximum.',
         ],
       },
       {
