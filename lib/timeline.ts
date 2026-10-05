@@ -17,20 +17,20 @@ import type {
 
 const WORK_LABELS: Record<WorkBucket, string> = {
   zero: '0h',
-  'under-4': '<4h',
-  '4-6': '4–6h',
-  '6-8': '6–8h',
-  '8-10': '8–10h',
-  '10-plus': '10h+',
+  light: '1m–4h',
+  normal: '4h 1m–8h',
+  heavy: '8h 1m–10h',
+  'very-heavy': '10h 1m–12h',
+  extreme: '12h 1m+',
 }
 
 const COFFEE_LABELS: Record<CoffeeBucket, string> = {
   zero: '0',
-  'under-4': '<4',
-  '4-6': '4–6',
-  '6-8': '6–8',
-  '8-10': '8–10',
-  '10-plus': '10+',
+  light: '1–2',
+  normal: '3–4',
+  heavy: '5–7',
+  'very-heavy': '8–10',
+  extreme: '11+',
 }
 
 const SPECIAL_LABELS: Record<SpecialDayType, string> = {
@@ -49,11 +49,11 @@ export function resolveWorkBucket(minutes: number): WorkBucket {
   }
 
   if (minutes === 0) return 'zero'
-  if (minutes < 240) return 'under-4'
-  if (minutes < 360) return '4-6'
-  if (minutes < 480) return '6-8'
-  if (minutes < 600) return '8-10'
-  return '10-plus'
+  if (minutes <= 240) return 'light'
+  if (minutes <= 480) return 'normal'
+  if (minutes <= 600) return 'heavy'
+  if (minutes <= 720) return 'very-heavy'
+  return 'extreme'
 }
 
 export function resolveCoffeeBucket(count: number): CoffeeBucket {
@@ -62,11 +62,11 @@ export function resolveCoffeeBucket(count: number): CoffeeBucket {
   }
 
   if (count === 0) return 'zero'
-  if (count < 4) return 'under-4'
-  if (count < 6) return '4-6'
-  if (count < 8) return '6-8'
-  if (count < 10) return '8-10'
-  return '10-plus'
+  if (count <= 2) return 'light'
+  if (count <= 4) return 'normal'
+  if (count <= 7) return 'heavy'
+  if (count <= 10) return 'very-heavy'
+  return 'extreme'
 }
 
 function addDays(value: string, days: number) {
