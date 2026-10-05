@@ -19,7 +19,7 @@ export const releases: ReleaseNote[] = [
     status: 'In development',
     releasedOn: 'Release date TBC',
     summary:
-      'Summer Cedar focuses on a cleaner mobile timeline navigator and tighter alignment with the public availability contract.',
+      'Summer Cedar refines mobile navigation, activity-intensity thresholds and alignment with the public data contracts.'
     sections: [
       {
         title: 'Mobile navigation',
@@ -27,6 +27,13 @@ export const releases: ReleaseNote[] = [
           'Mobile day controls are separated from the date rail so they have more room and clearer touch targets.',
           'Nearby dates now sit in a horizontally scrollable rail that keeps the selected date centred when possible.',
           'Week controls remain easy to reach, while First and Last are visually quieter shortcuts.',
+        ],
+      },
+      {
+        title: 'Activity states',
+        items: [
+          'Work and coffee thresholds now use clearer Light through Extreme levels, with eight hours remaining within the normal working-time range.',
+          'The same 36 approved penguin illustrations remain in use; only the thresholds that select them have changed.',
         ],
       },
       {
