@@ -19,7 +19,7 @@ export const releases: ReleaseNote[] = [
     status: 'In development',
     releasedOn: 'Release date TBC',
     summary:
-      'Summer Cedar refines mobile navigation, activity-intensity thresholds and alignment with the public data contracts.'
+      'Summer Cedar refines mobile navigation, activity-intensity thresholds and alignment with the public data contracts.',
     sections: [
       {
         title: 'Mobile navigation',
