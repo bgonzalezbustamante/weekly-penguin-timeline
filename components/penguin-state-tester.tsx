@@ -11,11 +11,11 @@ import type { PenguinMode } from '@/types/timeline'
 
 const WORK_LABELS = {
   zero: '0h',
-  light: '1m–4h',
-  normal: '4h 1m–8h',
-  heavy: '8h 1m–10h',
-  'very-heavy': '10h 1m–12h',
-  extreme: '12h 1m+',
+  light: '<4h',
+  normal: '4–8h',
+  heavy: '8–10h',
+  'very-heavy': '10–12h',
+  extreme: '12h+',
 } as const
 
 const COFFEE_LABELS = {
