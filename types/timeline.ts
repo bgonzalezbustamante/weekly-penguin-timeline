@@ -49,6 +49,11 @@ export type PublicAvailabilityItem = {
   label: string
 }
 
+export type ConferencePresentationType =
+  | 'Conference paper'
+  | 'Keynote'
+  | 'Workshop'
+
 export type PublicConferencePresentation = {
   event_name: string
   event_short_name: string
@@ -60,7 +65,7 @@ export type PublicConferencePresentation = {
   involves_trip: boolean
   presentation_title: string | null
   authors: string[]
-  presentation_type: string
+  presentation_type: ConferencePresentationType
   url: string | null
 }
 
