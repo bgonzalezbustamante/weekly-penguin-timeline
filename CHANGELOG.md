@@ -9,9 +9,10 @@
 
 ### Academic API contract alignment
 
-- Align with the API's upstream uniqueness guarantee without making repeated projections fatal at the consumer boundary.
-- Removed redundant presentation-layer deduplication from `availabilityToSpecialDates()`; accidental repeated projections remain non-fatal so transient producer drift cannot take the timeline offline.
+- Enforce the API's upstream uniqueness guarantee by rejecting exact repeated public availability projections.
+- Removed redundant presentation-layer deduplication from `availabilityToSpecialDates()` so uniqueness is validated at the API boundary rather than silently normalised during presentation.
 - Kept same-conference presentation coalescing in the conference adapter because multiple public presentation rows remain legitimate.
+- Tightened conference validation to the Public RPC v1 presentation-type vocabulary (`Conference paper`, `Keynote`, `Workshop`) and require non-empty author strings.
 - Conference and Trip rendering continues to use `list_public_conference_presentations()`; public availability trip projections remain excluded from conference rendering.
 
 ### Mobile timeline navigation
