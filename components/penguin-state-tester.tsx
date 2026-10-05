@@ -48,7 +48,7 @@ const SPECIAL_STATES: Array<{
 ]
 
 export default function PenguinStateTester() {
-  const [hours, setHours] = useState(6.5)
+  const [hours, setHours] = useState(8)
   const [coffees, setCoffees] = useState(4)
   const [specialMode, setSpecialMode] =
     useState<SpecialTesterMode | null>(null)
