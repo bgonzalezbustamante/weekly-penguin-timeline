@@ -6,21 +6,39 @@ import type {
 
 export const WORK_BUCKETS: WorkBucket[] = [
   'zero',
-  'under-4',
-  '4-6',
-  '6-8',
-  '8-10',
-  '10-plus',
+  'light',
+  'normal',
+  'heavy',
+  'very-heavy',
+  'extreme',
 ]
 
 export const COFFEE_BUCKETS: CoffeeBucket[] = [
   'zero',
-  'under-4',
-  '4-6',
-  '6-8',
-  '8-10',
-  '10-plus',
+  'light',
+  'normal',
+  'heavy',
+  'very-heavy',
+  'extreme',
 ]
+
+const WORK_ASSET_BUCKETS: Record<WorkBucket, string> = {
+  zero: 'zero',
+  light: 'under-4',
+  normal: '4-6',
+  heavy: '6-8',
+  'very-heavy': '8-10',
+  extreme: '10-plus',
+}
+
+const COFFEE_ASSET_BUCKETS: Record<CoffeeBucket, string> = {
+  zero: 'zero',
+  light: 'under-4',
+  normal: '4-6',
+  heavy: '6-8',
+  'very-heavy': '8-10',
+  extreme: '10-plus',
+}
 
 const SPECIAL_ASSETS: Partial<Record<PenguinMode, string>> = {
   sunday: '/penguins/states/webp/sunday.webp',
@@ -66,5 +84,5 @@ export function resolvePenguinAsset({
     return '/penguins/canonical-baseline.webp'
   }
 
-  return `/penguins/states/webp/work-${workBucket}__coffee-${coffeeBucket}.webp`
+  return `/penguins/states/webp/work-${WORK_ASSET_BUCKETS[workBucket]}__coffee-${COFFEE_ASSET_BUCKETS[coffeeBucket]}.webp`
 }
