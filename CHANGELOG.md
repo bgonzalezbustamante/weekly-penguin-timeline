@@ -19,7 +19,7 @@
 
 - Rebalanced the six working-time levels to: exactly 0; 1 min–4h; 4h 1m–8h; 8h 1m–10h; 10h 1m–12h; and 12h 1m+.
 - Rebalanced the six coffee levels to: exactly 0; 1–2; 3–4; 5–7; 8–10; and 11+.
-- Renamed internal activity buckets by interpretation (Light, Normal, Heavy, Very heavy and Extreme) while preserving the existing approved 6 × 6 artwork files.
+- Renamed internal activity buckets by interpretation (Light, Normal, Heavy, Very heavy and Extreme) and renamed the 6 × 6 activity artwork files to the same semantic vocabulary without changing the artwork itself.
 - Extended the working-hours tester range beyond 12 hours so the Extreme state can be inspected directly.
 
 ### Catholic Calendar dependency
