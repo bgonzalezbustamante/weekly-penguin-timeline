@@ -125,9 +125,6 @@ export default async function HomePage() {
           <p className="hero-copy">
             A reusable Next.js component that turns seven days of public
             working-time and coffee data into a compact visual timeline.
-            Sundays, public availability, configured celebrations and
-            manual dates can override the normal activity state, while the
-            public Teaching-season flag controls the Saturday Teaching state.
           </p>
           <div
             className={`source-note${error ? ' is-offline' : ' is-online'}`}
