@@ -16,32 +16,29 @@ export const releases: ReleaseNote[] = [
   {
     version: 'v0.1.0-beta.2',
     codename: 'Summer Cedar',
-    status: 'In development',
-    releasedOn: 'Release date TBC',
+    status: 'Pre-release',
+    releasedOn: '6 October 2026',
     summary:
-      'Summer Cedar refines mobile navigation, activity-intensity thresholds, the complete 36-state penguin matrix and alignment with the public data contracts.',
+      'Summer Cedar makes mobile navigation easier and brings a more consistent set of 36 work-and-coffee penguins.',
     sections: [
+      {
+        title: 'Penguin states',
+        items: [
+          'All 36 work-and-coffee illustrations have been refreshed and reviewed together.',
+          'Heavier work now adds clearer signs of effort, while more coffee brings stronger caffeine effects without changing the workload.',
+        ],
+      },
       {
         title: 'Mobile navigation',
         items: [
-          'Mobile day controls are separated from the date rail so they have more room and clearer touch targets.',
-          'Nearby dates now sit in a horizontally scrollable rail that keeps the selected date centred when possible.',
-          'Week controls remain easy to reach, while First and Last are visually quieter shortcuts.',
+          'Day controls are easier to tap, and nearby dates can be browsed in a scrollable row.',
+          'Week shortcuts remain easy to find without crowding smaller screens.',
         ],
       },
       {
-        title: 'Activity states',
+        title: 'Reliability',
         items: [
-          'Work and coffee thresholds now use clearer Light through Extreme levels, with eight hours remaining within the normal working-time range.',
-          'The full 36-state penguin matrix has been refreshed and visually checked so heavier work adds more work clutter and fatigue while higher coffee adds stronger caffeine cues.',
-          'Extreme combinations now escalate more clearly, with 12h+ work and 11+ coffee remaining the visual maximum.',
-        ],
-      },
-      {
-        title: 'API alignment',
-        items: [
-          'Public availability now follows the API’s unique-range contract, with stricter checks for repeated ranges and conference metadata.',
-          'Legitimate multiple presentations at the same conference still coalesce into one visual conference/travel state.',
+          'The timeline checks calendar and conference information more carefully while preserving the existing special-day behaviour.',
         ],
       },
     ],

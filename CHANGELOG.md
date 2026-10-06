@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.1.0-beta.2 "Summer Cedar" (in development)
+## v0.1.0-beta.2 "Summer Cedar" — 6 October 2026
 
 ### Summary
 
@@ -10,7 +10,7 @@
 
 ### Academic API contract alignment
 
-- Enforce the API's upstream uniqueness guarantee by rejecting exact repeated public availability projections.
+- Enforced the API's upstream uniqueness guarantee by rejecting exact repeated public availability projections.
 - Removed redundant presentation-layer deduplication from `availabilityToSpecialDates()` so uniqueness is validated at the API boundary rather than silently normalised during presentation.
 - Kept same-conference presentation coalescing in the conference adapter because multiple public presentation rows remain legitimate.
 - Tightened conference validation to the Public RPC v1 presentation-type vocabulary (`Conference paper`, `Keynote`, `Workshop`) and require non-empty author strings.
@@ -32,21 +32,22 @@
 
 ### Mobile timeline navigation
 
-- Keep the existing desktop control layout.
-- On screens up to 760px, place Previous day, Current day and Next day in a dedicated three-control row with larger touch targets.
-- Move the nine date buttons into a horizontally scrollable, snap-aligned rail with stable button widths.
-- Automatically centre the selected date in the mobile rail when possible.
-- Reflow Previous week and Next week into the primary shortcut row and visually subordinate First and Last beneath them.
-- Preserve all Frozen Ridge navigation semantics: daily stepping remains daily, week navigation remains canonical Monday–Sunday navigation, and Current day restores the current-week presentation.
+- Kept the existing desktop control layout.
+- On screens up to 760px, placed Previous day, Current day and Next day in a dedicated three-control row with larger touch targets.
+- Moved the nine date buttons into a horizontally scrollable, snap-aligned rail with stable button widths.
+- Automatically centred the selected date in the mobile rail when possible.
+- Reflowed Previous week and Next week into the primary shortcut row and visually subordinate First and Last beneath them.
+- Preserved all Frozen Ridge navigation semantics: daily stepping remains daily, week navigation remains canonical Monday–Sunday navigation, and Current day restores the current-week presentation.
 
 ### Security and validation housekeeping
 
 - Added a narrow `.gitleaksignore` for six historical README fingerprints where the literal `Europe/Amsterdam` timezone was misclassified as a generic API key; no credential or secret was present.
 
-### Release status
+### Release verification
 
-- Summer Cedar beta.2 is in development.
-- Release date: TBC.
+- Finalised for beta pre-release on 6 October 2026.
+- Local checks and manual smoke testing were confirmed; GitHub Actions CI passed.
+- The production dependency audit reported zero vulnerabilities and the full-history Gitleaks scan cleared with only the six documented historical false-positive fingerprints excluded.
 
 ## v0.1.0-beta.1 "Frozen Ridge" — 3 October 2026
 
