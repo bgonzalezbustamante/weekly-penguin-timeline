@@ -64,6 +64,8 @@ export function parsePublicAvailability(
     throw new Error('Public availability returned an unexpected payload.')
   }
 
+  const seenProjections = new Set<string>()
+
   return payload.map((entry, index) => {
     const label = `Public availability item ${index + 1}`
 
@@ -103,6 +105,21 @@ export function parsePublicAvailability(
         `${label} label must be "Unavailable" for unavailable ranges.`
       )
     }
+
+    const projectionKey = [
+      entry.type,
+      entry.start_date,
+      entry.end_date,
+      entry.label,
+    ].join('|')
+
+    if (seenProjections.has(projectionKey)) {
+      throw new Error(
+        `Public availability contains duplicate range ${projectionKey}.`
+      )
+    }
+
+    seenProjections.add(projectionKey)
 
     return entry as unknown as PublicAvailabilityItem
   })

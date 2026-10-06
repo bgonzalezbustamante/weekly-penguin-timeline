@@ -1,5 +1,54 @@
 # CHANGELOG
 
+## v0.1.0-beta.2 "Summer Cedar" — 6 October 2026
+
+### Summary
+
+- Align the public-availability consumer with the refined Academic API contract.
+- Improve mobile timeline navigation without changing desktop navigation semantics.
+- Refresh and visually validate the complete 36-state work × coffee artwork matrix.
+
+### Academic API contract alignment
+
+- Enforced the API's upstream uniqueness guarantee by rejecting exact repeated public availability projections.
+- Removed redundant presentation-layer deduplication from `availabilityToSpecialDates()` so uniqueness is validated at the API boundary rather than silently normalised during presentation.
+- Kept same-conference presentation coalescing in the conference adapter because multiple public presentation rows remain legitimate.
+- Tightened conference validation to the Public RPC v1 presentation-type vocabulary (`Conference paper`, `Keynote`, `Workshop`) and require non-empty author strings.
+- Conference and Trip rendering continues to use `list_public_conference_presentations()`; public availability trip projections remain excluded from conference rendering.
+
+### Activity intensity bands
+
+- Rebalanced the six working-time levels to: exactly 0; 1 min–4h; 4h 1m–8h; 8h 1m–10h; 10h 1m–12h; and 12h 1m+.
+- Rebalanced the six coffee levels to: exactly 0; 1–2; 3–4; 5–7; 8–10; and 11+.
+- Renamed internal activity buckets by interpretation (Light, Normal, Heavy, Very heavy and Extreme) and renamed the 6 × 6 activity artwork files to the same semantic vocabulary.
+- Refreshed all 36 activity images after full visual QA so workload clutter/fatigue and caffeine intensity progress as distinct axes; high-coffee/low-work states remain workload-light, while the 12h+ + 11+ state remains the final visual escalation.
+- Kept the approved transparent PNG masters as the visual source of truth for deterministic WebP runtime generation.
+- Extended the working-hours tester range beyond 12 hours so the Extreme state can be inspected directly.
+
+### Catholic Calendar dependency
+
+- Upgraded the pinned `@bgonzalezbustamante/catholic-calendar` dependency from `0.1.0-alpha.1` to `0.1.0-beta.1` ("Crystal Falcon").
+- The Timeline continues to use the same `buildYearObservances`, `MIN_SUPPORTED_YEAR` and `MAX_SUPPORTED_YEAR` package boundary; no Timeline observance subset or precedence behaviour changes are required.
+
+### Mobile timeline navigation
+
+- Kept the existing desktop control layout.
+- On screens up to 760px, placed Previous day, Current day and Next day in a dedicated three-control row with larger touch targets.
+- Moved the nine date buttons into a horizontally scrollable, snap-aligned rail with stable button widths.
+- Automatically centred the selected date in the mobile rail when possible.
+- Reflowed Previous week and Next week into the primary shortcut row and visually subordinate First and Last beneath them.
+- Preserved all Frozen Ridge navigation semantics: daily stepping remains daily, week navigation remains canonical Monday–Sunday navigation, and Current day restores the current-week presentation.
+
+### Security and validation housekeeping
+
+- Added a narrow `.gitleaksignore` for six historical README fingerprints where the literal `Europe/Amsterdam` timezone was misclassified as a generic API key; no credential or secret was present.
+
+### Release verification
+
+- Finalised for beta pre-release on 6 October 2026.
+- Local checks and manual smoke testing were confirmed; GitHub Actions CI passed.
+- The production dependency audit reported zero vulnerabilities and the full-history Gitleaks scan cleared with only the six documented historical false-positive fingerprints excluded.
+
 ## v0.1.0-beta.1 "Frozen Ridge" — 3 October 2026
 
 ### Summary

@@ -17,18 +17,18 @@ describe('penguin asset resolution', () => {
     expect(
       resolvePenguinAsset({
         mode: 'activity',
-        workBucket: '8-10',
-        coffeeBucket: '6-8',
+        workBucket: 'very-heavy',
+        coffeeBucket: 'heavy',
       })
-    ).toBe('/penguins/states/webp/work-8-10__coffee-6-8.webp')
+    ).toBe('/penguins/states/webp/work-very-heavy__coffee-heavy.webp')
   })
 
   it('resolves manual and weekly Sunday states to the approved special asset', () => {
     expect(
       resolvePenguinAsset({
         mode: 'sunday',
-        workBucket: '10-plus',
-        coffeeBucket: '10-plus',
+        workBucket: 'extreme',
+        coffeeBucket: 'extreme',
       })
     ).toBe('/penguins/states/webp/sunday.webp')
   })
@@ -57,8 +57,8 @@ describe('penguin asset resolution', () => {
     expect(
       resolvePenguinAsset({
         mode: 'working-day',
-        workBucket: '10-plus',
-        coffeeBucket: '10-plus',
+        workBucket: 'extreme',
+        coffeeBucket: 'extreme',
       })
     ).toBe('/penguins/states/webp/working-day.webp')
   })
@@ -67,8 +67,8 @@ describe('penguin asset resolution', () => {
     expect(
       resolvePenguinAsset({
         mode: 'teaching',
-        workBucket: '8-10',
-        coffeeBucket: '4-6',
+        workBucket: 'very-heavy',
+        coffeeBucket: 'normal',
       })
     ).toBe('/penguins/states/webp/teaching.webp')
   })
@@ -77,8 +77,8 @@ describe('penguin asset resolution', () => {
     expect(
       resolvePenguinAsset({
         mode: 'saturday',
-        workBucket: '10-plus',
-        coffeeBucket: '10-plus',
+        workBucket: 'extreme',
+        coffeeBucket: 'extreme',
       })
     ).toBe('/penguins/states/webp/canonical-couple.webp')
   })
@@ -87,8 +87,8 @@ describe('penguin asset resolution', () => {
     expect(
       resolvePenguinAsset({
         mode: 'upcoming',
-        workBucket: '10-plus',
-        coffeeBucket: '10-plus',
+        workBucket: 'extreme',
+        coffeeBucket: 'extreme',
       })
     ).toBe('/penguins/canonical-baseline.webp')
   })

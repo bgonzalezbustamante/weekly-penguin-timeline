@@ -6,20 +6,20 @@ import type {
 
 export const WORK_BUCKETS: WorkBucket[] = [
   'zero',
-  'under-4',
-  '4-6',
-  '6-8',
-  '8-10',
-  '10-plus',
+  'light',
+  'normal',
+  'heavy',
+  'very-heavy',
+  'extreme',
 ]
 
 export const COFFEE_BUCKETS: CoffeeBucket[] = [
   'zero',
-  'under-4',
-  '4-6',
-  '6-8',
-  '8-10',
-  '10-plus',
+  'light',
+  'normal',
+  'heavy',
+  'very-heavy',
+  'extreme',
 ]
 
 const SPECIAL_ASSETS: Partial<Record<PenguinMode, string>> = {

@@ -184,8 +184,6 @@ export function conferencePresentationsToSpecialDates(
 export function availabilityToSpecialDates(
   availability: PublicAvailabilityItem[]
 ): SpecialDate[] {
-  const seenProjectedStates = new Set<string>()
-
   return availability
     .filter(
       (
@@ -206,19 +204,6 @@ export function availabilityToSpecialDates(
         left.type.localeCompare(right.type) ||
         left.label.localeCompare(right.label)
       )
-    })
-    .filter((item) => {
-      const key = [
-        item.type,
-        item.start_date,
-        item.end_date,
-        item.label,
-      ].join('|')
-
-      if (seenProjectedStates.has(key)) return false
-
-      seenProjectedStates.add(key)
-      return true
     })
     .map((item) => ({
       from: item.start_date,

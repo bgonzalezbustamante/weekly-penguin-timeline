@@ -1,6 +1,6 @@
 # Weekly Penguin Timeline
 
-**v0.1.0-beta.1 "Frozen Ridge" — 3 October 2026**
+**v0.1.0-beta.2 "Summer Cedar" — 6 October 2026 (pre-release)**
 
 A standalone proof-of-concept for a reusable Next.js weekly timeline component. It converts public daily working-time and coffee data into one Oxford-colour, kawaii-style penguin state per day.
 
@@ -11,10 +11,10 @@ This repository is intentionally separate from `academic-website`. Development a
 - Builds a live seven-day penguin timeline from public work, coffee, availability, conference and Teaching-setting data exposed by the Research Dashboard Academic API.
 - Resolves 36 normal activity states from six work bands × six coffee bands, plus contextual states for Sunday, Teaching Saturdays, Free Saturdays, Conference, Trip, Winter/Summer holidays and Unavailable periods.
 - Uses actual public conference dates for the Conference state. When a personally attended conference has `involves_trip = true`, only the day before and day after use Trip; Conference wins over overlapping travel.
-- Uses `@bgonzalezbustamante/catholic-calendar@0.1.0-alpha.1` for selected Catholic observances and transfers, while retaining concise Timeline labels and a local recurring Christmas Eve rule.
+- Uses `@bgonzalezbustamante/catholic-calendar@0.1.0-beta.1` for selected Catholic observances and transfers, while retaining concise Timeline labels and a local recurring Christmas Eve rule.
 - Keeps Saturday history conservative: recorded activity uses the normal matrix; historical 0h/0-coffee Saturdays use Free Saturdays; the current/future Saturday uses Teaching only when the current Teaching-season flag is active.
 - Treats future dates as provisional, with dedicated working-day and weekend states rather than pretending that missing future activity is zero activity.
-- Browses roughly three months before and after today with daily stepping, canonical week jumps, Current day, First and Last controls.
+- Browses roughly three months before and after today with daily stepping, canonical week jumps, Current day, First and Last controls. On mobile, day controls are separated from a horizontally scrollable date rail, while week and range shortcuts are stacked below.
 - Fails closed when required public API data are unavailable or malformed; no private Planning notes, sickness reasons or source identifiers are consumed.
 - Includes a state tester, a complete visual-QA matrix and readable release notes for development and review.
 
@@ -48,11 +48,13 @@ NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
 
-The publishable key is used only with curated anonymous-safe RPCs. Work analytics, public availability, conference presentations and Teaching settings are validated before rendering. Conference dates come from the conference RPC rather than being inferred from availability ranges. If any required source fails validation or cannot be loaded, the Timeline fails closed.
+The publishable key is used only with curated anonymous-safe RPCs. Work analytics, public availability, conference presentations and Teaching settings are validated before rendering. Public availability projections are guaranteed unique upstream and exact repeated `type`/date-range/label tuples fail validation. The Timeline does not perform presentation-layer deduplication. Conference dates come from the conference RPC rather than being inferred from availability ranges. Conference presentation types are restricted to `Conference paper`, `Keynote` and `Workshop`, and author entries must be non-empty strings. If any required source fails validation or cannot be loaded, the Timeline fails closed.
 
 ## Penguin asset pipeline
 
 The 46 PNG masters are validated before development and production builds: one canonical baseline, 36 activity states, six special states, one upcoming working-day state, one Saturday couple state and one Teaching state. Validation checks filenames, PNG structure, minimum dimensions, integrity and transparency.
+
+The 36 activity-state masters form the visually approved 6 × 6 beta.2 matrix. Increasing work adds materials and fatigue; increasing coffee adds caffeine cues without artificially increasing the workload.
 
 `npm run dev` and `npm run build` automatically create WebP runtime derivatives when they are missing or older than their PNG source. Generated WebP files are ignored by Git and the PNG masters are never modified.
 
@@ -76,23 +78,35 @@ Current precedence is:
 
 `manual/local → Catholic celebration → Unavailable → Conference → Trip → Winter/Summer holiday → Saturday/Sunday/future-day rule → normal activity`
 
-Multiple presentations at the same conference may legitimately map to the same public dates and are coalesced visually. Distinct overlapping conferences combine their labels with ` · `. Historical 0h/0-coffee Saturdays never inherit the current Teaching-season flag.
+Multiple presentations at the same conference may legitimately map to the same public conference dates and are coalesced visually. Public availability supplies unique projections upstream. The Timeline validates that guarantee but no longer normalises exact duplicates itself. Distinct overlapping conferences combine their labels with ` · `. Historical 0h/0-coffee Saturdays never inherit the current Teaching-season flag.
 
 ## Activity bands
 
-Working time and coffee use the same six threshold bands: zero, under 4, 4–6, 6–8, 8–10 and 10-plus. Working time is displayed in hours; coffee uses the same thresholds as counts. The combination produces 36 normal activity states.
+The 36 normal activity states use six intensity levels for working time and coffee. The boundaries are discrete because work arrives as integer minutes and coffee as integer counts.
+
+| State | Working time | Coffee | Interpretation |
+| --- | --- | --- | --- |
+| 0 | exactly 0 | exactly 0 | None |
+| 1 | 1 min–4h | 1–2 | Light |
+| 2 | 4h 1m–8h | 3–4 | Normal/substantial |
+| 3 | 8h 1m–10h | 5–7 | Heavy |
+| 4 | 10h 1m–12h | 8–10 | Very heavy |
+| 5 | 12h 1m+ | 11+ | Extreme |
+
+Each work/coffee pair resolves to a semantically named asset (for example, `work-normal__coffee-extreme.png`). The maximum combined state is 12h+ work with 11+ coffees.
 
 ## Verification
 
 The automated suite covers work/coffee boundaries, API contracts, conference/travel overlap, Saturday Teaching boundaries, Catholic Calendar transfers, date precedence, navigation windows, New Year/DST behaviour and deterministic asset resolution.
 
 ```bash
-npm run test
 npm run check
 npm run build
+npm audit --omit=dev
+gitleaks detect --source . --no-banner
 ```
 
-`npm run check` validates the PNG masters, lints, type-checks and runs the unit tests.
+`npm run check` runs asset validation, linting, TypeScript checks and unit tests; the production build runs the WebP-generation pipeline. The production dependency audit and Gitleaks history scan are additional local security checks. Also inspect the 36-state gallery, tester extremes, contextual states and mobile navigation before publishing a release.
 
 ## Integration
 

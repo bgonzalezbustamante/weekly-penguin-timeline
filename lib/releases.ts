@@ -14,6 +14,36 @@ export type ReleaseNote = {
 
 export const releases: ReleaseNote[] = [
   {
+    version: 'v0.1.0-beta.2',
+    codename: 'Summer Cedar',
+    status: 'Pre-release',
+    releasedOn: '6 October 2026',
+    summary:
+      'Summer Cedar makes mobile navigation easier and brings a more consistent set of 36 work-and-coffee penguins.',
+    sections: [
+      {
+        title: 'Penguin states',
+        items: [
+          'All 36 work-and-coffee illustrations have been refreshed and reviewed together.',
+          'Heavier work now adds clearer signs of effort, while more coffee brings stronger caffeine effects without changing the workload.',
+        ],
+      },
+      {
+        title: 'Mobile navigation',
+        items: [
+          'Day controls are easier to tap, and nearby dates can be browsed in a scrollable row.',
+          'Week shortcuts remain easy to find without crowding smaller screens.',
+        ],
+      },
+      {
+        title: 'Reliability',
+        items: [
+          'The timeline checks calendar and conference information more carefully while preserving the existing special-day behaviour.',
+        ],
+      },
+    ],
+  },
+  {
     version: 'v0.1.0-beta.1',
     codename: 'Frozen Ridge',
     status: 'Pre-release',

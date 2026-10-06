@@ -1,5 +1,14 @@
 import { assertValidIsoDate } from '@/lib/date-utils'
-import type { PublicConferencePresentation } from '@/types/timeline'
+import type {
+  ConferencePresentationType,
+  PublicConferencePresentation,
+} from '@/types/timeline'
+
+const PUBLIC_CONFERENCE_TYPES = new Set<ConferencePresentationType>([
+  'Conference paper',
+  'Keynote',
+  'Workshop',
+])
 
 const PUBLIC_CONFERENCE_KEYS = [
   'event_name',
@@ -121,12 +130,27 @@ export function parsePublicConferencePresentations(
 
     if (
       !Array.isArray(entry.authors) ||
-      entry.authors.some((author) => typeof author !== 'string')
+      entry.authors.some(
+        (author) =>
+          typeof author !== 'string' ||
+          author.trim().length === 0
+      )
     ) {
-      throw new Error(`${label} authors must be an array of strings.`)
+      throw new Error(
+        `${label} authors must be an array of non-empty strings.`
+      )
     }
 
-    assertNonEmptyString(entry.presentation_type, `${label} presentation_type`)
+    if (
+      typeof entry.presentation_type !== 'string' ||
+      !PUBLIC_CONFERENCE_TYPES.has(
+        entry.presentation_type as ConferencePresentationType
+      )
+    ) {
+      throw new Error(
+        `${label} presentation_type must be Conference paper, Keynote or Workshop.`
+      )
+    }
     assertNullableHttpUrl(entry.url, `${label} url`)
 
     return entry as unknown as PublicConferencePresentation

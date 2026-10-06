@@ -11,20 +11,20 @@ import type {
 
 const WORK_LABELS: Record<WorkBucket, string> = {
   zero: '0h',
-  'under-4': '<4h',
-  '4-6': '4–6h',
-  '6-8': '6–8h',
-  '8-10': '8–10h',
-  '10-plus': '10h+',
+  light: '<4h',
+  normal: '4–8h',
+  heavy: '8–10h',
+  'very-heavy': '10–12h',
+  extreme: '12h+',
 }
 
 const COFFEE_LABELS: Record<CoffeeBucket, string> = {
   zero: '0',
-  'under-4': '<4',
-  '4-6': '4–6',
-  '6-8': '6–8',
-  '8-10': '8–10',
-  '10-plus': '10+',
+  light: '1–2',
+  normal: '3–4',
+  heavy: '5–7',
+  'very-heavy': '8–10',
+  extreme: '11+',
 }
 
 const SPECIAL_STATES: Array<{
@@ -103,6 +103,8 @@ export default function PenguinStateGallery() {
           ])}
         </div>
       </div>
+
+      <h3 className="special-gallery-heading">Special and contextual states</h3>
 
       <div className="special-gallery" aria-label="Special and contextual penguin states">
         {SPECIAL_STATES.map((state) => (

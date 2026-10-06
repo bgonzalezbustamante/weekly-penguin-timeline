@@ -125,9 +125,6 @@ export default async function HomePage() {
           <p className="hero-copy">
             A reusable Next.js component that turns seven days of public
             working-time and coffee data into a compact visual timeline.
-            Sundays, public availability, configured celebrations and
-            manual dates can override the normal activity state, while the
-            public Teaching-season flag controls the Saturday Teaching state.
           </p>
           <div
             className={`source-note${error ? ' is-offline' : ' is-online'}`}
@@ -190,7 +187,14 @@ export default async function HomePage() {
               Conferences, travel days, Winter/Summer holidays and generic unavailable periods
               are loaded from the privacy-safe Academic API. Manual overrides
               remain available, while selected Catholic celebrations are
-              resolved by the Catholic Calendar package.
+              resolved by the{' '}
+              <a
+                href="https://catholic.bgonzalezbustamante.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Catholic Calendar package
+              </a>.
             </p>
           </article>
           <article>

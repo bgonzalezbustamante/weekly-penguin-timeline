@@ -17,16 +17,16 @@ import {
 describe('work bucket boundaries', () => {
   it.each([
     [0, 'zero'],
-    [1, 'under-4'],
-    [239, 'under-4'],
-    [240, '4-6'],
-    [359, '4-6'],
-    [360, '6-8'],
-    [479, '6-8'],
-    [480, '8-10'],
-    [599, '8-10'],
-    [600, '10-plus'],
-    [900, '10-plus'],
+    [1, 'light'],
+    [240, 'light'],
+    [241, 'normal'],
+    [480, 'normal'],
+    [481, 'heavy'],
+    [600, 'heavy'],
+    [601, 'very-heavy'],
+    [720, 'very-heavy'],
+    [721, 'extreme'],
+    [900, 'extreme'],
   ] as const)('maps %i minutes to %s', (minutes, expected) => {
     expect(resolveWorkBucket(minutes)).toBe(expected)
   })
@@ -40,16 +40,16 @@ describe('work bucket boundaries', () => {
 describe('coffee bucket boundaries', () => {
   it.each([
     [0, 'zero'],
-    [1, 'under-4'],
-    [3, 'under-4'],
-    [4, '4-6'],
-    [5, '4-6'],
-    [6, '6-8'],
-    [7, '6-8'],
-    [8, '8-10'],
-    [9, '8-10'],
-    [10, '10-plus'],
-    [14, '10-plus'],
+    [1, 'light'],
+    [2, 'light'],
+    [3, 'normal'],
+    [4, 'normal'],
+    [5, 'heavy'],
+    [7, 'heavy'],
+    [8, 'very-heavy'],
+    [10, 'very-heavy'],
+    [11, 'extreme'],
+    [14, 'extreme'],
   ] as const)('maps %i coffees to %s', (coffees, expected) => {
     expect(resolveCoffeeBucket(coffees)).toBe(expected)
   })
@@ -86,8 +86,8 @@ describe('weekly timeline resolution', () => {
     expect(holiday).toMatchObject({
       mode: 'sunday',
       specialLabel: 'Good Friday',
-      workBucket: '6-8',
-      coffeeBucket: 'under-4',
+      workBucket: 'normal',
+      coffeeBucket: 'light',
     })
   })
 
@@ -268,8 +268,8 @@ describe('weekly timeline resolution', () => {
     expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
       mode: 'activity',
       isFuture: false,
-      workBucket: '8-10',
-      coffeeBucket: '4-6',
+      workBucket: 'normal',
+      coffeeBucket: 'normal',
       specialLabel: null,
     })
   })
@@ -313,8 +313,8 @@ describe('weekly timeline resolution', () => {
     expect(timeline.find((day) => day.date === '2026-10-03')).toMatchObject({
       mode: 'activity',
       isFuture: false,
-      workBucket: '8-10',
-      coffeeBucket: '4-6',
+      workBucket: 'normal',
+      coffeeBucket: 'normal',
       specialLabel: null,
     })
   })

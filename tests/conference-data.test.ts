@@ -84,4 +84,41 @@ describe('public conference validation', () => {
       involves_trip: false,
     })
   })
+
+  it('accepts only the controlled conference presentation vocabulary', () => {
+    for (const presentationType of [
+      'Conference paper',
+      'Keynote',
+      'Workshop',
+    ]) {
+      expect(() =>
+        parsePublicConferencePresentations([
+          {
+            ...validConference,
+            presentation_type: presentationType,
+          },
+        ])
+      ).not.toThrow()
+    }
+
+    expect(() =>
+      parsePublicConferencePresentations([
+        {
+          ...validConference,
+          presentation_type: 'Poster',
+        },
+      ])
+    ).toThrow('must be Conference paper, Keynote or Workshop')
+  })
+
+  it('rejects empty conference author names', () => {
+    expect(() =>
+      parsePublicConferencePresentations([
+        {
+          ...validConference,
+          authors: ['B. González-Bustamante', '   '],
+        },
+      ])
+    ).toThrow('authors must be an array of non-empty strings')
+  })
 })
