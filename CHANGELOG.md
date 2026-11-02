@@ -14,8 +14,9 @@
 
 ### Verification status
 
-- Local visual inspection and the GitHub CI gate remain to be completed.
-- Netlify deployment intentionally disabled during development.
+- GitHub Actions CI passed asset validation, linting, TypeScript checks, unit tests and the production build.
+- Local visual inspection, the production dependency audit and full-history Gitleaks scan remain to be confirmed for beta.3.
+- Netlify deployment intentionally skipped during development.
 
 ## v0.1.0-beta.2 "Summer Cedar" — 6 October 2026
 
