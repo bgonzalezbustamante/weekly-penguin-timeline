@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## v0.1.0-beta.3 "Violet Meadow" (in development)
+
+### Summary
+
+- Improve the fit of Work/Coffee indicators across desktop and mobile layouts.
+
+### Timeline presentation
+
+- Ported the metric-chip sizing refinements validated in the Academic Website: centred chip contents, reduced icon/text spacing and horizontal padding, and slightly decreased the default font size.
+- Added a narrower-screen (≤760px) override for compact chip spacing, padding and font size.
+- Preserved the seven-day layout, scrolling/navigation behaviour, activity-state thresholds and approved penguin artwork.
+
+### Verification status
+
+- Local visual inspection and the GitHub CI gate remain to be completed.
+- Netlify deployment intentionally disabled during development.
+
 ## v0.1.0-beta.2 "Summer Cedar" — 6 October 2026
 
 ### Summary
