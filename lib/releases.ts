@@ -14,6 +14,22 @@ export type ReleaseNote = {
 
 export const releases: ReleaseNote[] = [
   {
+    version: 'v0.1.0-beta.3',
+    codename: 'Amber Finch',
+    status: 'In development',
+    releasedOn: 'Release date TBC',
+    summary:
+      'Amber Finch makes daily working-hour and coffee labels fit more comfortably on desktop and mobile.',
+    sections: [
+      {
+        title: 'Timeline display',
+        items: [
+          'Work and coffee indicators have more compact spacing so longer values stay within their labels.',
+        ],
+      },
+    ],
+  },
+  {
     version: 'v0.1.0-beta.2',
     codename: 'Summer Cedar',
     status: 'Pre-release',

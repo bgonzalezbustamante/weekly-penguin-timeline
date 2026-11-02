@@ -1,6 +1,8 @@
 # Weekly Penguin Timeline
 
-**v0.1.0-beta.2 "Summer Cedar" — 6 October 2026 (pre-release)**
+**Current pre-release:** v0.1.0-beta.2 "Summer Cedar" — 6 October 2026
+
+**In development:** v0.1.0-beta.3 "Amber Finch" — local/CI validation only; no Netlify deployment
 
 A standalone proof-of-concept for a reusable Next.js weekly timeline component. It converts public daily working-time and coffee data into one Oxford-colour, kawaii-style penguin state per day.
 
@@ -97,7 +99,7 @@ Each work/coffee pair resolves to a semantically named asset (for example, `work
 
 ## Verification
 
-The automated suite covers work/coffee boundaries, API contracts, conference/travel overlap, Saturday Teaching boundaries, Catholic Calendar transfers, date precedence, navigation windows, New Year/DST behaviour and deterministic asset resolution.
+The automated suite covers work/coffee boundaries, API contracts, conference/travel overlap, Saturday Teaching boundaries, Catholic Calendar transfers, date precedence, navigation windows, New Year/DST behaviour and deterministic asset resolution. Beta.3 also tightens the Work/Coffee indicator layout to fit long labels on desktop and narrow screens.
 
 ```bash
 npm run check
@@ -106,7 +108,7 @@ npm audit --omit=dev
 gitleaks detect --source . --no-banner
 ```
 
-`npm run check` runs asset validation, linting, TypeScript checks and unit tests; the production build runs the WebP-generation pipeline. The production dependency audit and Gitleaks history scan are additional local security checks. Also inspect the 36-state gallery, tester extremes, contextual states and mobile navigation before publishing a release.
+`npm run check` runs asset validation, linting, TypeScript checks and unit tests; the production build runs the WebP-generation pipeline. The production dependency audit and Gitleaks history scan are additional local security checks. Also inspect the 36-state gallery, tester extremes, contextual states and mobile navigation before publishing a release. For beta.3, specifically check the `10–12h` and `12h+` work indicators and the longest coffee labels at desktop and ≤760px widths.
 
 ## Integration
 
