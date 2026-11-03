@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## v0.1.0-beta.3 "Violet Meadow" — 3 November 2026
+
+### Summary
+
+- Remediate critical Next.js advisories and patch vulnerable development dependencies.
+- Restore the live Timeline by accepting the Academic API's new `Guest lecture` conference presentation type.
+- Improve the fit of Work/Coffee indicators across desktop, tablet and mobile layouts.
+- Enable Dependabot version updates, security updates and secret scanning.
+
+### Security remediation
+
+- Upgraded `next` and `eslint-config-next` from `16.3.8` to `16.4.4`, closing three critical Next.js advisories that affected the deployed version: unauthenticated remote code execution in the Image Optimization API when SVG files are used, denial of service in the App Router through Server Actions, and unauthenticated remote code execution in `use cache` functions returning typed arrays.
+- Pinned `vitest` to `4.1.12`, which brings `@vitest/mocker` `4.1.12` and closes the manual-mock code-injection and Windows redirect-allowlist advisories.
+- The regenerated lockfile moves the transitive `vite` (`8.3.5`) and `zod` (`4.6.7`) dependencies out of their high-severity advisory ranges; both are development-only.
+- `npm audit --omit=dev` reports 0 vulnerabilities. The full audit reports 16 moderate, development-only findings in the ESLint 9 / `minimatch` 3 and `eslint-config-next` chain. They are accepted until upstream ESLint releases a compatible fix: they are not shipped to the browser or server, and `npm audit fix --force` would only offer an incompatible `eslint@4` / `eslint-config-next@0.2.4` downgrade.
+- Added `.github/dependabot.yml`, matching the Catholic Calendar repository: weekly grouped npm minor/patch updates (majors are planned deliberately) and monthly grouped GitHub Actions updates. Dependabot alerts and security updates, secret scanning and push protection are enabled in the repository settings.
+
+### Academic API contract alignment
+
+- Accepted `Guest lecture` in the validated conference presentation-type vocabulary, following its addition to the Research Dashboard Public Academic API on 1 November 2026. Until this release, the live Timeline failed closed with "Live timeline unavailable" because three public rows used the new type.
+- Attended guest lectures render as Conference days with their short name, and Trip days follow `involves_trip`, exactly as for other presentation types.
+
+### Timeline presentation
+
+- Ported the metric-chip sizing refinements validated in the Academic Website: centred chip contents, reduced icon/text spacing and horizontal padding, and slightly decreased the default font size.
+- Applied the compact chip spacing, padding and font size at widths up to 1180px (the shell's maximum width), so long labels also fit on tablet widths where the seven-day grid sits at its 1050px minimum.
+- Preserved the seven-day layout, scrolling/navigation behaviour, activity-state thresholds and approved penguin artwork.
+
+### Verification
+
+- GitHub Actions CI passed asset validation, linting, TypeScript checks, unit tests and the production build on the patched-dependency commit (run 41607729259) and on the release branch head.
+- Locally, `npm run check` passed (116 tests) and `npm run build` succeeded; `npm audit --omit=dev` reported 0 vulnerabilities; the full-history Gitleaks scan (446 commits) found no leaks.
+- Headless Chrome visual QA at 1440, 1280, 1181, 1180, 1140, 1101, 1024, 761, 760, 390 and 360px set every Work chip to each label up to `10–12h` and `12h+`, and every Coffee chip up to `8–10` and `11+`. No chip overflowed its border or its padding. The page never scrolled horizontally, the timeline's own horizontal scroller and the mobile date rail's scroll-snap were unchanged, and Previous/Next day, Next week, First, Last and Current day produced identical results at every width.
+
 ## v0.1.0-beta.2 "Summer Cedar" — 6 October 2026
 
 ### Summary

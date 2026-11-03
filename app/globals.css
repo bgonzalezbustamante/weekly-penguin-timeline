@@ -459,12 +459,13 @@ h1 {
   min-width: 0;
   display: inline-flex;
   align-items: center;
-  gap: 0.28rem;
+  justify-content: center;
+  gap: 0.18rem;
   border: 1px solid var(--stone);
   border-radius: 0.35rem;
-  padding: 0.32rem 0.38rem;
+  padding: 0.32rem 0.22rem;
   font-family: var(--font-roboto), Arial, sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 650;
   white-space: nowrap;
 }
@@ -1081,6 +1082,14 @@ h1 {
 .release-page-nav:disabled {
   opacity: 0.36;
   cursor: not-allowed;
+}
+
+@media (max-width: 1180px) {
+  .metric-chip {
+    gap: 0.14rem;
+    padding-inline: 0.18rem;
+    font-size: 0.62rem;
+  }
 }
 
 @media (max-width: 760px) {

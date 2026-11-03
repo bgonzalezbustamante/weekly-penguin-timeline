@@ -14,6 +14,29 @@ export type ReleaseNote = {
 
 export const releases: ReleaseNote[] = [
   {
+    version: 'v0.1.0-beta.3',
+    codename: 'Violet Meadow',
+    status: 'Pre-release',
+    releasedOn: '3 November 2026',
+    summary:
+      'Violet Meadow keeps the timeline secure and working, and makes daily working-hour and coffee labels fit comfortably on every screen.',
+    sections: [
+      {
+        title: 'Timeline display',
+        items: [
+          'Work and coffee indicators have more compact spacing so longer values stay within their labels on desktop, tablet and mobile.',
+        ],
+      },
+      {
+        title: 'Reliability and security',
+        items: [
+          'Guest lectures now appear as conference days, so the live timeline keeps working when they are listed.',
+          'Behind-the-scenes software updates keep the site secure and up to date.',
+        ],
+      },
+    ],
+  },
+  {
     version: 'v0.1.0-beta.2',
     codename: 'Summer Cedar',
     status: 'Pre-release',

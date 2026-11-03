@@ -272,6 +272,25 @@ describe('Catholic Calendar integration', () => {
     ])
   })
 
+  it('renders attended guest lectures as conference days', () => {
+    expect(
+      conferencePresentationsToSpecialDates([
+        conference({
+          event_short_name: 'Groningen Guest Lecture',
+          presentation_type: 'Guest lecture',
+          involves_trip: false,
+        }),
+      ])
+    ).toEqual([
+      {
+        from: '2026-08-07',
+        to: '2026-08-07',
+        type: 'conference',
+        label: 'Groningen Guest Lecture',
+      },
+    ])
+  })
+
   it('ignores conferences not personally attended', () => {
     expect(
       conferencePresentationsToSpecialDates([
