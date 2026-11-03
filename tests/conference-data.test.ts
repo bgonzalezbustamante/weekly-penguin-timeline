@@ -90,6 +90,7 @@ describe('public conference validation', () => {
       'Conference paper',
       'Keynote',
       'Workshop',
+      'Guest lecture',
     ]) {
       expect(() =>
         parsePublicConferencePresentations([
@@ -108,7 +109,7 @@ describe('public conference validation', () => {
           presentation_type: 'Poster',
         },
       ])
-    ).toThrow('must be Conference paper, Keynote or Workshop')
+    ).toThrow('must be Conference paper, Keynote, Workshop or Guest lecture')
   })
 
   it('rejects empty conference author names', () => {
