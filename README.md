@@ -108,7 +108,7 @@ gitleaks detect --source . --no-banner
 
 `npm run check` runs asset validation, linting, TypeScript checks and unit tests; the production build runs the WebP-generation pipeline. The production dependency audit and Gitleaks history scan are additional local security checks; the production audit must report 0 vulnerabilities, and the remaining development-only ESLint findings are documented in `CHANGELOG.md`. Do not run `npm audit fix --force`, which proposes an incompatible ESLint downgrade. Also inspect the 36-state gallery, tester extremes, contextual states and mobile navigation before publishing a release, and check that the longest Work/Coffee indicators (`10–12h`, `12h+`, `8–10`, `11+`) fit at desktop, tablet (≤1180px) and mobile (≤760px) widths.
 
-Dependabot (`.github/dependabot.yml`) opens weekly grouped npm minor/patch updates and monthly GitHub Actions updates; major upgrades are planned deliberately. Dependabot security updates, secret scanning and push protection are enabled in the repository settings.
+Dependabot (`.github/dependabot.yml`) opens weekly grouped npm minor/patch updates and monthly GitHub Actions updates; major upgrades are planned deliberately. Security fixes arrive grouped in one pull request as soon as an advisory is published, and Dependabot commits carry `[skip netlify]`. Dependabot alerts, malware alerts and security updates, secret scanning, push protection, private vulnerability reporting and CodeQL default setup are enabled in the repository settings. The "Protect main" ruleset requires a pull request and the CI `check` job (which also runs `npm audit --omit=dev --audit-level=high`) before anything merges into `main`.
 
 ## Integration
 
