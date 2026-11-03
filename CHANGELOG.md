@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Unreleased
+
+### Security
+
+- Corrected the repository security settings: Dependabot alerts and security updates, secret scanning and push protection were documented as enabled in v0.1.0-beta.3 but were off in GitHub. They are now enabled, together with Dependabot malware alerts, private vulnerability reporting and CodeQL default setup.
+- The "Protect main" ruleset now requires the CI `check` job to pass before anything merges into `main`; it already required a pull request and blocked force-pushes and deletion.
+- Dependabot security updates for npm now arrive grouped in one pull request, still as soon as an advisory is published, and Dependabot commits and pull request titles carry `[skip netlify]`.
+- Hardened CI to match the Catholic Calendar repository: a read-only `GITHUB_TOKEN`, cancellation of superseded runs, a 15-minute timeout, `actions/checkout` and `actions/setup-node` v7 pinned by commit SHA, npm caching and an `npm audit --omit=dev --audit-level=high` step before the existing checks and build.
+
 ## v0.1.0-beta.3 "Violet Meadow" — 3 November 2026
 
 ### Summary
