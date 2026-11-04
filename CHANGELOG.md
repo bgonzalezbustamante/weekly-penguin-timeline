@@ -1,6 +1,13 @@
 # CHANGELOG
 
-## Unreleased
+## v0.1.0-beta.4 "Crystal Passage" — 4 November 2026
+
+### Summary
+
+- Make keyboard focus clearly visible on every control and raise coral text to WCAG AA contrast.
+- Build production on Node 24, and run CI on the same version.
+- Harden CI, Dependabot and the repository security settings.
+- Update React, React DOM and the Supabase client.
 
 ### Accessibility
 
@@ -19,6 +26,19 @@
 - The "Protect main" ruleset now requires the CI `check` job to pass before anything merges into `main`; it already required a pull request and blocked force-pushes and deletion.
 - Dependabot security updates for npm now arrive grouped in one pull request, still as soon as an advisory is published, and Dependabot commits and pull request titles carry `[skip netlify]`.
 - Hardened CI to match the Catholic Calendar repository: a read-only `GITHUB_TOKEN`, cancellation of superseded runs, a 15-minute timeout, `actions/checkout` and `actions/setup-node` v7 pinned by commit SHA, npm caching and an `npm audit --omit=dev --audit-level=high` step before the existing checks and build.
+
+### Dependencies
+
+- Updated `react` and `react-dom` from `19.2.8` to `19.3.1`, and `@supabase/supabase-js` from `2.117.2` to `2.118.0` (Dependabot minor/patch group, PR #33). These are routine updates, not security fixes.
+- `npm audit --omit=dev` still reports 0 vulnerabilities. The 16 moderate, development-only ESLint 9 / `minimatch` 3 findings documented in beta.3 remain. Dependabot cannot raise a security update for them (`security_update_not_possible`) because the only fixed `minimatch` is a major version that ESLint 9 does not accept.
+
+### Verification
+
+- GitHub Actions CI passed on Node 24, resolved from `.nvmrc`, for PR #35 (run 41817771011), for `main` after it merged (run 41818199142), for the rebased PR #33 (run 41818610337) and for the release branch head. CodeQL passed on PR #35.
+- Locally, `npm run check` passed (116 tests) on Node 24 and on Node 22, which `engines` still allows. `npm run build` succeeded, `npm audit --omit=dev` reported 0 vulnerabilities, and the full-history Gitleaks scan (454 commits) found no leaks.
+- In headless Chrome keyboard QA at 1440, 1024, 760, 390 and 360px, all 27 tab stops showed the solid 3px `#b8322c` outline with a 2px offset. All 10 text elements using `--coral-text` measured at least 4.79:1 against their backgrounds, the lowest being the "Current week" chip. The hero eyebrow on its faint gradient is about 5.3:1 at worst.
+- The beta.3 metric-chip check was repeated with every label up to `10–12h`/`12h+` and `8–10`/`11+`, at widths from 1440 to 360px, and was unchanged: no overflow, no horizontal page scroll, and identical navigation results.
+- With React 19.3.1, the page loaded at 1440 and 390px with no console errors, warnings or hydration problems. Day navigation worked, and all 52 images loaded once scrolled into view.
 
 ## v0.1.0-beta.3 "Violet Meadow" — 3 November 2026
 

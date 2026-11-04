@@ -14,6 +14,29 @@ export type ReleaseNote = {
 
 export const releases: ReleaseNote[] = [
   {
+    version: 'v0.1.0-beta.4',
+    codename: 'Crystal Passage',
+    status: 'Pre-release',
+    releasedOn: '4 November 2026',
+    summary:
+      'Crystal Passage makes the timeline easier to use with a keyboard and easier to read, with a few behind-the-scenes updates.',
+    sections: [
+      {
+        title: 'Accessibility',
+        items: [
+          'Keyboard focus is now clearly visible on every button, link and scrollable area.',
+          'Coral labels are darker, so they are easier to read.',
+        ],
+      },
+      {
+        title: 'Behind the scenes',
+        items: [
+          'Software updates and stronger automated checks keep the site secure and up to date.',
+        ],
+      },
+    ],
+  },
+  {
     version: 'v0.1.0-beta.3',
     codename: 'Violet Meadow',
     status: 'Pre-release',
