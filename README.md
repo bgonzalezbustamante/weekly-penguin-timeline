@@ -1,6 +1,6 @@
 # Weekly Penguin Timeline
 
-**v0.1.0-beta.3 "Violet Meadow" — 3 November 2026 (pre-release)**
+**v0.1.0-beta.4 "Crystal Passage" — 4 November 2026 (pre-release)**
 
 A standalone proof-of-concept for a reusable Next.js weekly timeline component. It converts public daily working-time and coffee data into one Oxford-colour, kawaii-style penguin state per day.
 
@@ -33,7 +33,7 @@ The canonical mascot and approved PNG state images are the visual source of trut
 
 ## Local setup
 
-Requires Node.js 22 or later.
+Requires Node.js 22 or later. Production builds and CI use Node 24, pinned in `.nvmrc` and `netlify.toml`.
 
 ```bash
 npm ci
