@@ -106,7 +106,11 @@ export default function PenguinStateGallery() {
 
       <h3 className="special-gallery-heading">Special and contextual states</h3>
 
-      <div className="special-gallery" aria-label="Special and contextual penguin states">
+      <div
+        className="special-gallery"
+        tabIndex={0}
+        aria-label="Special and contextual penguin states"
+      >
         {SPECIAL_STATES.map((state) => (
           <div className="special-gallery-item" key={state.mode}>
             <article className="special-gallery-card">
