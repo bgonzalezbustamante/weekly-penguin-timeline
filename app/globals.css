@@ -10,9 +10,25 @@
   --cool-grey: #e4f0ef;
   --sky: #b9d6f2;
   --coral: #fe615a;
+  /* Coral for text: #fe615a is 2.97:1 on white, below WCAG AA 4.5:1. */
+  --coral-text: #b8322c;
+  /* Focus rings sit on paper or off-white and need 3:1 (WCAG 1.4.11). */
+  --focus-ring: var(--coral-text);
   --aqua: #00aab4;
   --paper: #ffffff;
   --max-width: 1180px;
+}
+
+:where(
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  [tabindex]:not([tabindex='-1'])
+):focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 * {
@@ -58,7 +74,7 @@ input {
 
 .eyebrow {
   margin: 0 0 0.55rem;
-  color: var(--coral);
+  color: var(--coral-text);
   font-family: var(--font-roboto), Arial, sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
@@ -269,7 +285,6 @@ h1 {
 .week-nav-button:focus-visible,
 .week-page-button:focus-visible {
   border-color: var(--aqua);
-  outline: none;
 }
 
 .week-nav-button:disabled {
@@ -311,7 +326,6 @@ h1 {
 .week-jump-button:hover:not(:disabled),
 .week-jump-button:focus-visible {
   border-color: var(--aqua);
-  outline: none;
 }
 
 .week-jump-button:disabled {
@@ -340,7 +354,7 @@ h1 {
   border-radius: 999px;
   background: rgba(254, 97, 90, 0.09);
   padding: 0.18rem 0.4rem;
-  color: var(--coral);
+  color: var(--coral-text);
   font-size: 0.64rem;
   font-weight: 700;
 }
@@ -442,7 +456,7 @@ h1 {
   border-radius: 999px;
   background: rgba(254, 97, 90, 0.09);
   padding: 0.18rem 0.38rem;
-  color: var(--coral);
+  color: var(--coral-text);
   font-family: var(--font-roboto), Arial, sans-serif;
   font-size: 0.65rem;
   font-weight: 700;
@@ -604,7 +618,7 @@ h1 {
 }
 
 .data-error strong {
-  color: var(--coral);
+  color: var(--coral-text);
   font-family: var(--font-roboto), Arial, sans-serif;
 }
 
@@ -918,7 +932,7 @@ h1 {
 
 .notes-grid a:hover,
 .notes-grid a:focus-visible {
-  color: var(--coral);
+  color: var(--coral-text);
   text-decoration-color: currentColor;
 }
 
@@ -950,7 +964,7 @@ h1 {
 
 .footer-license:hover,
 .footer-license:focus-visible {
-  color: var(--coral);
+  color: var(--coral-text);
 }
 
 .footer-license svg {
@@ -1076,7 +1090,6 @@ h1 {
 .release-page-nav:focus-visible,
 .release-page-number:focus-visible {
   border-color: var(--aqua);
-  outline: none;
 }
 
 .release-page-nav:disabled {

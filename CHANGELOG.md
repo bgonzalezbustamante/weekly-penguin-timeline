@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Accessibility
+
+- Added a site-wide keyboard focus outline (3px, offset 2px) in a `--focus-ring` colour, the text-safe coral `#b8322c` (5.95:1 on white, 5.24:1 on the off-white page). Until now the week navigation, page, jump and release pagination buttons set `outline: none` and showed only an aqua border (2.50:1), below the 3:1 WCAG 1.4.11 asks of focus indicators; the border stays as an extra cue. Matches the Academic Website port.
+- Added `--coral-text` and used it wherever coral colours text: eyebrow labels, the selected-week and today chips, data-error headings, and the notes and footer licence links on hover or focus. Bright coral (2.97:1 on white) stays for icons, borders and backgrounds.
+
+### Tooling
+
+- Pinned Netlify builds to Node 24 in a new `netlify.toml` (build command and publish settings stay in the Netlify UI), added `.nvmrc` with `24`, and `.gitattributes` to keep LF line endings, as in organisation-site-template. `package.json` `engines` still allows Node 22.
+
 ### Security
 
 - Corrected the repository security settings: Dependabot alerts and security updates, secret scanning and push protection were documented as enabled in v0.1.0-beta.3 but were off in GitHub. They are now enabled, together with Dependabot malware alerts, private vulnerability reporting and CodeQL default setup.
