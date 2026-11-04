@@ -1,0 +1,4 @@
+# Build command and publish settings stay in the Netlify UI; this file only
+# pins the Node version. A file-based value overrides any NODE_VERSION set there.
+[build.environment]
+  NODE_VERSION = "24"
