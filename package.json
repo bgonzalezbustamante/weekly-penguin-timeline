@@ -20,7 +20,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@bgonzalezbustamante/catholic-calendar": "0.1.0-beta.1",
+    "@bgonzalezbustamante/catholic-calendar": "0.1.0-beta.2",
     "@supabase/supabase-js": "^2.118.0",
     "next": "16.4.4",
     "react": "19.3.1",
