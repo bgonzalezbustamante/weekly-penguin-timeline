@@ -1097,6 +1097,70 @@ h1 {
   cursor: not-allowed;
 }
 
+/* Not found: the Academic Website's 404 layout, as ported to the Teaching Hub. */
+
+.not-found-section {
+  display: flex;
+  align-items: center;
+  padding: clamp(1.5rem, 3.5vw, 2.75rem) 0;
+}
+
+.not-found-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr);
+  align-items: center;
+  gap: clamp(1.25rem, 3.5vw, 3rem);
+}
+
+.not-found-copy {
+  min-width: 0;
+}
+
+.not-found-copy h1 {
+  margin-bottom: 0.9rem;
+}
+
+.not-found-lead {
+  max-width: 720px;
+  margin: 0 0 0.9rem;
+  color: var(--ash);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.not-found-link {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  border: 1px solid var(--stone);
+  border-radius: 0.48rem;
+  background: var(--paper);
+  padding: 0.4rem 0.9rem;
+  color: var(--blue);
+  font-family: var(--font-roboto), Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.not-found-link:hover {
+  border-color: var(--aqua);
+}
+
+.not-found-illustration {
+  width: min(100%, 480px);
+  justify-self: center;
+}
+
+.not-found-illustration img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 @media (max-width: 1180px) {
   .metric-chip {
     gap: 0.14rem;
@@ -1106,6 +1170,19 @@ h1 {
 }
 
 @media (max-width: 760px) {
+  .not-found-section {
+    padding: 1.5rem 0 2rem;
+  }
+
+  .not-found-layout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .not-found-illustration {
+    width: min(72vw, 340px);
+  }
+
   .week-pagination {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-areas:
@@ -1231,5 +1308,15 @@ h1 {
   .footer-inner {
     min-height: 78px;
     justify-content: flex-start;
+  }
+}
+
+@media (max-width: 560px) {
+  .not-found-layout {
+    gap: 1.2rem;
+  }
+
+  .not-found-illustration {
+    width: min(78vw, 300px);
   }
 }
