@@ -135,7 +135,7 @@ This repository uses separate licences by material type:
 
 - Source code: MIT.
 - Project documentation: Creative Commons Attribution 4.0 International (CC BY 4.0).
-- Original penguin artwork in `public/penguins/`, including generated derivatives: Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).
-- Third-party assets and branding are excluded from those grants and remain subject to their respective rights holders' terms. This includes `app/icon.png`, which uses Leiden University branding to match the Academic Website.
+- Original penguin artwork in `public/penguins/`, including generated derivatives, and the site icon `app/icon.png` (a crop of the canonical penguin): Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).
+- Third-party assets and branding are excluded from those grants and remain subject to their respective rights holders' terms.
 
 See `LICENSING.md` for the licence map, with the applicable terms and scope in `LICENSE`, `LICENSE-DOCUMENTATION.md`, `LICENSE-ARTWORK.md`, and `THIRD_PARTY_NOTICES.md`.
