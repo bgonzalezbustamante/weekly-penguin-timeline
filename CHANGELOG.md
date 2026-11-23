@@ -1,5 +1,52 @@
 # CHANGELOG
 
+## v0.1.0-beta.5 "Ember Fjord" — 23 November 2026
+
+### Summary
+
+- Patch Next.js against seven medium-severity advisories and clear the remaining development-only audit findings.
+- Add a penguin "Page not found" page.
+- Replace the third-party favicon with the timeline's own penguin.
+
+### Security
+
+- Upgraded `next` and `eslint-config-next` from `16.4.4` to `16.4.6`. That closes seven medium-severity Next.js advisories (14 Dependabot alerts) affecting `<= 16.4.4`:
+  - information disclosure across root params when a `'use cache'` function is called through `unstable_cache()` (GHSA-mfr8-8qww-v76h);
+  - cache leak across root param values in nested `'use cache'` functions (GHSA-vc7v-qv4w-wrv8);
+  - cross-user cache disclosure and poisoning in `use cache` with binary arguments (GHSA-rhh4-g77r-r9qj);
+  - cache poisoning of shared fallback shells in Cache Components (GHSA-vvgp-ww4w-46vf);
+  - HttpOnly cookie exposure on Edge runtime routes (GHSA-f3mh-rxg3-f5g2);
+  - cross-client response injection in self-hosted applications forwarding fetched responses (GHSA-pc58-hwjq-p385);
+  - an SVG rejection bypass in image optimisation (GHSA-7qx7-33qx-rqx2).
+- Practical exposure was low. The site uses no `'use cache'`, Cache Components or Edge routes, serves its images with `unoptimized`, and is not self-hosted. The patch still ships as a production deployment.
+- Updated the transitive `typescript-eslint` / `@typescript-eslint/*` packages from `8.72.1` to `8.73.0`, which moves their `minimatch` from `10.2.6` to `11.0.9` (GHSA-g3hv-75wg-m249). The development-only `minimatch` findings recorded in beta.3 and beta.4 are now resolved, and `npm audit` reports 0 vulnerabilities in total, not only for production dependencies.
+- The Dependabot security PR for `next` 16.4.5 is superseded by this release.
+
+### Error page
+
+- Added `app/not-found.tsx`, a "Page not found" page with a link back to the timeline. It follows the layout of the Academic Website's and Teaching Hub's 404 pages, and the 404 response keeps Next.js's built-in `noindex` robots tag.
+- Its illustration, a penguin with a magnifying glass beside a stack of books, comes from the Academic Website's 4096 px source. It is stored as a 1024 px PNG master, `public/penguins/not-found.png`, and `scripts/penguin-assets.mjs` validates it and generates the ignored WebP derivative like the other masters (now 47).
+
+### Site icon and licensing
+
+- Replaced `app/icon.png`, previously Leiden University branding, with a 512 px crop of the canonical penguin's head and glasses. It is a 256-colour PNG with transparency (36 KB) and stays legible at 16–48 px.
+- Removed the Leiden University section from `THIRD_PARTY_NOTICES.md`. The site icon is now covered by the CC BY-NC 4.0 artwork licence (`LICENSE-ARTWORK.md`, `LICENSING.md`, `README.md`).
+
+### Verification
+
+- Locally, `npm run check` passed on Node 24 and on Node 22, covering 116 tests and asset validation of 47 masters, and `npm run build` succeeded. `npm audit` and `npm audit --omit=dev` both reported 0 vulnerabilities, and the full-history Gitleaks scan (463 commits) found no leaks.
+- Headless Chrome QA of the 404 page at 1440, 1024, 760, 390 and 360px:
+  - unknown paths returned HTTP 404 with the "Page not found" title and heading and a single `noindex` robots tag;
+  - the illustration loaded at 480 px on desktop and 281–340 px on phones, and the layout went to one column at 760px and below;
+  - the page never scrolled horizontally, and the footer was present;
+  - the "Back to the timeline" link showed the 3px `#b8322c` focus ring and returned to a working timeline;
+  - the console showed no errors.
+- Home page regression at 1440, 1180, 1024, 760, 390 and 360px:
+  - all 28 tab stops showed the focus ring, and coral text was at least 4.79:1;
+  - the longest metric-chip labels still fit (minimum slack −0.06 px, no overflow);
+  - the page never scrolled horizontally, and the console showed no errors or hydration warnings.
+- GitHub Actions CI on Node 24 and CodeQL passed on the release branch head.
+
 ## v0.1.0-beta.4 "Crystal Passage" — 4 November 2026
 
 ### Summary

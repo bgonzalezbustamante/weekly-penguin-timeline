@@ -14,6 +14,29 @@ export type ReleaseNote = {
 
 export const releases: ReleaseNote[] = [
   {
+    version: 'v0.1.0-beta.5',
+    codename: 'Ember Fjord',
+    status: 'Pre-release',
+    releasedOn: '23 November 2026',
+    summary:
+      'Ember Fjord adds a friendly penguin page for missing links, gives the site its own penguin icon and brings the latest security updates.',
+    sections: [
+      {
+        title: "What's new",
+        items: [
+          "A penguin with a magnifying glass now greets you if a page can't be found, with a link back to the timeline.",
+          "The site icon in your browser tab is now the timeline's own penguin.",
+        ],
+      },
+      {
+        title: 'Behind the scenes',
+        items: [
+          'Security updates keep the site safe and up to date.',
+        ],
+      },
+    ],
+  },
+  {
     version: 'v0.1.0-beta.4',
     codename: 'Crystal Passage',
     status: 'Pre-release',

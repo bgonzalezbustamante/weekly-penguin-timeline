@@ -9,3 +9,4 @@ next-env.d.ts
 # Generated runtime penguin assets
 public/penguins/states/webp/
 public/penguins/canonical-baseline.webp
+public/penguins/not-found.webp
