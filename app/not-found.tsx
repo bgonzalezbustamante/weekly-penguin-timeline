@@ -2,11 +2,9 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
-// Next.js adds its own noindex tag to 404 responses; this keeps the page's
-// own robots tag in agreement with it.
+// Next.js adds its own noindex robots tag to 404 responses.
 export const metadata: Metadata = {
   title: 'Page not found',
-  robots: { index: false, follow: true },
 }
 
 // Root 404, adapted from the Academic Website and the Teaching Hub. The
