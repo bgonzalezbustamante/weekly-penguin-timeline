@@ -8,6 +8,8 @@ const STATE_DIR = path.join(PENGUIN_DIR, 'states')
 const WEBP_DIR = path.join(STATE_DIR, 'webp')
 const CANONICAL_PNG = path.join(PENGUIN_DIR, 'canonical-baseline.png')
 const CANONICAL_WEBP = path.join(PENGUIN_DIR, 'canonical-baseline.webp')
+const NOT_FOUND_PNG = path.join(PENGUIN_DIR, 'not-found.png')
+const NOT_FOUND_WEBP = path.join(PENGUIN_DIR, 'not-found.webp')
 
 const WORK_BUCKETS = [
   'zero',
@@ -132,6 +134,10 @@ async function validateAssetSet() {
     errors.push('Missing public/penguins/canonical-baseline.png')
   }
 
+  if (!(await fileExists(NOT_FOUND_PNG))) {
+    errors.push('Missing public/penguins/not-found.png')
+  }
+
   const stateEntries = await fs.readdir(STATE_DIR, { withFileTypes: true })
   const actualPngFiles = stateEntries
     .filter((entry) => entry.isFile() && entry.name.endsWith('.png'))
@@ -162,6 +168,11 @@ async function validateAssetSet() {
       source: CANONICAL_PNG,
       label: 'public/penguins/canonical-baseline.png',
       destination: CANONICAL_WEBP,
+    },
+    {
+      source: NOT_FOUND_PNG,
+      label: 'public/penguins/not-found.png',
+      destination: NOT_FOUND_WEBP,
     },
     ...REQUIRED_STATE_FILES.map((file) => ({
       source: path.join(STATE_DIR, file),
@@ -259,7 +270,7 @@ async function main() {
   } = await validateAssetSet()
 
   console.log(
-    `Validated ${validated.length} PNG masters: 36 activity states, 6 special states, 1 upcoming working-day state, 1 Saturday couple state, 1 teaching state and 1 canonical baseline.`
+    `Validated ${validated.length} PNG masters: 36 activity states, 6 special states, 1 upcoming working-day state, 1 Saturday couple state, 1 teaching state, 1 canonical baseline and 1 not-found illustration.`
   )
   console.log(
     `Detected transparency in ${transparentCount}/${validated.length} PNG masters.`
